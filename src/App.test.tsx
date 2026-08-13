@@ -12,7 +12,7 @@ describe("App", () => {
     );
 
     expect(
-      screen.getByRole("heading", { name: "寫日記/看日記" })
+      screen.getByRole("heading", { name: "夢境日記" })
     ).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "數據統計看板" })

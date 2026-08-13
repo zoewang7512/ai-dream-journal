@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Nav } from "./components/ui/Nav/Nav";
-import JournalPage from "./pages/JournalPage";
+import JournalPage from "./pages/journal/JournalPage";
 import DashboardPage from "./pages/DashboardPage";
 
 const NAV_ITEMS = [
