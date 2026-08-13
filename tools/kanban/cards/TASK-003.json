@@ -2,10 +2,10 @@
   "id": "TASK-003",
   "title": "定義夢境紀錄 LocalStorage 資料模型與存取工具",
   "content": "定義 TypeScript 型別與 LocalStorage 存取函式，作為「核心夢境日記記錄」與「夢境數據分析看板」共用的單一事實來源。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -20,15 +20,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
@@ -40,8 +40,16 @@
   },
   "refs": [],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npm run build"
+    ],
+    "findings": [
+      "18/18 測試通過，含重複日期不覆蓋、STORAGE_FULL（mock setItem 拋錯）、超長文字不截斷、NOT_FOUND、listCompleted 排序與空清單等邊界情況",
+      "delete 是 JS 保留字，函式改名為 deleteByDate（命名決策已記錄於任務卡）"
+    ],
+    "residual": "尚無畫面呼叫這組存取函式（留給後續 Epic）；update 不會自動帶入 completedAt，需呼叫端自行設定。人工審核已於 2026-08-13 完成並確認可標記為完成。"
   }
 }
