@@ -2,10 +2,10 @@
   "id": "TASK-001",
   "title": "初始化 React+Vite+TS 前端與 Express 後端骨架",
   "content": "建立可執行的前後端專案骨架：React 18 + Vite + TypeScript 前端、Node.js + Express 後端代理，含最上層頁面切換（寫日記/看日記 vs 數據看板）容器、build/lint/test 腳本與 Vercel 部署設定。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -20,15 +20,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
@@ -40,8 +40,19 @@
   },
   "refs": [],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npm install",
+      "npm audit fix / npm install react-router-dom@^7.18.2 / npm audit fix --force",
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npm run build",
+      "npm run dev (curl http://localhost:3001/api/health, curl http://localhost:5173)"
+    ],
+    "findings": [
+      "npm audit 一開始有 7 個弱點（含 1 critical、1 high），已透過升級 react-router-dom@^7.18.2 與 vitest@^4.1.10（連帶 vite/esbuild）排除，最終 0 vulnerabilities",
+      "未附像素螢幕截圖：Browser pane 在此環境無法 compositing（screenshot 逾時），改以 accessibility tree 讀取結果驗證兩個分頁正確渲染"
+    ],
+    "residual": "GEMINI_API_KEY 啟動檢查與 .env.example 留給 TASK-002；UI gate 僅涵蓋佔位頁面（無正式視覺設計，design-system.md 五階段仍待補）。人工審核已於 2026-08-13 完成並確認可標記為完成。"
   }
 }

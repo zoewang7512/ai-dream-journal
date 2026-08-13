@@ -8,10 +8,10 @@
 - 上層 User Story：技術骨架初始化
 - 分軌：不適用
 - 前置任務（dependsOn）：無
-- 狀態：草稿
+- 狀態：完成
 - 風險等級：低
-- Agent owner：待指派
-- 人工核准者：待指派
+- Agent owner：Claude Code
+- 人工核准者：zoewang7512（同意直接開工，2026-08-13；套件結構＝單一 package.json，頁面切換＝React Router，詳見對話紀錄；審核完成並驗收，2026-08-13）
 
 ## 目標
 
@@ -71,8 +71,29 @@
 ## 完成證據
 
 - 變更的檔案：
-- 執行過的指令：
-- 測試輸出：
-- 螢幕截圖：
+  - `package.json`（新增 scripts 與 dependencies/devDependencies）、`package-lock.json`
+  - `tsconfig.json`、`vite.config.ts`、`vitest.setup.ts`、`eslint.config.js`、`index.html`
+  - `src/main.tsx`、`src/App.tsx`、`src/App.test.tsx`、`src/pages/JournalPage.tsx`、`src/pages/DashboardPage.tsx`
+  - `server/app.ts`（Express app，供本機與 serverless 共用）、`server/index.ts`（本機啟動入口）
+  - `api/index.ts`（Vercel serverless function 進入點，re-export `server/app`）
+  - `vercel.json`（靜態前端 + `/api` rewrite 到 serverless function）
+- 決策記錄：
+  - 套件結構採單一 package.json（前後端共用），未採 npm workspaces monorepo。
+  - 最上層頁面切換採 React Router（`react-router-dom`），非 state-based。
+  - `server/app.ts`／`server/index.ts` 拆分：`app.ts` 只建立/匯出 Express app（無 side effect），`index.ts` 才呼叫 `app.listen()`；serverless 進入點 `api/index.ts` 直接 re-export `app.ts`，避免在無伺服器環境誤呼叫 `listen()`。
+  - 開發時安裝出現 7 個 npm audit 弱點（react-router-dom 6.x 的 open-redirect／SSR 反序列化問題，屬中風險；以及 vite/vitest/esbuild dev-server 鏈的中～重大風險）。已將 `react-router-dom` 升級至 `^7.18.2`、`vitest` 升級至 `^4.1.10`（隨 `npm audit fix --force` 一併升級 vite/esbuild）排除全部弱點，`npm audit` 最終為 0 vulnerabilities。功能未受影響（App 元件測試與手動路由切換皆正常）。
+- 執行過的指令與結果：
+  - `npm install` → 成功安裝依賴。
+  - `npm audit` → 修復前 7 個弱點（1 critical/1 high/5 moderate）；`npm audit fix` 處理 react-router 部分後改用 `npm install react-router-dom@^7.18.2` 排除該弱點；`npm audit fix --force` 排除剩餘 vite/vitest/esbuild dev-server 弱點；最終 `npm audit` → 0 vulnerabilities。
+  - `npx tsc --noEmit` → 通過（無錯誤）。
+  - `npx eslint .` → 通過（無錯誤）。
+  - `npx vitest run` → 1 個測試檔、1 個測試通過（App 預設渲染「寫日記/看日記」標題與導覽連結）。
+  - `npm run build`（`tsc --noEmit && vite build`）→ 成功產出 `dist/`。
+  - `npm run dev`（`concurrently` 同時啟動 `vite` 與 `tsx watch server/index.ts`）→ Vite 於 `http://localhost:5173` 就緒，Express 於 `http://localhost:3001` 就緒；`curl http://localhost:3001/api/health` → `{"status":"ok"}`；`curl -o /dev/null -w "%{http_code}" http://localhost:5173` → `200`。
+- UI 驗證：以瀏覽器工具開啟 `http://localhost:5173`，透過 accessibility tree 確認預設顯示「寫日記/看日記」佔位頁與導覽（含「數據統計看板」連結）；點擊該連結後路由切換為 `/dashboard`，顯示「數據統計看板」佔位頁；瀏覽器主控台無錯誤訊息。因目前環境的 Browser pane 無法合成畫面（`screenshot` 呼叫逾時，非頁面本身問題），改以 accessibility tree 讀取結果作為視覺驗證證據，未能附上像素截圖——已知限制，列於下方。
 - 已知限制：
-- 後續任務：
+  - 未能附上像素級螢幕截圖（環境限制，Browser pane 無法 compositing），以 accessibility tree 讀取結果替代佐證兩個分頁皆正確渲染。
+  - 本任務未實作 `GEMINI_API_KEY` 啟動檢查（屬 TASK-002 範圍），`server/app.ts` 目前只有 `/api/health`。
+  - `.env.example` 尚未建立（屬 TASK-002 範圍）。
+  - 看板卡片（`tools/kanban/cards/TASK-001.json`）已同步更新 readiness／stage，但 UI／architecture／security／test 等 review gate 尚未逐一走完人工審查，仍待後續審查關卡。
+- 後續任務：TASK-002（.env 規範與金鑰啟動檢查）可以開始；核心資料模型（TASK-003 起，若存在）與 design-system 五階段仍待後續 Epic 0 任務推進。
