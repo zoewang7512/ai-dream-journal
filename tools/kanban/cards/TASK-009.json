@@ -2,10 +2,10 @@
   "id": "TASK-009",
   "title": "UI 設計系統 S5：頁面二（夢境數據統計看板）版面 mockup",
   "content": "用已定案的 token 與元件庫，為頁面二拼出 2-3 個完整版面變體，讓人工選定一個方向。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -22,28 +22,37 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
-    "screenSpec": "",
-    "mockupDecision": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面二數據看板.md",
+    "mockupDecision": "ai/artifacts/專案設置/mockup-decision-頁面二數據看板.md",
     "taskCard": "ai/artifacts/專案設置/task-cards/TASK-009.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "ai/artifacts/專案設置/mockups/page2-variant-a-grid.html",
+    "ai/artifacts/專案設置/mockups/page2-variant-b-stack.html",
+    "ai/artifacts/專案設置/mockups/page2-variant-c-sidebar.html"
+  ],
   "evidence": {
     "commands": [],
-    "findings": [],
-    "residual": ""
+    "findings": [
+      "人工選定變體 C 側邊摘要＋主圖表區，未要求額外修改，直接核准",
+      "刻意不引入圖表函式庫，四個圖表以手刻 SVG/CSS 呈現版面配置，避免在版面比較任務裡順帶做圖表函式庫選型決策，該決策留給後續實作任務",
+      "screenshot 工具本輪再次逾時，改用 accessibility tree 核對三個變體結構正確，並直接把檔案送給使用者於本機瀏覽器確認選定",
+      "Epic 0 設計系統五階段（S1-S5）至此全數核准完成"
+    ],
+    "residual": "圖表函式庫尚未選定，留給「夢境數據分析看板」Epic 實作任務列選項決策；資料格式異常的錯誤降級狀態尚未畫出 mockup。人工審核已於 2026-08-14 完成並確認可標記為完成。"
   }
 }

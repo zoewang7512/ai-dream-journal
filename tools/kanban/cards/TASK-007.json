@@ -2,10 +2,10 @@
   "id": "TASK-007",
   "title": "UI 設計系統 S4：核心元件庫",
   "content": "只用 S3 的 token 做出基礎元件庫，涵蓋必要狀態，並登記進 design-system.md 的元件庫 inventory。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -22,15 +22,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
@@ -40,10 +40,27 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/components/ui/",
+    "src/components/ui/gallery/ComponentGallery.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npm install @radix-ui/react-dialog @radix-ui/react-select @radix-ui/react-checkbox @radix-ui/react-radio-group @radix-ui/react-toast",
+      "npm install -D @testing-library/user-event",
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npm run build（暫掛 /__gallery 路由驗證 tree-shaking 前後差異後移除）"
+    ],
+    "findings": [
+      "13 個測試檔、45 個測試全過，涵蓋 10 個新元件的 default/hover/focus/disabled/loading/error/checked/open-close 等狀態",
+      "暫掛 /__gallery 路由建置後模組數從 43→136、CSS 4.43kB→16.33kB，證實元件與 5 個 Radix 套件真的被打包而非死碼；驗證後已移除路由，恢復乾淨的 43 模組",
+      "Table 決定暫緩建置：grep 兩個下游 Epic 的 feature-spec.md 皆無表格/列表相關關鍵字，理由已記錄於 design-system.md",
+      "screenshot 工具重跑後恢復正常，已補齊 Button/Input/Select(含開啟下拉)/Checkbox/RadioGroup/Card/FormField/Modal/Toast 的真實截圖證據",
+      "截圖過程中發現並修正真實 bug：tokens.css 只宣告變數從未套用到 body，導致深色模式下頁面背景全黑、文字幾乎不可見；新增 src/styles/global.css 修正",
+      "範圍外擴張已揭露：App.tsx 換用 Nav 元件（不在原允許清單但屬最小必要整合）、tsconfig.json/vitest.setup.ts/global.css 為讓 CSS Modules 型別檢查、Radix 測試與 token 實際套用能運作的必要配套"
+    ],
+    "residual": "Table 元件未建置；Toast 目前每實例各自帶 Provider，尚未支援多筆堆疊佇列。人工審核已於 2026-08-13 完成並確認可標記為完成。"
   }
 }

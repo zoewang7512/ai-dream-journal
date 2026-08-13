@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Style Tile A — 暖色調做舊紙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /* 辰宇落雁體：繁中手寫字體，jsDelivr 提供的 CDN 字型檔（僅 .ttf，無現成 CSS，故自行宣告 @font-face） */
+  @font-face {
+    font-family: "Chenyuluoyan";
+    src: url("https://cdn.jsdelivr.net/npm/@fontpkg/chenyuluoyan@1.0.0/ChenYuluoyan-Thin.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  :root {
+    /* 暖色做舊紙 — 中性色階（暖褐灰，9 階） */
+    --grey-50: #fbf7ef;
+    --grey-100: #f5ecd9;
+    --grey-200: #ecdfc2;
+    --grey-300: #ddcca8;
+    --grey-400: #c2ac84;
+    --grey-500: #a08a63;
+    --grey-600: #7a6849;
+    --grey-700: #5a4c37;
+    --grey-800: #3c2f2f;
+    --grey-900: #241c1c;
+
+    /* 主色：赤陶橘（terracotta accent） */
+    --primary-100: #f6ded0;
+    --primary-300: #e8b28c;
+    --primary-500: #c17a3d;
+    --primary-600: #a1622c;
+    --primary-700: #7c4a20;
+
+    /* 語意色：鼠尾草綠（完成狀態） */
+    --success-500: #6f8f5c;
+    --success-100: #e2ead9;
+
+    --radius-card: 16px;
+    --radius-pill: 999px;
+    --shadow-card: 6px 8px 0 rgba(124, 74, 32, 0.12), 0 2px 6px rgba(60, 47, 47, 0.14);
+
+    --font-hand: "Corinthia", "Chenyuluoyan", "PingFang TC", "Microsoft JhengHei", cursive;
+    --font-serif: "Playfair Display", "PingFang TC", "Microsoft JhengHei", serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--grey-100);
+    background-image:
+      radial-gradient(rgba(124, 74, 32, 0.05) 1px, transparent 1px);
+    background-size: 14px 14px;
+    color: var(--grey-800);
+    font-family: var(--font-serif);
+    padding: 64px 24px 96px;
+    line-height: 1.6;
+  }
+
+  main { max-width: 760px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--font-hand);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--primary-600);
+    margin: 0 0 4px;
+    letter-spacing: 0;
+  }
+
+  h1 {
+    font-family: var(--font-hand);
+    font-size: 48px;
+    font-weight: 400;
+    margin: 0 0 12px;
+    color: var(--grey-900);
+    line-height: 1.2;
+  }
+
+  .tile-summary {
+    font-size: 16px;
+    color: var(--grey-700);
+    max-width: 56ch;
+    margin: 0 0 48px;
+  }
+
+  section { margin-bottom: 48px; }
+
+  h2 {
+    font-family: var(--font-hand);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--grey-800);
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px dashed var(--grey-400);
+  }
+
+  .swatch-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .swatch {
+    width: 64px;
+  }
+
+  .swatch-chip {
+    height: 48px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(60, 47, 47, 0.18);
+  }
+
+  .swatch-label {
+    font-size: 11px;
+    color: var(--grey-600);
+    margin-top: 4px;
+    text-align: center;
+    font-family: ui-monospace, monospace;
+  }
+
+  .type-sample.hand {
+    font-family: var(--font-hand);
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--grey-900);
+    margin: 0 0 8px;
+  }
+
+  .type-sample.serif {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--grey-800);
+    margin: 0 0 24px;
+  }
+
+  .type-scale-row {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .type-scale-row span {
+    font-family: var(--font-serif);
+    color: var(--grey-700);
+  }
+
+  .dream-card {
+    background: var(--grey-50);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 24px;
+    max-width: 420px;
+    transform: rotate(-0.6deg);
+  }
+
+  .dream-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--success-500);
+    background: var(--success-100);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+  }
+
+  time {
+    font-size: 13px;
+    color: var(--grey-500);
+    font-family: ui-monospace, monospace;
+  }
+
+  .dream-card h3 {
+    font-family: var(--font-hand);
+    font-size: 36px;
+    font-weight: 400;
+    margin: 0 0 8px;
+    color: var(--grey-900);
+  }
+
+  .dream-card p {
+    font-size: 16px;
+    color: var(--grey-700);
+    margin: 0 0 20px;
+  }
+
+  .dream-card-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .btn-primary,
+  .btn-ghost {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--primary-500);
+    color: var(--grey-50);
+    box-shadow: 3px 4px 0 rgba(124, 74, 32, 0.3);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--primary-600);
+    border: 1.5px solid var(--primary-300);
+  }
+
+  .meta-notes p { font-size: 15px; color: var(--grey-700); }
+
+  ul.refs { padding-left: 20px; margin: 0; }
+  ul.refs li { font-size: 15px; color: var(--grey-700); margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">Style Tile A · 暖色調做舊紙</p>
+    <h1>清晨翻開的舊日記本</h1>
+    <p class="tile-summary">
+      溫潤牛皮紙色調與赤陶橘點綴，標題以辰宇落雁體（中文）與 Corinthia（英文）手寫字體呈現，
+      搭配 Playfair Display 襯線正文，營造翻開一本用了很多年、微微泛黃的日記本的懷舊感。
+    </p>
+  </header>
+
+  <section>
+    <h2>色彩情緒</h2>
+    <div class="swatch-row" id="grey-swatches"></div>
+    <div class="swatch-row" id="primary-swatches"></div>
+  </section>
+
+  <section>
+    <h2>字體個性</h2>
+    <p class="type-sample hand">Dream Journal · 今天夢到一座燈塔</p>
+    <p class="type-sample serif">「在夢裡，我沿著河邊走，看見遠處有一串發光的燈籠緩緩靠近……」</p>
+    <div class="type-scale-row">
+      <span style="font-size:36px;font-weight:700;">36 / 700</span>
+      <span style="font-size:24px;font-weight:600;">24 / 600</span>
+      <span style="font-size:16px;font-weight:400;">16 / 400</span>
+      <span style="font-size:13px;font-weight:400;color:var(--grey-500);">13 / 400 caption</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>示範卡片（密度／圓角／陰影）</h2>
+    <article class="dream-card">
+      <div class="dream-card-head">
+        <span class="badge">已完成</span>
+        <time>2026年8月13日</time>
+      </div>
+      <h3>森林裡的燈籠</h3>
+      <p>夢裡我沿著河邊走，看到遠處有一串發光的燈籠，跟著它們走進了一片濃霧森林……</p>
+      <div class="dream-card-actions">
+        <button class="btn-primary">看完整內容</button>
+        <button class="btn-ghost">產生插圖</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="meta-notes">
+    <h2>密度與明暗模式</h2>
+    <p>
+      密度：舒適（card padding 24px 起手，段落間留白充足）。
+      明暗模式：僅設計亮色模式——做舊紙本質是淺色媒材，強行做暗色版本會破壞紙張質感的可信度。
+    </p>
+  </section>
+
+  <section>
+    <h2>參考產品</h2>
+    <ul class="refs">
+      <li>Day One 日記 App 的暖色紙感主題——牛皮紙背景搭配手寫標題的溫度感。</li>
+      <li>Notion 的 Sepia 閱讀模式——長文閱讀時降低對比、偏暖色調的紙感配色邏輯。</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+  const greys = ["50","100","200","300","400","500","600","700","800","900"];
+  const greyRow = document.getElementById("grey-swatches");
+  greys.forEach((step) => {
+    const wrap = document.createElement("div");
+    wrap.className = "swatch";
+    wrap.innerHTML = `<div class="swatch-chip" style="background:var(--grey-${step})"></div><div class="swatch-label">grey.${step}</div>`;
+    greyRow.appendChild(wrap);
+  });
+
+  const primaries = ["100","300","500","600","700"];
+  const primaryRow = document.getElementById("primary-swatches");
+  primaries.forEach((step) => {
+    const wrap = document.createElement("div");
+    wrap.className = "swatch";
+    wrap.innerHTML = `<div class="swatch-chip" style="background:var(--primary-${step})"></div><div class="swatch-label">primary.${step}</div>`;
+    primaryRow.appendChild(wrap);
+  });
+</script>
+</body>
+</html>

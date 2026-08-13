@@ -2,10 +2,10 @@
   "id": "TASK-008",
   "title": "UI 設計系統 S5：頁面一（手繪素描日記頁面）版面 mockup",
   "content": "用已定案的 token 與元件庫，為頁面一拼出 2-3 個完整版面（layout）變體，讓人工選定一個方向。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -22,28 +22,44 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
-    "screenSpec": "",
-    "mockupDecision": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面一日記頁.md",
+    "mockupDecision": "ai/artifacts/專案設置/mockup-decision-頁面一日記頁.md",
     "taskCard": "ai/artifacts/專案設置/task-cards/TASK-008.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "ai/artifacts/專案設置/mockups/page1-variant-a-tabs.html",
+    "ai/artifacts/專案設置/mockups/page1-variant-b-spread.html",
+    "ai/artifacts/專案設置/mockups/page1-variant-c-feed.html",
+    "src/components/ui/Textarea/"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npm run build"
+    ],
+    "findings": [
+      "14 個測試檔、48 個測試全過，含新增 Textarea 元件 3 個測試案例",
+      "人工選定變體 B 對頁書本跨頁，歷經三輪修改後最終確認「可以，沒有問題」",
+      "第二輪修正發現最初互動模型誤解：不是左頁固定今天、右頁獨立瀏覽，而是一個跨頁＝一個日期、左右頁同步翻頁；今日未完成時右頁需乾淨空白且不渲染下一篇按鈕",
+      "底部翻頁導覽以 flexbox（panel-content flex:1 撐開剩餘空間 + 固定 20px 間距）實作永遠貼底，已用今日短文字/歷史短文字兩種情境及桌面/手機兩種尺寸截圖驗證",
+      "元件庫缺 Textarea（多行輸入），依查庫→補做→回登規則新做並登記回 design-system.md"
+    ],
+    "residual": "尚未把定案版面接進真實 JournalPage.tsx（留給核心夢境日記記錄 Epic 的實作任務）；screen-spec 列出的 AI 生成中/失敗等狀態尚未逐一畫出 mockup。人工審核已於 2026-08-14 完成並確認可標記為完成。"
   }
 }

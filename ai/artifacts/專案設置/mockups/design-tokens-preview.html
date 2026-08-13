@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design Tokens Preview — S3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  @font-face {
+    font-family: "Chenyuluoyan";
+    src: url("https://cdn.jsdelivr.net/npm/@fontpkg/chenyuluoyan@1.0.0/ChenYuluoyan-Thin.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  :root {
+    --grey-50:#fbf7ef; --grey-100:#f5ecd9; --grey-200:#ecdfc2; --grey-300:#ddcca8; --grey-400:#c2ac84;
+    --grey-500:#a08a63; --grey-600:#7a6849; --grey-700:#5a4c37; --grey-800:#3c2f2f; --grey-900:#241c1c;
+
+    --primary-50:#fdf3ec; --primary-100:#f6ded0; --primary-200:#f0c7a9; --primary-300:#e8b28c; --primary-400:#d99a5f;
+    --primary-500:#c17a3d; --primary-600:#a1622c; --primary-700:#7c4a20; --primary-800:#5c3618; --primary-900:#3d2410;
+
+    --success-50:#f2f6ee; --success-100:#e2ead9; --success-200:#cddab8; --success-300:#b0c494; --success-400:#8fac76;
+    --success-500:#6f8f5c; --success-600:#587249; --success-700:#445739; --success-800:#333f2b; --success-900:#21291c;
+
+    --danger-50:#fbeeec; --danger-100:#f5d9d3; --danger-200:#eab7ac; --danger-300:#dc8f7d; --danger-400:#c96751;
+    --danger-500:#b0402a; --danger-600:#8f3220; --danger-700:#6e2718; --danger-800:#4f1c11; --danger-900:#33110a;
+
+    --warning-50:#fbf3e3; --warning-100:#f4e2b8; --warning-200:#e9c983; --warning-300:#dcac54; --warning-400:#cc9433;
+    --warning-500:#b57c22; --warning-600:#93631a; --warning-700:#714c14; --warning-800:#50350e; --warning-900:#302008;
+
+    --info-50:#eef2f4; --info-100:#d7e0e6; --info-200:#b6c6cf; --info-300:#93aab6; --info-400:#71909e;
+    --info-500:#567685; --info-600:#435d6a; --info-700:#334750; --info-800:#253338; --info-900:#171f22;
+
+    --font-hand: "Corinthia", "Chenyuluoyan", "PingFang TC", "Microsoft JhengHei", cursive;
+    --font-serif: "Playfair Display", "PingFang TC", "Microsoft JhengHei", serif;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--grey-100);
+    color: var(--grey-800);
+    font-family: var(--font-serif);
+    padding: 64px 24px 96px;
+    line-height: 1.6;
+  }
+  main { max-width: 920px; margin: 0 auto; }
+  .eyebrow { font-family: var(--font-hand); font-size: 22px; color: var(--primary-600); margin: 0 0 4px; }
+  h1 { font-family: var(--font-hand); font-size: 48px; font-weight: 400; margin: 0 0 12px; color: var(--grey-900); }
+  .tile-summary { font-size: 16px; color: var(--grey-700); max-width: 64ch; margin: 0 0 48px; }
+  section { margin-bottom: 48px; }
+  h2 { font-family: var(--font-hand); font-size: 24px; font-weight: 400; color: var(--grey-800); margin: 0 0 8px; padding-bottom: 8px; border-bottom: 2px dashed var(--grey-400); }
+  .section-note { font-size: 14px; color: var(--grey-600); margin: 0 0 16px; }
+  .flag { display:inline-block; font-family: ui-monospace, monospace; font-size: 11px; font-weight:700; color: var(--danger-600); background: var(--danger-100); padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+
+  .scale-block { margin-bottom: 24px; }
+  .scale-name { font-family: ui-monospace, monospace; font-size: 13px; font-weight: 700; color: var(--grey-700); margin-bottom: 8px; }
+  .swatch-row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .swatch { flex: 1; min-width: 64px; }
+  .swatch-chip { height: 56px; border-radius: 6px 6px 0 0; box-shadow: inset 0 0 0 1px rgba(36,28,28,0.08); }
+  .swatch-label { font-size: 10px; color: var(--grey-600); text-align: center; padding: 4px 0; font-family: ui-monospace, monospace; background: var(--grey-50); border-radius: 0 0 6px 6px; }
+
+  .type-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+  .type-row .px-label { width: 90px; font-family: ui-monospace, monospace; font-size: 12px; color: var(--grey-500); flex-shrink: 0; }
+  .type-row .sample { font-family: var(--font-serif); color: var(--grey-900); }
+
+  .space-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .space-row .px-label { width: 60px; font-family: ui-monospace, monospace; font-size: 12px; color: var(--grey-500); }
+  .space-bar { height: 16px; background: var(--primary-400); border-radius: 3px; }
+
+  .radius-row, .shadow-row { display: flex; gap: 24px; flex-wrap: wrap; }
+  .demo-box { width: 96px; height: 64px; background: var(--grey-50); display: flex; align-items: center; justify-content: center; font-family: ui-monospace, monospace; font-size: 11px; color: var(--grey-600); }
+
+  table.motion-table { border-collapse: collapse; font-size: 14px; width: 100%; }
+  table.motion-table th, table.motion-table td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--grey-300); font-family: ui-monospace, monospace; font-size: 13px; }
+  table.motion-table th { font-family: var(--font-serif); font-weight: 700; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">S3 · Design Token</p>
+  <h1>從風格方向提煉出的完整 Token 系統</h1>
+  <p class="tile-summary">
+    以已核准的 S2 Tile A（暖色調做舊紙，辰宇落雁體＋Corinthia＋Playfair Display）為基礎，
+    展開完整色彩階、type scale、間距、圓角、陰影、z-index 與動效 token。
+    <span class="flag">標記為 NEW</span> 的區塊是本階段新衍生、S2 尚未直接展示過的內容，需要額外確認。
+  </p>
+
+  <section>
+    <h2>色彩 — Grey（中性色，沿用 S2）</h2>
+    <div class="scale-block">
+      <div class="swatch-row" id="row-grey"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>色彩 — Primary 赤陶橘（沿用 S2 基準色，補齊 50–900 完整階）</h2>
+    <div class="scale-block"><div class="swatch-row" id="row-primary"></div></div>
+  </section>
+
+  <section>
+    <h2>色彩 — Success 鼠尾草綠（沿用 S2 基準色，補齊完整階）</h2>
+    <div class="scale-block"><div class="swatch-row" id="row-success"></div></div>
+  </section>
+
+  <section>
+    <h2>色彩 — Danger 磚紅 <span class="flag">NEW</span></h2>
+    <p class="section-note">S2 未定義危險色，本階段新衍生：偏暖的赭紅／磚紅（sienna），與赤陶橘同色系但明確可辨識，避免用生冷的純紅破壞紙感。</p>
+    <div class="scale-block"><div class="swatch-row" id="row-danger"></div></div>
+  </section>
+
+  <section>
+    <h2>色彩 — Warning 芥末黃 <span class="flag">NEW</span></h2>
+    <p class="section-note">S2 未定義警示色，本階段新衍生：芥末／赭黃，介於赤陶橘與鼠尾草綠之間的暖色調。</p>
+    <div class="scale-block"><div class="swatch-row" id="row-warning"></div></div>
+  </section>
+
+  <section>
+    <h2>色彩 — Info 霧藍灰 <span class="flag">NEW</span></h2>
+    <p class="section-note">S2 未定義資訊色。刻意保留唯一的冷色調例外——資訊提示需要與暖色系明確區隔，同時降低飽和度使其仍融入紙感。</p>
+    <div class="scale-block"><div class="swatch-row" id="row-info"></div></div>
+  </section>
+
+  <section>
+    <h2>字級 Type Scale</h2>
+    <div id="type-scale"></div>
+  </section>
+
+  <section>
+    <h2>間距 Spacing Scale（4 的倍數）</h2>
+    <div id="space-scale"></div>
+  </section>
+
+  <section>
+    <h2>圓角 Radius</h2>
+    <div class="radius-row">
+      <div class="demo-box" style="border-radius:4px;box-shadow:inset 0 0 0 1px var(--grey-300);">sm · 4px</div>
+      <div class="demo-box" style="border-radius:10px;box-shadow:inset 0 0 0 1px var(--grey-300);">md · 10px</div>
+      <div class="demo-box" style="border-radius:16px;box-shadow:inset 0 0 0 1px var(--grey-300);">lg · 16px</div>
+      <div class="demo-box" style="border-radius:999px;box-shadow:inset 0 0 0 1px var(--grey-300);">pill · 999px</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>陰影 Shadow</h2>
+    <div class="shadow-row">
+      <div class="demo-box" style="border-radius:10px;box-shadow:3px 4px 0 rgba(124,74,32,0.3);">button</div>
+      <div class="demo-box" style="border-radius:16px;box-shadow:6px 8px 0 rgba(124,74,32,0.12), 0 2px 6px rgba(60,47,47,0.14);">card</div>
+      <div class="demo-box" style="border-radius:8px;box-shadow:0 1px 2px rgba(60,47,47,0.18);">chip</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Z-index</h2>
+    <table class="motion-table">
+      <tr><th>Token</th><th>值</th></tr>
+      <tr><td>z-dropdown</td><td>1000</td></tr>
+      <tr><td>z-sticky</td><td>1100</td></tr>
+      <tr><td>z-modal-backdrop</td><td>1300</td></tr>
+      <tr><td>z-modal</td><td>1400</td></tr>
+      <tr><td>z-toast</td><td>1500</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>動效 Motion</h2>
+    <table class="motion-table">
+      <tr><th>Token</th><th>值</th><th>用途</th></tr>
+      <tr><td>duration-fast</td><td>120ms</td><td>hover/focus 這類即時回饋</td></tr>
+      <tr><td>duration-base</td><td>200ms</td><td>一般轉場（展開/收合、頁面切換）</td></tr>
+      <tr><td>duration-slow</td><td>320ms</td><td>Modal/Toast 進出場</td></tr>
+      <tr><td>easing-standard</td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td>預設緩動</td></tr>
+      <tr><td>easing-out</td><td>cubic-bezier(0, 0, 0.2, 1)</td><td>進場（強調抵達感）</td></tr>
+    </table>
+  </section>
+</main>
+
+<script>
+  function renderScale(elId, name, steps) {
+    const row = document.getElementById(elId);
+    steps.forEach((step) => {
+      const wrap = document.createElement("div");
+      wrap.className = "swatch";
+      wrap.innerHTML = `<div class="swatch-chip" style="background:var(--${name}-${step})"></div><div class="swatch-label">${step}</div>`;
+      row.appendChild(wrap);
+    });
+  }
+  const steps = ["50","100","200","300","400","500","600","700","800","900"];
+  renderScale("row-grey", "grey", steps);
+  renderScale("row-primary", "primary", steps);
+  renderScale("row-success", "success", steps);
+  renderScale("row-danger", "danger", steps);
+  renderScale("row-warning", "warning", steps);
+  renderScale("row-info", "info", steps);
+
+  const typeSizes = [
+    [48, 700, "48 / 700 — 頁面主標"],
+    [36, 400, "36 / 400 — 卡片標題（手寫元素改用 400 避免假粗體）"],
+    [30, 600, "30 / 600 — 次級標題"],
+    [24, 400, "24 / 400 — 區塊標題"],
+    [20, 400, "20 / 400 — Eyebrow / 小標"],
+    [18, 400, "18 / 400 — 引言／強調內文"],
+    [16, 400, "16 / 400 — 內文"],
+    [14, 600, "14 / 600 — 按鈕文字"],
+    [13, 400, "13 / 400 — Caption"],
+    [12, 400, "12 / 400 — 輔助文字"],
+    [11, 400, "11 / 400 — 最小標籤文字"],
+  ];
+  const typeScaleEl = document.getElementById("type-scale");
+  typeSizes.forEach(([size, weight, label]) => {
+    const row = document.createElement("div");
+    row.className = "type-row";
+    row.innerHTML = `<span class="px-label">${size}px</span><span class="sample" style="font-size:${size}px;font-weight:${weight};">${label}</span>`;
+    typeScaleEl.appendChild(row);
+  });
+
+  const spaceSizes = [4, 8, 12, 16, 20, 24, 32, 40, 48, 64];
+  const spaceScaleEl = document.getElementById("space-scale");
+  spaceSizes.forEach((px) => {
+    const row = document.createElement("div");
+    row.className = "space-row";
+    row.innerHTML = `<span class="px-label">${px}px</span><span class="space-bar" style="width:${px * 3}px"></span>`;
+    spaceScaleEl.appendChild(row);
+  });
+</script>
+</body>
+</html>

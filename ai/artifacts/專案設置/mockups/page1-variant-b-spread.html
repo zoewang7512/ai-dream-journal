@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>頁面一 · 對頁書本跨頁（定案版面）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  @font-face {
+    font-family: "Chenyuluoyan";
+    src: url("https://cdn.jsdelivr.net/npm/@fontpkg/chenyuluoyan@1.0.0/ChenYuluoyan-Thin.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+  :root {
+    --grey-50:#fbf7ef; --grey-100:#f5ecd9; --grey-200:#ecdfc2; --grey-300:#ddcca8; --grey-400:#c2ac84;
+    --grey-500:#a08a63; --grey-600:#7a6849; --grey-700:#5a4c37; --grey-800:#3c2f2f; --grey-900:#241c1c;
+    --primary-50:#fdf3ec; --primary-100:#f6ded0; --primary-300:#e8b28c; --primary-500:#c17a3d;
+    --primary-600:#a1622c; --primary-700:#7c4a20;
+    --success-100:#e2ead9; --success-500:#6f8f5c; --success-700:#445739;
+    --danger-100:#f5d9d3; --danger-500:#b0402a; --danger-600:#8f3220;
+    --radius-sm:4px; --radius-md:10px; --radius-lg:16px; --radius-pill:999px;
+    --shadow-card: 6px 8px 0 rgba(124,74,32,.12), 0 2px 6px rgba(60,47,47,.14);
+    --shadow-button: 3px 4px 0 rgba(124,74,32,.3);
+    --font-hand: "Corinthia", "Chenyuluoyan", "PingFang TC", "Microsoft JhengHei", cursive;
+    --font-serif: "Playfair Display", "PingFang TC", "Microsoft JhengHei", serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background: var(--grey-200); color: var(--grey-900); font-family: var(--font-serif); line-height:1.6; }
+
+  .app-nav { display:flex; gap:8px; padding:16px 24px; background:var(--grey-100); border-bottom:2px dashed var(--grey-400); }
+  .app-nav a { font-family: var(--font-hand); font-size:20px; color:var(--grey-600); text-decoration:none; padding:8px 16px; border-radius:10px; }
+  .app-nav a.active { background:var(--primary-100); color:var(--primary-700); }
+
+  h1.page-title { font-family: var(--font-hand); font-size:36px; font-weight:400; text-align:center; margin: 24px 0 8px; }
+
+  /* 情境展示控制（僅供本次審閱切換，非最終頁面 UI 的一部分） */
+  .demo-switch { display:flex; justify-content:center; gap:8px; margin-bottom: 24px; }
+  .demo-switch button {
+    font-family: ui-monospace, monospace; font-size:12px; color: var(--grey-600);
+    background: var(--grey-50); border:1px solid var(--grey-300); border-radius: var(--radius-pill);
+    padding:6px 14px; cursor:pointer;
+  }
+  .demo-switch button.active { background: var(--primary-100); color: var(--primary-700); border-color: var(--primary-300); }
+
+  .spread {
+    max-width: 1040px; margin: 0 auto 64px; padding: 0 24px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    position: relative;
+  }
+  .spread::before {
+    content: "";
+    position: absolute; top: 0; bottom: 0; left: 50%; width: 0;
+    border-left: 2px dashed var(--grey-400);
+  }
+
+  .page-panel {
+    background: var(--grey-50); padding: 28px; min-height: 420px;
+    display: flex; flex-direction: column;
+  }
+  .page-panel.left { border-radius: var(--radius-lg) 0 0 var(--radius-lg); box-shadow: -4px 6px 0 rgba(124,74,32,.10), 0 2px 6px rgba(60,47,47,.14); }
+  .page-panel.right { border-radius: 0 var(--radius-lg) var(--radius-lg) 0; box-shadow: 4px 6px 0 rgba(124,74,32,.10), 0 2px 6px rgba(60,47,47,.14); }
+
+  /* 上方內容彈性延展，把底部翻頁導覽永遠推到頁面最下方 */
+  .panel-content { flex: 1 1 auto; display: flex; flex-direction: column; }
+
+  .card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .badge { font-size:12px; font-weight:600; padding:4px 12px; border-radius:var(--radius-pill); background:var(--success-100); color:var(--success-700); }
+  .badge.draft { background:var(--primary-100); color:var(--primary-700); }
+  time { font-size:13px; color:var(--grey-500); font-family: ui-monospace, monospace; }
+
+  textarea.dream-textarea {
+    width:100%; min-height:240px; font-family: var(--font-serif); font-size:16px; color:var(--grey-900);
+    background:var(--grey-50); border:1.5px solid var(--grey-300); border-radius: var(--radius-sm); padding:12px 16px;
+    resize: vertical; margin-bottom:8px;
+  }
+  .readonly-text { font-size:16px; color: var(--grey-900); margin: 0 0 8px; }
+  .char-count { font-size:13px; color: var(--grey-500); text-align:right; font-family: ui-monospace, monospace; margin-bottom:20px; }
+
+  .actions { display:flex; justify-content:space-between; gap:12px; }
+  .actions-group { display:flex; gap:12px; }
+  .btn { font-family: var(--font-serif); font-size:14px; font-weight:600; padding:10px 18px; border-radius: var(--radius-md); border:1.5px solid transparent; cursor:pointer; }
+  .btn-primary { background: var(--primary-500); color: var(--grey-50); box-shadow: var(--shadow-button); }
+  .btn-ghost { background:transparent; color: var(--primary-600); border-color: var(--primary-300); }
+  .btn-danger-ghost { background:transparent; color: var(--danger-600); border-color: var(--danger-100); }
+
+  .analysis h3 { font-family: var(--font-hand); font-size:18px; font-weight:400; margin:0 0 8px; }
+  .keyword-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .keyword { font-size:12px; background:var(--grey-200); color:var(--grey-700); padding:4px 10px; border-radius: var(--radius-pill); }
+  .image-placeholder {
+    width:100%; aspect-ratio: 4/3; border-radius: var(--radius-md);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--grey-500); font-size:13px;
+    border: 2px dashed var(--grey-400); background: transparent;
+  }
+
+  /* 右頁空白狀態（今日尚未完成，AI 分析尚未產生） */
+  .right-blank {
+    flex: 1 1 auto;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+  }
+  .right-blank p {
+    font-family: var(--font-hand); font-size:18px; color: var(--grey-400); margin:0; max-width: 22ch;
+  }
+
+  /* 底部翻頁導覽：永遠貼齊頁面最下緣，不受上方內容多寡影響 */
+  .page-corner-nav { display:flex; margin-top:20px; padding-top:16px; border-top: 2px dashed var(--grey-300); }
+  .page-corner-nav.left { justify-content: flex-start; }
+  .page-corner-nav.right { justify-content: flex-end; }
+  .page-corner-nav .btn:disabled { opacity:.4; cursor:not-allowed; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 800px) {
+    .spread { grid-template-columns: 1fr; }
+    .spread::before { display: none; }
+    .page-panel.left, .page-panel.right { border-radius: var(--radius-lg); }
+    .page-panel.right { margin-top: 20px; }
+  }
+</style>
+</head>
+<body>
+<nav class="app-nav">
+  <a href="#" class="active">寫日記/看日記</a>
+  <a href="#">數據統計看板</a>
+</nav>
+<h1 class="page-title">夢境日記</h1>
+
+<div class="demo-switch">
+  <button class="active" onclick="showState('today', this)">情境展示：今日撰寫（未完成）</button>
+  <button onclick="showState('history', this)">情境展示：瀏覽已完成日記</button>
+</div>
+
+<!-- 情境一：今日、尚未完成 —— 左頁可編輯，右頁乾淨空白，今日沒有「下一篇」 -->
+<div class="spread" id="state-today">
+  <div class="page-panel left">
+    <div class="panel-content">
+      <div class="card-head">
+        <span class="badge draft">撰寫中</span>
+        <time>2026年8月13日 · 今天</time>
+      </div>
+      <textarea class="dream-textarea" placeholder="今天的夢還記得嗎？寫下來吧。">夢裡我沿著河邊走，看到遠處有一串發光的燈籠，跟著它們走進了一片濃霧森林……</textarea>
+      <div class="char-count">36 / 2000</div>
+      <div class="actions">
+        <button class="btn btn-danger-ghost">刪除</button>
+        <div class="actions-group">
+          <button class="btn btn-ghost">存檔</button>
+          <button class="btn btn-primary">完成</button>
+        </div>
+      </div>
+    </div>
+    <div class="page-corner-nav left">
+      <button class="btn btn-ghost">← 上一篇</button>
+    </div>
+  </div>
+
+  <div class="page-panel right">
+    <div class="right-blank">
+      <p>完成今天的紀錄後，這裡會顯示 AI 分析與插圖。</p>
+    </div>
+    <div class="page-corner-nav right"></div>
+  </div>
+</div>
+
+<!-- 情境二：瀏覽已完成的過去（或今日完成後） —— 左頁唯讀、右頁有 AI 內容 -->
+<div class="spread hidden" id="state-history">
+  <div class="page-panel left">
+    <div class="panel-content">
+      <div class="card-head">
+        <span class="badge">已完成</span>
+        <time>2026年8月10日</time>
+      </div>
+      <p class="readonly-text">「在夢裡，我變成一隻鳥，飛過整座城市，看見小時候住的老房子還亮著燈……」</p>
+    </div>
+    <div class="page-corner-nav left">
+      <button class="btn btn-ghost">← 上一篇</button>
+    </div>
+  </div>
+
+  <div class="page-panel right">
+    <div class="panel-content">
+      <div class="analysis">
+        <h3>AI 分析</h3>
+        <div class="keyword-row">
+          <span class="keyword">懷舊</span>
+          <span class="keyword">飛翔</span>
+          <span class="keyword">溫暖</span>
+        </div>
+        <div class="image-placeholder">AI 生成圖片（placeholder）</div>
+      </div>
+    </div>
+    <div class="page-corner-nav right">
+      <button class="btn btn-ghost">下一篇 →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showState(state, btn) {
+    document.getElementById("state-today").classList.toggle("hidden", state !== "today");
+    document.getElementById("state-history").classList.toggle("hidden", state !== "history");
+    document.querySelectorAll(".demo-switch button").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+</script>
+</body>
+</html>

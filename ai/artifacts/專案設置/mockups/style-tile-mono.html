@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Style Tile C — 高對比黑白素描本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    /* 高對比黑白 — 中性色階（近乎純黑白，9 階） */
+    --grey-50: #faf8f3;
+    --grey-100: #f0ede3;
+    --grey-200: #ddd8ca;
+    --grey-300: #bcb6a4;
+    --grey-400: #948d7b;
+    --grey-500: #6b6559;
+    --grey-600: #4a453c;
+    --grey-700: #302c26;
+    --grey-800: #1f1c18;
+    --grey-900: #100e0c;
+
+    /* 單一強調色：紅鉛筆 */
+    --accent-500: #c0392b;
+    --accent-100: #f6dcd8;
+
+    --radius-card: 3px;
+    --shadow-card: 6px 6px 0 var(--grey-900);
+
+    --font-hand: "Architects Daughter", "PingFang TC", "Microsoft JhengHei", cursive;
+    --font-serif: "Playfair Display", "PingFang TC", "Microsoft JhengHei", serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--grey-50);
+    color: var(--grey-900);
+    font-family: var(--font-serif);
+    padding: 0 0 96px;
+    line-height: 1.55;
+  }
+
+  header.hatch {
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(16, 14, 12, 0.06) 0px,
+      rgba(16, 14, 12, 0.06) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+    border-bottom: 3px solid var(--grey-900);
+    padding: 48px 24px 32px;
+  }
+
+  header .inner, main { max-width: 720px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--font-hand);
+    font-size: 16px;
+    color: var(--accent-500);
+    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  h1 {
+    font-family: var(--font-hand);
+    font-size: 36px;
+    font-weight: 400;
+    margin: 0 0 12px;
+    color: var(--grey-900);
+    line-height: 1.2;
+  }
+
+  .tile-summary {
+    font-size: 15px;
+    color: var(--grey-600);
+    max-width: 58ch;
+    margin: 0;
+  }
+
+  main { padding: 40px 24px 0; }
+
+  section { margin-bottom: 40px; }
+
+  h2 {
+    font-family: var(--font-hand);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--grey-900);
+    margin: 0 0 12px;
+    display: inline-block;
+    border-bottom: 3px solid var(--accent-500);
+    padding-bottom: 2px;
+  }
+
+  .swatch-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .swatch { width: 60px; }
+  .swatch-chip {
+    height: 44px;
+    border: 1.5px solid var(--grey-900);
+    border-radius: 2px;
+  }
+  .swatch-label {
+    font-size: 10px;
+    color: var(--grey-600);
+    margin-top: 4px;
+    text-align: center;
+    font-family: ui-monospace, monospace;
+  }
+
+  .type-sample.hand {
+    font-family: var(--font-hand);
+    font-size: 22px;
+    color: var(--grey-900);
+    margin: 0 0 6px;
+  }
+
+  .type-sample.serif {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--grey-800);
+    margin: 0 0 16px;
+  }
+
+  .type-scale-row { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .type-scale-row span { font-family: var(--font-serif); color: var(--grey-700); }
+
+  .dream-card {
+    background: var(--grey-50);
+    border: 2px solid var(--grey-900);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: 16px;
+    max-width: 380px;
+    margin-left: 8px;
+  }
+
+  .dream-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--grey-50);
+    background: var(--accent-500);
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  time { font-size: 12px; color: var(--grey-500); font-family: ui-monospace, monospace; }
+
+  .dream-card h3 {
+    font-family: var(--font-hand);
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0 0 6px;
+    color: var(--grey-900);
+  }
+
+  .dream-card p { font-size: 15px; color: var(--grey-700); margin: 0 0 16px; }
+
+  .dream-card-actions { display: flex; gap: 8px; }
+
+  .btn-primary, .btn-ghost {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--grey-900);
+    color: var(--grey-50);
+    border: 2px solid var(--grey-900);
+    box-shadow: 3px 3px 0 var(--accent-500);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--grey-900);
+    border: 2px solid var(--grey-900);
+  }
+
+  .meta-notes p { font-size: 14px; color: var(--grey-700); }
+
+  ul.refs { padding-left: 18px; margin: 0; }
+  ul.refs li { font-size: 14px; color: var(--grey-700); margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<header class="hatch">
+  <div class="inner">
+    <p class="eyebrow">Style Tile C</p>
+    <h1>攤在桌上的鉛筆素描本</h1>
+    <p class="tile-summary">
+      米白素描紙搭配近黑墨線，只留一支紅鉛筆作強調色；粗黑邊框、硬邊投影、
+      密集排版，模擬速寫本邊緣塗塗改改的真實感。
+    </p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <h2>色彩情緒</h2>
+    <div class="swatch-row" id="grey-swatches"></div>
+    <div class="swatch-row" id="accent-swatches"></div>
+  </section>
+
+  <section>
+    <h2>字體個性</h2>
+    <p class="type-sample hand">今天夢到一座燈塔</p>
+    <p class="type-sample serif">「在夢裡，我沿著河邊走，看見遠處有一串發光的燈籠緩緩靠近……」</p>
+    <div class="type-scale-row">
+      <span style="font-size:24px;font-weight:700;">24 / 700</span>
+      <span style="font-size:16px;font-weight:400;">16 / 400</span>
+      <span style="font-size:13px;font-weight:400;">13 / 400</span>
+      <span style="font-size:11px;font-weight:400;color:var(--grey-500);">11 / 400 caption</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>示範卡片（密度／圓角／陰影）</h2>
+    <article class="dream-card">
+      <div class="dream-card-head">
+        <span class="badge">已完成</span>
+        <time>2026-08-13</time>
+      </div>
+      <h3>森林裡的燈籠</h3>
+      <p>夢裡我沿著河邊走，看到遠處有一串發光的燈籠，跟著它們走進了一片濃霧森林……</p>
+      <div class="dream-card-actions">
+        <button class="btn-primary">看完整內容</button>
+        <button class="btn-ghost">產生插圖</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="meta-notes">
+    <h2>密度與明暗模式</h2>
+    <p>
+      密度：緊湊（card padding 16px，模擬素描本邊緣寫滿筆記的擁擠感）。
+      圓角：2–3px 近乎直角，配合硬邊實色投影（無模糊），像紙張疊在紙張上的陰影。
+      明暗模式：只設計亮色——素描本的「紙白」是核心語彙，暗色會讓「鉛筆畫在紙上」的比喻失效。
+    </p>
+  </section>
+
+  <section>
+    <h2>參考產品</h2>
+    <ul class="refs">
+      <li>Excalidraw 的手繪風格 UI——粗黑線條、故意不完美的邊角，強化「手繪」可信度。</li>
+      <li>Moleskine 數位筆記本 App 的素描本質感——米白紙色與極簡黑白配色。</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+  const greys = ["50","100","200","300","400","500","600","700","800","900"];
+  const greyRow = document.getElementById("grey-swatches");
+  greys.forEach((step) => {
+    const wrap = document.createElement("div");
+    wrap.className = "swatch";
+    wrap.innerHTML = `<div class="swatch-chip" style="background:var(--grey-${step})"></div><div class="swatch-label">grey.${step}</div>`;
+    greyRow.appendChild(wrap);
+  });
+
+  const accents = ["100","500"];
+  const accentRow = document.getElementById("accent-swatches");
+  accents.forEach((step) => {
+    const wrap = document.createElement("div");
+    wrap.className = "swatch";
+    wrap.innerHTML = `<div class="swatch-chip" style="background:var(--accent-${step})"></div><div class="swatch-label">accent.${step}</div>`;
+    accentRow.appendChild(wrap);
+  });
+</script>
+</body>
+</html>

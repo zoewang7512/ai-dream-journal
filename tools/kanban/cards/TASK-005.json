@@ -2,10 +2,10 @@
   "id": "TASK-005",
   "title": "UI 設計系統 S2：視覺風格方向（Style Tiles）",
   "content": "產出 2-3 個仿手繪素描本風格的 style tile 讓人工挑選整體氣質方向。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -22,15 +22,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
@@ -40,10 +40,18 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "ai/artifacts/專案設置/mockups/style-tile-warm.html",
+    "ai/artifacts/專案設置/mockups/style-tile-cool.html",
+    "ai/artifacts/專案設置/mockups/style-tile-mono.html"
+  ],
   "evidence": {
     "commands": [],
-    "findings": [],
-    "residual": ""
+    "findings": [
+      "人工選定 Tile A（暖色調做舊紙），並指示字體改為辰宇落雁體(中)+Corinthia(英)，取代原提案 Caveat/Architects Daughter",
+      "透過 WebFetch 查證兩個字體來源（jsDelivr npm 套件、Google Fonts）皆真實可用，未憑空假設 CDN 網址",
+      "單一細字重字體不強制 font-weight:700，避免瀏覽器合成假粗體讓筆畫失真"
+    ],
+    "residual": "ChenYuluoyan-Thin.ttf 約 4.3MB 未子集化/未轉 woff2，若正式採用需在後續任務評估最佳化；Tile B/C 保留供未來參考但非選定方向。人工審核已於 2026-08-13 完成並確認可標記為完成。"
   }
 }

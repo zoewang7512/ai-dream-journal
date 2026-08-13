@@ -2,10 +2,10 @@
   "id": "TASK-004",
   "title": "UI 設計系統 S1：底層框架與元件庫策略",
   "content": "決定前端 UI 框架與元件庫策略（採現成或自建）與樣式方案，供整個專案沿用。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -20,15 +20,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
@@ -41,7 +41,10 @@
   "refs": [],
   "evidence": {
     "commands": [],
-    "findings": [],
-    "residual": ""
+    "findings": [
+      "人工在 3 選項比較後核准：元件庫策略＝Headless UI(Radix UI)+自訂視覺層；樣式方案＝CSS Modules",
+      "design-system.md S1 章節已填寫並記錄核准人／日期，S2 起仍待補"
+    ],
+    "residual": "尚未安裝 radix-ui 套件或建立任何 CSS Modules 檔案，留給 S4 元件庫階段（TASK-007）。人工審核已於 2026-08-13 完成並確認可標記為完成。"
   }
 }

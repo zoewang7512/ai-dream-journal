@@ -1,14 +1,17 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { Nav } from "./components/ui/Nav/Nav";
 import JournalPage from "./pages/JournalPage";
 import DashboardPage from "./pages/DashboardPage";
+
+const NAV_ITEMS = [
+  { to: "/", label: "寫日記/看日記", end: true },
+  { to: "/dashboard", label: "數據統計看板" },
+];
 
 function App() {
   return (
     <div>
-      <nav aria-label="主導覽">
-        <NavLink to="/">寫日記/看日記</NavLink>
-        <NavLink to="/dashboard">數據統計看板</NavLink>
-      </nav>
+      <Nav items={NAV_ITEMS} aria-label="主導覽" />
       <main>
         <Routes>
           <Route path="/" element={<JournalPage />} />

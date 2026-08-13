@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Style Tile B — 冷色調做舊紙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    /* 冷色做舊紙 — 中性色階（藍灰，9 階，亮色端） */
+    --grey-50: #f7f9fb;
+    --grey-100: #eef1f4;
+    --grey-200: #dde3ea;
+    --grey-300: #c4cddb;
+    --grey-400: #9fadc4;
+    --grey-500: #7686a3;
+    --grey-600: #5a6785;
+    --grey-700: #414d6b;
+    --grey-800: #2b3350;
+    --grey-900: #1a2038;
+
+    /* 主色：暮色薰衣草 */
+    --primary-100: #e4e7f7;
+    --primary-300: #b3bde8;
+    --primary-500: #6b7aa1;
+    --primary-600: #4f5d82;
+    --primary-700: #3a4666;
+
+    --success-500: #5f8f8a;
+    --success-100: #dcecea;
+
+    --radius-card: 10px;
+    --shadow-card: 0 4px 24px rgba(43, 51, 80, 0.18), 0 0 0 1px rgba(107, 122, 161, 0.08);
+
+    --font-hand: "Architects Daughter", "PingFang TC", "Microsoft JhengHei", cursive;
+    --font-serif: "Playfair Display", "PingFang TC", "Microsoft JhengHei", serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--grey-100);
+    color: var(--grey-800);
+    font-family: var(--font-serif);
+    line-height: 1.6;
+  }
+
+  main.light-section {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 32px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-hand);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--primary-600);
+    margin: 0 0 4px;
+  }
+
+  h1 {
+    font-family: var(--font-hand);
+    font-size: 36px;
+    font-weight: 400;
+    margin: 0 0 12px;
+    color: var(--grey-900);
+    line-height: 1.25;
+  }
+
+  .tile-summary {
+    font-size: 16px;
+    color: var(--grey-700);
+    max-width: 56ch;
+    margin: 0 0 48px;
+  }
+
+  section { margin-bottom: 48px; }
+
+  h2 {
+    font-family: var(--font-hand);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--grey-800);
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--grey-300);
+  }
+
+  .swatch-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .swatch { width: 64px; }
+
+  .swatch-chip {
+    height: 48px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(26, 32, 56, 0.2);
+  }
+
+  .swatch-label {
+    font-size: 11px;
+    color: var(--grey-600);
+    margin-top: 4px;
+    text-align: center;
+    font-family: ui-monospace, monospace;
+  }
+
+  .type-sample.hand {
+    font-family: var(--font-hand);
+    font-size: 24px;
+    color: var(--grey-900);
+    margin: 0 0 8px;
+  }
+
+  .type-sample.serif {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--grey-800);
+    margin: 0 0 24px;
+  }
+
+  .type-scale-row {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .type-scale-row span { font-family: var(--font-serif); color: var(--grey-700); }
+
+  .dream-card {
+    border-radius: var(--radius-card);
+    padding: 24px;
+    max-width: 420px;
+  }
+
+  .dream-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .card-time { font-size: 13px; font-family: ui-monospace, monospace; }
+
+  .dream-card h3 {
+    font-family: var(--font-hand);
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0 0 8px;
+  }
+
+  .dream-card p { font-size: 16px; margin: 0 0 20px; }
+
+  .dream-card-actions { display: flex; gap: 12px; }
+
+  .btn-primary, .btn-ghost {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* 亮色卡片 */
+  #card-light {
+    background: var(--grey-50);
+    box-shadow: var(--shadow-card);
+  }
+  #card-light .badge { color: var(--success-500); background: var(--success-100); }
+  #card-light .card-time { color: var(--grey-500); }
+  #card-light h3 { color: var(--grey-900); }
+  #card-light p { color: var(--grey-700); }
+  #card-light .btn-primary { background: var(--primary-500); color: var(--grey-50); }
+  #card-light .btn-ghost { background: transparent; color: var(--primary-600); border: 1.5px solid var(--primary-300); }
+
+  ul.refs { padding-left: 20px; margin: 0; }
+  ul.refs li { font-size: 15px; color: var(--grey-700); margin-bottom: 4px; }
+
+  /* 暗色模式展示區塊 */
+  .dark-section {
+    background: #161b2e;
+    padding: 48px 24px 80px;
+  }
+  .dark-inner { max-width: 760px; margin: 0 auto; }
+  .dark-inner h2 {
+    font-family: var(--font-hand);
+    font-size: 20px;
+    font-weight: 400;
+    color: #cdd6f0;
+    border-bottom: 1px solid #2f3860;
+    padding-bottom: 8px;
+    margin: 0 0 16px;
+  }
+  .dark-inner .dark-note {
+    font-size: 15px;
+    color: #9aa6ce;
+    margin: 0 0 24px;
+    max-width: 56ch;
+  }
+
+  #card-dark {
+    background: #1f2540;
+    box-shadow: 0 0 32px rgba(166, 182, 232, 0.14), 0 0 0 1px rgba(166, 182, 232, 0.12);
+  }
+  #card-dark .badge { color: #a6e4dc; background: rgba(166, 228, 220, 0.12); }
+  #card-dark .card-time { color: #7c88b3; }
+  #card-dark h3 { color: #eef1fb; }
+  #card-dark p { color: #b9c2e6; }
+  #card-dark .btn-primary { background: #a6b6e8; color: #1a2038; }
+  #card-dark .btn-ghost { background: transparent; color: #a6b6e8; border: 1.5px solid #445088; }
+</style>
+</head>
+<body>
+<main class="light-section">
+  <header>
+    <p class="eyebrow">Style Tile B · 冷色調做舊紙</p>
+    <h1>月光下攤開的夢境筆記</h1>
+    <p class="tile-summary">
+      冷調藍灰做舊紙搭配暮色薰衣草點綴，字體選擇更收斂的手寫體，
+      營造深夜提筆記下夢境片段的靜謐感；亮／暗模式同等重要，因為夢境多發生於夜晚。
+    </p>
+  </header>
+
+  <section>
+    <h2>色彩情緒</h2>
+    <div class="swatch-row" id="grey-swatches"></div>
+    <div class="swatch-row" id="primary-swatches"></div>
+  </section>
+
+  <section>
+    <h2>字體個性</h2>
+    <p class="type-sample hand">今天夢到一座燈塔</p>
+    <p class="type-sample serif">「在夢裡，我沿著河邊走，看見遠處有一串發光的燈籠緩緩靠近……」</p>
+    <div class="type-scale-row">
+      <span style="font-size:30px;font-weight:600;">30 / 600</span>
+      <span style="font-size:20px;font-weight:400;">20 / 400</span>
+      <span style="font-size:16px;font-weight:400;">16 / 400</span>
+      <span style="font-size:13px;font-weight:400;color:var(--grey-500);">13 / 400 caption</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>示範卡片（亮色）</h2>
+    <article class="dream-card" id="card-light">
+      <div class="dream-card-head">
+        <span class="badge">已完成</span>
+        <span class="card-time">2026年8月13日</span>
+      </div>
+      <h3>森林裡的燈籠</h3>
+      <p>夢裡我沿著河邊走，看到遠處有一串發光的燈籠，跟著它們走進了一片濃霧森林……</p>
+      <div class="dream-card-actions">
+        <button class="btn-primary">看完整內容</button>
+        <button class="btn-ghost">產生插圖</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="meta-notes">
+    <h2>密度與圓角陰影</h2>
+    <p style="font-size:15px;color:var(--grey-700);">
+      密度：舒適（card padding 24px，留白略多於暖色版本，呼應寧靜氛圍）。
+      圓角：10px，比暖色版本更收斂、更結構化。
+      陰影：冷色調柔光暈（大 blur、低 offset），像月光灑落而非硬邊投影。
+    </p>
+  </section>
+
+  <section>
+    <h2>參考產品</h2>
+    <ul class="refs">
+      <li>Linear 的冷色深色介面——克制的紫藍色調與柔和光暈陰影。</li>
+      <li>Calm App 夜間主題——藍紫色調搭配柔和留白，傳達睡前寧靜感。</li>
+    </ul>
+  </section>
+</main>
+
+<section class="dark-section">
+  <div class="dark-inner">
+    <h2>暗色模式展示</h2>
+    <p class="dark-note">
+      同一張卡片切換到暗色模式：背景轉為深夜靛藍，卡片以柔光暈取代陰影邊界，
+      文字與強調色同步反轉明度，維持相同的資訊層次。
+    </p>
+    <article class="dream-card" id="card-dark">
+      <div class="dream-card-head">
+        <span class="badge">已完成</span>
+        <span class="card-time">2026年8月13日</span>
+      </div>
+      <h3>森林裡的燈籠</h3>
+      <p>夢裡我沿著河邊走，看到遠處有一串發光的燈籠，跟著它們走進了一片濃霧森林……</p>
+      <div class="dream-card-actions">
+        <button class="btn-primary">看完整內容</button>
+        <button class="btn-ghost">產生插圖</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script>
+  const greys = ["50","100","200","300","400","500","600","700","800","900"];
+  const greyRow = document.getElementById("grey-swatches");
+  greys.forEach((step) => {
+    const wrap = document.createElement("div");
+    wrap.className = "swatch";
+    wrap.innerHTML = `<div class="swatch-chip" style="background:var(--grey-${step})"></div><div class="swatch-label">grey.${step}</div>`;
+    greyRow.appendChild(wrap);
+  });
+
+  const primaries = ["100","300","500","600","700"];
+  const primaryRow = document.getElementById("primary-swatches");
+  primaries.forEach((step) => {
+    const wrap = document.createElement("div");
+    wrap.className = "swatch";
+    wrap.innerHTML = `<div class="swatch-chip" style="background:var(--primary-${step})"></div><div class="swatch-label">primary.${step}</div>`;
+    primaryRow.appendChild(wrap);
+  });
+</script>
+</body>
+</html>

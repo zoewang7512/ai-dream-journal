@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>頁面二 · 變體 A · 2×2 網格</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  @font-face {
+    font-family: "Chenyuluoyan";
+    src: url("https://cdn.jsdelivr.net/npm/@fontpkg/chenyuluoyan@1.0.0/ChenYuluoyan-Thin.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+  :root {
+    --grey-50:#fbf7ef; --grey-100:#f5ecd9; --grey-200:#ecdfc2; --grey-300:#ddcca8; --grey-400:#c2ac84;
+    --grey-500:#a08a63; --grey-600:#7a6849; --grey-700:#5a4c37; --grey-800:#3c2f2f; --grey-900:#241c1c;
+    --primary-100:#f6ded0; --primary-200:#f0c7a9; --primary-300:#e8b28c; --primary-400:#d99a5f; --primary-500:#c17a3d;
+    --primary-600:#a1622c; --primary-700:#7c4a20;
+    --success-100:#e2ead9; --success-500:#6f8f5c;
+    --warning-100:#f4e2b8; --warning-500:#b57c22;
+    --info-100:#d7e0e6; --info-500:#567685;
+    --danger-100:#f5d9d3; --danger-500:#b0402a;
+    --radius-sm:4px; --radius-md:10px; --radius-lg:16px; --radius-pill:999px;
+    --shadow-card: 6px 8px 0 rgba(124,74,32,.12), 0 2px 6px rgba(60,47,47,.14);
+    --font-hand: "Corinthia", "Chenyuluoyan", "PingFang TC", "Microsoft JhengHei", cursive;
+    --font-serif: "Playfair Display", "PingFang TC", "Microsoft JhengHei", serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background: var(--grey-100); color: var(--grey-900); font-family: var(--font-serif); line-height:1.6; }
+
+  .app-nav { display:flex; gap:8px; padding:16px 24px; background:var(--grey-100); border-bottom:2px dashed var(--grey-400); }
+  .app-nav a { font-family: var(--font-hand); font-size:20px; color:var(--grey-600); text-decoration:none; padding:8px 16px; border-radius:10px; }
+  .app-nav a.active { background:var(--primary-100); color:var(--primary-700); }
+
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 24px 64px; }
+  .variant-label { font-family: ui-monospace, monospace; font-size:12px; color: var(--grey-500); margin-bottom: 8px; }
+  h1.page-title { font-family: var(--font-hand); font-size:36px; font-weight:400; margin:0 0 20px; }
+
+  .stats-strip { display:flex; gap:16px; margin-bottom: 24px; flex-wrap:wrap; }
+  .stat-tile { flex:1; min-width:140px; background: var(--grey-50); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding:16px 20px; }
+  .stat-tile .num { font-family: var(--font-hand); font-size:30px; color: var(--primary-600); display:block; }
+  .stat-tile .label { font-size:13px; color: var(--grey-600); }
+
+  .chart-grid { display:grid; grid-template-columns: 1fr 1fr; gap:20px; }
+  .chart-card { background: var(--grey-50); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding:24px; }
+  .chart-card h2 { font-family: var(--font-hand); font-size:22px; font-weight:400; margin:0 0 16px; }
+
+  /* 折線圖 */
+  .line-chart svg { width:100%; height:160px; }
+  .axis-label { font-size:11px; fill: var(--grey-500); font-family: ui-monospace, monospace; }
+
+  /* 文字雲 */
+  .word-cloud { display:flex; flex-wrap:wrap; gap:10px 14px; align-items:baseline; }
+  .word-cloud span { font-family: var(--font-hand); color: var(--primary-600); }
+
+  /* 熱力圖 */
+  .heatmap-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .heatmap-head .btn { font-family: var(--font-serif); font-size:13px; font-weight:600; padding:6px 12px; border-radius: var(--radius-md); border:1.5px solid var(--primary-300); background:transparent; color: var(--primary-600); cursor:pointer; }
+  .heatmap-month { font-family: ui-monospace, monospace; font-size:13px; color: var(--grey-600); }
+  .heatmap-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap:4px; }
+  .heatmap-grid .dow { font-size:11px; color: var(--grey-500); text-align:center; font-family: ui-monospace, monospace; }
+  .heatmap-cell { aspect-ratio:1; border-radius:4px; }
+
+  /* 圓餅圖 */
+  .pie-wrap { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+  .pie { width:120px; height:120px; border-radius:50%; flex-shrink:0; }
+  .legend { display:flex; flex-direction:column; gap:6px; }
+  .legend-item { display:flex; align-items:center; gap:8px; font-size:13px; color: var(--grey-700); }
+  .legend-dot { width:10px; height:10px; border-radius:50%; }
+
+  @media (max-width: 720px) {
+    .chart-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<nav class="app-nav">
+  <a href="#">寫日記/看日記</a>
+  <a href="#" class="active">數據統計看板</a>
+</nav>
+
+<main>
+  <p class="variant-label">變體 A · 2×2 網格（四個圖表等重呈現，摘要數字併入圓餅圖卡片）</p>
+  <h1 class="page-title">夢境數據看板</h1>
+
+  <div class="chart-grid">
+    <div class="chart-card line-chart">
+      <h2>情緒趨勢</h2>
+      <svg viewBox="0 0 300 140" preserveAspectRatio="none">
+        <polyline points="10,90 60,60 110,80 160,30 210,50 260,20" fill="none" stroke="var(--primary-500)" stroke-width="2.5" />
+        <circle cx="10" cy="90" r="4" fill="var(--primary-600)" />
+        <circle cx="60" cy="60" r="4" fill="var(--primary-600)" />
+        <circle cx="110" cy="80" r="4" fill="var(--primary-600)" />
+        <circle cx="160" cy="30" r="4" fill="var(--primary-600)" />
+        <circle cx="210" cy="50" r="4" fill="var(--primary-600)" />
+        <circle cx="260" cy="20" r="4" fill="var(--primary-600)" />
+        <text x="10" y="132" class="axis-label">8/8</text>
+        <text x="240" y="132" class="axis-label">8/13</text>
+      </svg>
+    </div>
+
+    <div class="chart-card">
+      <h2>關鍵字文字雲</h2>
+      <div class="word-cloud">
+        <span style="font-size:34px;">飛翔</span>
+        <span style="font-size:24px;">森林</span>
+        <span style="font-size:28px;">海洋</span>
+        <span style="font-size:18px;">迷路</span>
+        <span style="font-size:22px;">追逐</span>
+        <span style="font-size:16px;">考試</span>
+        <span style="font-size:20px;">懷舊</span>
+        <span style="font-size:15px;">燈籠</span>
+        <span style="font-size:26px;">家人</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h2>紀錄月曆</h2>
+      <div class="heatmap-head">
+        <button class="btn">← 上一月</button>
+        <span class="heatmap-month">2026年8月</span>
+        <button class="btn">下一月 →</button>
+      </div>
+      <div class="heatmap-grid" id="heatmap-a"></div>
+    </div>
+
+    <div class="chart-card">
+      <h2>情緒分佈與摘要</h2>
+      <div class="pie-wrap">
+        <div class="pie" style="background: conic-gradient(var(--primary-500) 0% 40%, var(--info-500) 40% 65%, var(--success-500) 65% 85%, var(--warning-500) 85% 100%);"></div>
+        <div class="legend">
+          <div class="legend-item"><span class="legend-dot" style="background:var(--primary-500)"></span>懷舊 40%</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--info-500)"></span>平靜 25%</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--success-500)"></span>開心 20%</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--warning-500)"></span>困惑 15%</div>
+        </div>
+      </div>
+      <div class="stats-strip" style="margin-top:16px;margin-bottom:0;">
+        <div class="stat-tile"><span class="num">12</span><span class="label">總完成篇數</span></div>
+        <div class="stat-tile"><span class="num">186</span><span class="label">平均字數</span></div>
+        <div class="stat-tile"><span class="num">9</span><span class="label">記錄天數</span></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const grid = document.getElementById("heatmap-a");
+  ["日","一","二","三","四","五","六"].forEach((d) => {
+    const el = document.createElement("div");
+    el.className = "dow";
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+  const daysInMonth = 31;
+  const startOffset = 6;
+  const recorded = new Set([2,3,5,8,9,10,13,15,18,19,22,26]);
+  for (let i = 0; i < startOffset; i++) {
+    grid.appendChild(document.createElement("div"));
+  }
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cell = document.createElement("div");
+    cell.className = "heatmap-cell";
+    cell.style.background = recorded.has(day) ? "var(--primary-500)" : "var(--grey-200)";
+    cell.title = "8月" + day + "日";
+    grid.appendChild(cell);
+  }
+</script>
+</body>
+</html>

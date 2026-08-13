@@ -2,10 +2,10 @@
   "id": "TASK-006",
   "title": "UI 設計系統 S3：Design Token",
   "content": "從已核准的風格方向定義完整 primitive token 與 semantic token，並產出可執行的 token 檔案。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -22,15 +22,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
@@ -40,10 +40,22 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/styles/tokens.css",
+    "ai/artifacts/專案設置/mockups/design-tokens-preview.html"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npm run build"
+    ],
+    "findings": [
+      "npm run build 首次產出獨立 CSS 資源檔（dist/assets/index-*.css，3.65kB），證實 tokens.css 真的被建置流程引用",
+      "新衍生的 danger/warning/info 色階已明確標記 NEW 向人工說明並經確認「顏色都很好」才核定，未自行悶頭決定",
+      "瀏覽器截圖工具捲動後 compositing 不穩定，改用 getComputedStyle 讀取實際渲染色值驗證 danger/warning/info 三色正確套用"
+    ],
+    "residual": "ChenYuluoyan/Corinthia 仍依賴外部 CDN，正式上線前應評估自行代管或子集化；z-index/動效 token 尚無元件實際使用。人工審核已於 2026-08-13 完成並確認可標記為完成。"
   }
 }
