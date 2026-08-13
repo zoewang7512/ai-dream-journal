@@ -1,0 +1,49 @@
+{
+  "id": "TASK-013",
+  "title": "翻頁瀏覽歷史夢境",
+  "content": "提供上一篇/下一篇導覽，讓使用者以翻頁方式依日期順序瀏覽已完成的過去紀錄。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "核心夢境日記記錄",
+  "userStory": "翻頁瀏覽歷史夢境",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-010"
+  ],
+  "order": 13,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-013.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "TASK-001",
+  "title": "初始化 React+Vite+TS 前端與 Express 後端骨架",
+  "content": "建立可執行的前後端專案骨架：React 18 + Vite + TypeScript 前端、Node.js + Express 後端代理，含最上層頁面切換（寫日記/看日記 vs 數據看板）容器、build/lint/test 腳本與 Vercel 部署設定。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "專案設置",
+  "userStory": "技術骨架初始化",
+  "track": "n/a",
+  "dependsOn": [],
+  "order": 1,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/專案設置/task-cards/TASK-001.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

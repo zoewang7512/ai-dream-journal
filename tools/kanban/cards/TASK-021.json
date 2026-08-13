@@ -1,0 +1,49 @@
+{
+  "id": "TASK-021",
+  "title": "Gemini/Pollinations 呼叫失敗、逾時、額度超限的錯誤處理",
+  "content": "為 Gemini 呼叫加上逾時與錯誤分類處理，回傳結構化錯誤供前端顯示對應提示，並加上基本防濫用機制。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "AI 夢境分析與圖像生成引擎",
+  "userStory": "呼叫失敗/逾時/額度超限的錯誤處理",
+  "track": "backend",
+  "dependsOn": [
+    "TASK-017"
+  ],
+  "order": 21,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/AI 夢境分析與圖像生成引擎/task-cards/TASK-021.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

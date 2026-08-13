@@ -1,0 +1,49 @@
+{
+  "id": "TASK-007",
+  "title": "UI 設計系統 S4：核心元件庫",
+  "content": "只用 S3 的 token 做出基礎元件庫，涵蓋必要狀態，並登記進 design-system.md 的元件庫 inventory。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "專案設置",
+  "userStory": "UI 設計系統／風格指引",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-006"
+  ],
+  "order": 7,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/專案設置/task-cards/TASK-007.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

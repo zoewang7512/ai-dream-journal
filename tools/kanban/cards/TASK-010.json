@@ -1,0 +1,57 @@
+{
+  "id": "TASK-010",
+  "title": "核心夢境日記記錄：架構基礎（頁面容器與瀏覽狀態）",
+  "content": "建立頁面一的共用容器：今日撰寫／翻頁瀏覽歷史兩種模式共用的 layout、路由/狀態切換與目前檢視日期的狀態管理，套用 S5 已核准版型。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "核心夢境日記記錄",
+  "userStory": "新增與暫存當天夢境日記",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-001",
+    "TASK-002",
+    "TASK-003",
+    "TASK-004",
+    "TASK-005",
+    "TASK-006",
+    "TASK-007",
+    "TASK-008",
+    "TASK-009"
+  ],
+  "order": 10,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-010.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

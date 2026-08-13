@@ -1,0 +1,50 @@
+{
+  "id": "TASK-015",
+  "title": "刪除當天未完成的日記",
+  "content": "讓使用者可以刪除當天尚未標記完成的暫存日記，過去或已完成日記不提供刪除入口。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "核心夢境日記記錄",
+  "userStory": "刪除當天未完成的日記",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-010",
+    "TASK-011"
+  ],
+  "order": 15,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-015.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

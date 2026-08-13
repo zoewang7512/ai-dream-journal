@@ -1,0 +1,51 @@
+{
+  "id": "TASK-012",
+  "title": "完成當天日記並觸發 AI 分析與圖片生成（含確認 dialog）",
+  "content": "使用者標記今日日記完成後，先跳出確認 dialog 提醒即將消耗一次 AI 免費額度，確認後呼叫 AI 引擎並將結果寫回、鎖定該篇不可再次觸發。",
+  "stage": "backlog",
+  "risk": "medium",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-13",
+  "epic": "核心夢境日記記錄",
+  "userStory": "完成當天日記並觸發 AI 生成",
+  "track": "integration",
+  "dependsOn": [
+    "TASK-010",
+    "TASK-017",
+    "TASK-019"
+  ],
+  "order": 12,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-012.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

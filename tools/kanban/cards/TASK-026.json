@@ -1,0 +1,49 @@
+{
+  "id": "TASK-026",
+  "title": "情緒分佈圓餅圖與統計摘要卡",
+  "content": "顯示整體情緒佔比圓餅圖，並搭配總完成篇數、平均字數等統計摘要卡片。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "夢境數據分析看板",
+  "userStory": "情緒分佈圓餅圖與統計摘要卡",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-022"
+  ],
+  "order": 26,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-026.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

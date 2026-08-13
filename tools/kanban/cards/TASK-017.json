@@ -1,0 +1,49 @@
+{
+  "id": "TASK-017",
+  "title": "Gemini 結構化分析 API 實作",
+  "content": "呼叫 Gemini API 將夢境文字轉換為結構化 JSON（mood、keywords、imagePrompt），並產生隨機 seed 一併回傳。",
+  "stage": "backlog",
+  "risk": "medium",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-13",
+  "epic": "AI 夢境分析與圖像生成引擎",
+  "userStory": "Gemini 結構化分析 API",
+  "track": "backend",
+  "dependsOn": [
+    "TASK-016"
+  ],
+  "order": 17,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/AI 夢境分析與圖像生成引擎/task-cards/TASK-017.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "TASK-024",
+  "title": "關鍵字/主題文字雲",
+  "content": "統計夢境中最常出現的關鍵字，以文字雲呈現，字級大小反映出現頻率。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "夢境數據分析看板",
+  "userStory": "關鍵字/主題文字雲",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-022"
+  ],
+  "order": 24,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-024.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

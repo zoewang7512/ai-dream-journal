@@ -1,0 +1,57 @@
+{
+  "id": "TASK-022",
+  "title": "分析看板架構基礎（容器、統計工具、空狀態）",
+  "content": "建立頁面二的共用容器，套用 S5 已核准版型，提供讀取 completed 日記並計算共用統計的工具函式，並實作完成篇數為 0 時四個圖表區塊一致的空狀態。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "夢境數據分析看板",
+  "userStory": "資料不足時的空狀態設計",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-001",
+    "TASK-002",
+    "TASK-003",
+    "TASK-004",
+    "TASK-005",
+    "TASK-006",
+    "TASK-007",
+    "TASK-008",
+    "TASK-009"
+  ],
+  "order": 22,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-022.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

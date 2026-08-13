@@ -1,0 +1,49 @@
+{
+  "id": "TASK-020",
+  "title": "API 金鑰安全代理驗證",
+  "content": "確保 Gemini API 金鑰全程只存在後端環境變數，前端 bundle 與版本控制皆搜尋不到金鑰字串。",
+  "stage": "backlog",
+  "risk": "high",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-13",
+  "epic": "AI 夢境分析與圖像生成引擎",
+  "userStory": "API 金鑰安全代理",
+  "track": "backend",
+  "dependsOn": [
+    "TASK-016"
+  ],
+  "order": 20,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/AI 夢境分析與圖像生成引擎/task-cards/TASK-020.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

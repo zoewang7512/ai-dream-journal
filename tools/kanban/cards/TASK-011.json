@@ -1,0 +1,49 @@
+{
+  "id": "TASK-011",
+  "title": "新增與暫存當天夢境日記",
+  "content": "讓使用者在今日撰寫畫面輸入、暫存、重複編輯當天日記內容，直到標記完成前都可修改。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "核心夢境日記記錄",
+  "userStory": "新增與暫存當天夢境日記",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-010"
+  ],
+  "order": 11,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-011.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

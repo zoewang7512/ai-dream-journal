@@ -1,0 +1,57 @@
+{
+  "id": "TASK-016",
+  "title": "AI 引擎架構基礎：/api/dream-analysis 路由骨架",
+  "content": "建立後端 /api/dream-analysis 路由骨架、Gemini client 初始化、請求驗證與統一錯誤回應格式，供後續各卡片擴充。",
+  "stage": "backlog",
+  "risk": "medium",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-13",
+  "epic": "AI 夢境分析與圖像生成引擎",
+  "userStory": "Gemini 結構化分析 API",
+  "track": "backend",
+  "dependsOn": [
+    "TASK-001",
+    "TASK-002",
+    "TASK-003",
+    "TASK-004",
+    "TASK-005",
+    "TASK-006",
+    "TASK-007",
+    "TASK-008",
+    "TASK-009"
+  ],
+  "order": 16,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/AI 夢境分析與圖像生成引擎/task-cards/TASK-016.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

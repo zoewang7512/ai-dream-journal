@@ -1,0 +1,50 @@
+{
+  "id": "TASK-019",
+  "title": "前端串接 Pollinations.ai 圖片生成",
+  "content": "前端將後端回傳的 imagePrompt 與 seed 編碼組成 Pollinations.ai 動態圖片 URL 並提供給呼叫方顯示。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "AI 夢境分析與圖像生成引擎",
+  "userStory": "前端串接 Pollinations.ai 圖片生成",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-017",
+    "TASK-018"
+  ],
+  "order": 19,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/AI 夢境分析與圖像生成引擎/task-cards/TASK-019.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

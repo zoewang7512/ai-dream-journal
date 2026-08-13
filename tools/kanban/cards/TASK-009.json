@@ -1,0 +1,49 @@
+{
+  "id": "TASK-009",
+  "title": "UI 設計系統 S5：頁面二（夢境數據統計看板）版面 mockup",
+  "content": "用已定案的 token 與元件庫，為頁面二拼出 2-3 個完整版面變體，讓人工選定一個方向。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "專案設置",
+  "userStory": "UI 設計系統／風格指引",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-007"
+  ],
+  "order": 9,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/專案設置/task-cards/TASK-009.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

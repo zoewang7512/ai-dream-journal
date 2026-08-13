@@ -1,0 +1,49 @@
+{
+  "id": "TASK-023",
+  "title": "情緒趨勢折線圖",
+  "content": "依時間軸顯示夢境情緒分類的變化趨勢。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-13",
+  "epic": "夢境數據分析看板",
+  "userStory": "情緒趨勢折線圖",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-022"
+  ],
+  "order": 23,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-023.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

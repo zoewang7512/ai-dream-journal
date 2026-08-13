@@ -1,0 +1,49 @@
+{
+  "id": "TASK-028",
+  "title": "匯入 JSON 恢復資料（含格式驗證與錯誤提示）",
+  "content": "讓使用者上傳備份 JSON 檔整批覆蓋 LocalStorage 資料，並在格式錯誤時給予清楚提示且不寫入任何資料。",
+  "stage": "backlog",
+  "risk": "medium",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-13",
+  "epic": "資料備份與匯出匯入",
+  "userStory": "匯入 JSON 恢復資料",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-027"
+  ],
+  "order": 28,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/資料備份與匯出匯入/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/資料備份與匯出匯入/task-cards/TASK-028.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}
