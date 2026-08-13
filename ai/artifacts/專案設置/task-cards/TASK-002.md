@@ -8,10 +8,10 @@
 - 上層 User Story：環境變數與金鑰設定
 - 分軌：後端
 - 前置任務（dependsOn）：無
-- 狀態：草稿
+- 狀態：完成
 - 風險等級：中
-- Agent owner：待指派
-- 人工核准者：待指派
+- Agent owner：Claude Code
+- 人工核准者：zoewang7512（指示「接續 TASK-002」，2026-08-13；任務卡範圍已明確，未有待決設計選項，故未另外提問即開工；審核完成並驗收，2026-08-13）
 
 ## 目標
 
@@ -67,8 +67,27 @@
 ## 完成證據
 
 - 變更的檔案：
-- 執行過的指令：
-- 測試輸出：
-- 螢幕截圖：
+  - `.env.example`（新增，列出 `GEMINI_API_KEY`、`PORT`）
+  - `.gitignore`（新增 `!.env.example` 例外，避免既有的 `.env.*` 規則連 `.env.example` 一起忽略）
+  - `server/config.ts`（新增，`loadConfig(env?)` 讀取並驗證 `GEMINI_API_KEY`，缺少時 throw 明確錯誤訊息；一併解析 `PORT`，預設 3001；以 `process.loadEnvFile(".env")` 盡力載入本機 `.env`，檔案不存在或不支援時安靜略過，不影響檢查本身）
+  - `server/config.test.ts`（新增，涵蓋缺少/空值 `GEMINI_API_KEY` 會 throw、有金鑰時回傳正確設定、`PORT` 可覆寫預設值）
+  - `server/index.ts`（本機啟動入口改為先呼叫 `loadConfig()`，失敗時 `console.error` 明確訊息並 `process.exit(1)`，成功才 `app.listen()`）
+  - `api/index.ts`（serverless 進入點在模組頂層呼叫 `loadConfig()`，冷啟動時若缺金鑰即丟出例外並終止該次呼叫，不會等到實際呼叫 Gemini 才失敗）
+- 設計決策：
+  - 沿用 Node 內建 `process.loadEnvFile`，未引入 `dotenv` 套件（符合任務卡「不需額外套件也可」的假設，專案目前也還沒有引入 dotenv）。
+  - `loadConfig` 接受可選的 `env` 參數（預設 `process.env`），方便單元測試以 mock 物件驗證缺失情境，不需要動到真正的 `process.env`。
+  - 沒有新增整合測試：任務卡驗證契約明確寫「整合測試：無」，改以手動啟動情境驗證（見下方指令）涵蓋 fail-fast 行為。
+- 執行過的指令與結果：
+  - `git check-ignore .env` → exit 0（已忽略）；`git check-ignore .env.example` → exit 1（未忽略，可正常追蹤）。
+  - `npx tsc --noEmit` → 通過。
+  - `npx eslint .` → 通過。
+  - `npx vitest run` → 2 個測試檔、5 個測試全數通過（含新增的 4 個 `config.test.ts` 案例）。
+  - `npm run build` → 成功產出 `dist/`。
+  - 手動驗證 fail-fast：確認本機無 `.env` 檔案，執行 `GEMINI_API_KEY= npx tsx server/index.ts` → 立即印出「Missing required environment variable: GEMINI_API_KEY. Copy .env.example to .env and set a value.」且 `exit code: 1`，未啟動 HTTP 伺服器、也未等到後續呼叫才失敗。
+  - 手動驗證正常啟動：執行 `GEMINI_API_KEY=fake-test-key npx tsx server/index.ts`，伺服器成功監聽 3001，`curl http://localhost:3001/api/health` → `{"status":"ok"}`。
+  - `git grep -n "GEMINI_API_KEY"`（排除 node_modules）→ 僅出現在文件與程式碼的變數名稱，未發現任何硬編碼的真實金鑰值。
 - 已知限制：
-- 後續任務：
+  - `api/index.ts` 的 fail-fast 是讓例外在模組頂層拋出，交由 Vercel 平台將該次呼叫標記為失敗並記錄清楚錯誤；與本機 `process.exit(1)` 的語意略有不同（serverless 情境沒有「進程」可退出），但同樣做到「不落到呼叫 Gemini 時才失敗」。
+  - 尚未有任何路由實際使用 `geminiApiKey`（目前只有 `/api/health`），實際串接 Gemini API 代理留給後續 Epic 任務。
+  - Review gates（product/ui/architecture/security/test/code_review）尚待人工審核確認。
+- 後續任務：後續 Epic（AI 夢境分析與圖像生成引擎，見 TASK-016）串接 Gemini client 時可直接沿用 `server/config.ts` 的 `geminiApiKey`。

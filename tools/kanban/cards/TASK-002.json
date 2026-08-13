@@ -2,10 +2,10 @@
   "id": "TASK-002",
   "title": "建立 .env 規範與金鑰啟動檢查",
   "content": "建立 .env.example 與 .gitignore 規則，確保 GEMINI_API_KEY 等機密只存在後端環境變數，且缺少時後端啟動要 fail fast。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-13",
   "epic": "專案設置",
@@ -20,15 +20,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/專案設置/feature-spec.md",
@@ -40,8 +40,19 @@
   },
   "refs": [],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "git check-ignore .env / .env.example",
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npm run build",
+      "GEMINI_API_KEY= npx tsx server/index.ts (fail-fast check)",
+      "GEMINI_API_KEY=fake-test-key npx tsx server/index.ts + curl http://localhost:3001/api/health"
+    ],
+    "findings": [
+      "fail-fast 驗證：無 .env、GEMINI_API_KEY 為空時，npx tsx server/index.ts 立即印出明確錯誤並以 exit code 1 結束，未啟動 HTTP 伺服器",
+      "git grep 確認沒有任何檔案（含 tracked/untracked）含有硬編碼的真實 GEMINI_API_KEY 值，只有變數名稱本身"
+    ],
+    "residual": "尚無路由實際使用 geminiApiKey（僅 /api/health），留給後續 Gemini 串接任務（如 TASK-016）。人工審核已於 2026-08-13 完成並確認可標記為完成。"
   }
 }
