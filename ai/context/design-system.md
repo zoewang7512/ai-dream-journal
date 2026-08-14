@@ -86,7 +86,7 @@
 | Checkbox | 已完成 | 預設/checked/focus/停用（Radix Checkbox） | `color-primary-500`、`radius-sm` | `src/components/ui/Checkbox/` | 同上 | S4 |
 | RadioGroup | 已完成 | 預設/checked/focus/停用（Radix Radio Group） | `color-primary-500`、`radius-pill` | `src/components/ui/RadioGroup/` | 同上 | S4 |
 | Card | 已完成 | 一般（不可點擊）／可點擊（hover 浮起+focus ring，`role="button"`） | `shadow-card`、`radius-lg`、`space-24` | `src/components/ui/Card/` | 同上 | S4 |
-| Nav | 已完成 | 預設/hover/focus/當前頁面（`aria-current`） | `font-family-hand`、`color-primary-*`、`radius-md` | `src/components/ui/Nav/` | 同上 | S4；已實際整合進 `App.tsx` 取代原始 `<nav>` |
+| Nav | 已完成 | 預設/hover/focus/當前頁面（`aria-current`）；可選 `trailing` 靠右附加內容（不參與路由 active 判斷） | `font-family-hand`、`color-primary-*`、`radius-md` | `src/components/ui/Nav/` | 同上 | S4；已實際整合進 `App.tsx` 取代原始 `<nav>`；`trailing` prop 由 TASK-027（備份設定齒輪圖示）補上並回登 |
 | Modal/Dialog | 已完成 | 開啟/關閉，含 title/description/actions（Radix Dialog，focus trap 與 Esc 關閉皆由 Radix 處理） | `shadow-card`、`radius-lg`、`z-modal`/`z-modal-backdrop`、`font-family-hand` | `src/components/ui/Modal/` | 同上 | S4 |
 | Table | 未建置（決策：暫不建置） | — | — | — | — | S4 評估後暫緩：檢查「核心夢境日記記錄」與「夢境數據分析看板」兩個功能 Epic 的 feature-spec，皆未提及表格化資料需求（日記為卡片式呈現、看板預期為圖表），故依情境包「可能用不到」的假設暫不建置；若後續功能 Epic 真的需要表格，屆時依「查庫→照風格補做→登記回庫」規則補上 |
 | Form（FormField） | 已完成 | 標籤關聯（`htmlFor`/`id`）、必填標記、hint、error（`role=alert`，error 蓋過 hint） | `color-danger-*`、`font-family-serif`、`space-*` | `src/components/ui/FormField/` | 同上 | S4 |

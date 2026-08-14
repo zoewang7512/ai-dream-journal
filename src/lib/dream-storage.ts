@@ -114,3 +114,21 @@ export function listCompleted(): DreamRecord[] {
     .filter((record) => record.status === "completed")
     .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 }
+
+/** 回傳全部紀錄（含 draft），不限 status；備份/匯出需要完整資料，不只是 completed。 */
+export function listAll(): DreamRecord[] {
+  return Object.values(readAll()).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+}
+
+/**
+ * 用給定的紀錄整批覆蓋 LocalStorage（依 date 建 key），取代原本全部內容。
+ * 供匯入備份使用：呼叫端必須先驗證完 records 再呼叫，這裡不做欄位驗證，
+ * 只負責寫入——寫入本身是單次 writeAll，天生就是「全有或全無」。
+ */
+export function replaceAll(records: DreamRecord[]): void {
+  const map: Record<string, DreamRecord> = {};
+  for (const record of records) {
+    map[record.date] = record;
+  }
+  writeAll(map);
+}

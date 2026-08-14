@@ -2,10 +2,10 @@
   "id": "TASK-027",
   "title": "匯出全部資料為 JSON",
   "content": "讓使用者將所有夢境紀錄下載成一個含版本號的 JSON 備份檔。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "資料備份與匯出匯入",
@@ -30,28 +30,45 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
-    "ui": false,
+    "ui": true,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
     "featureSpec": "ai/artifacts/資料備份與匯出匯入/feature-spec.md",
-    "screenSpec": "",
-    "mockupDecision": "",
+    "screenSpec": "ai/artifacts/資料備份與匯出匯入/screen-spec-備份設定區.md",
+    "mockupDecision": "ai/artifacts/資料備份與匯出匯入/mockup-decision-備份設定區.md",
     "taskCard": "ai/artifacts/資料備份與匯出匯入/task-cards/TASK-027.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/lib/backup.ts",
+    "src/lib/dream-storage.ts",
+    "src/components/BackupExportButton.tsx",
+    "src/components/BackupSettingsButton.tsx",
+    "src/components/ui/Nav/Nav.tsx",
+    "src/App.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "UI mockup 關卡：入口位置未定案，產出 3 個變體讓人工選擇，選定 C（Nav 齒輪圖示開啟 Modal），畫面規格與決策紀錄已存檔",
+      "備份涵蓋全部紀錄（含 draft，新增 dream-storage.ts 的 listAll），不只 completed，避免資料遺失情境下草稿無法復原",
+      "Nav 元件新增 trailing prop（已登記回 design-system.md inventory），App.tsx 接上 BackupSettingsButton",
+      "44 個測試檔案、238 個測試全數通過；真實 dev server 上確認齒輪圖示、Modal 開關、匯出按鈕點擊皆正常，console 無錯誤"
+    ],
+    "residual": "人工已於 2026-08-15 審核完成證據並驗收。TASK-028（匯入）已解鎖，可接上同一個 Modal。"
   }
 }

@@ -17,5 +17,6 @@ describe("App", () => {
     expect(
       screen.getByRole("link", { name: "數據統計看板" })
     ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "備份設定" })).toBeInTheDocument();
   });
 });

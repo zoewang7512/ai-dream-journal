@@ -1,9 +1,16 @@
 .nav {
   display: flex;
+  align-items: center;
   gap: var(--space-8);
   padding: var(--space-16) var(--space-24);
   background: var(--color-grey-100);
   border-bottom: 2px dashed var(--color-grey-400);
+}
+
+.trailing {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 
 .link {

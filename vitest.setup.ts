@@ -20,3 +20,19 @@ if (!window.ResizeObserver) {
     disconnect() {}
   };
 }
+
+/**
+ * This project's jsdom version doesn't implement Blob/File.prototype.text()
+ * (used by the backup-import flow to read an uploaded File). FileReader is
+ * implemented, so polyfill text() on top of it.
+ */
+if (!window.Blob.prototype.text) {
+  window.Blob.prototype.text = function (this: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(reader.error);
+      reader.readAsText(this);
+    });
+  };
+}

@@ -2,10 +2,10 @@
   "id": "TASK-028",
   "title": "匯入 JSON 恢復資料（含格式驗證與錯誤提示）",
   "content": "讓使用者上傳備份 JSON 檔整批覆蓋 LocalStorage 資料，並在格式錯誤時給予清楚提示且不寫入任何資料。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-13",
   "epic": "資料備份與匯出匯入",
@@ -22,28 +22,45 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
-    "ui": false,
+    "ui": true,
     "architecture": false,
-    "security": false,
-    "test": false,
+    "security": true,
+    "test": true,
     "code_review": false
   },
   "links": {
     "featureSpec": "ai/artifacts/資料備份與匯出匯入/feature-spec.md",
-    "screenSpec": "",
-    "mockupDecision": "",
+    "screenSpec": "ai/artifacts/資料備份與匯出匯入/screen-spec-備份設定區.md",
+    "mockupDecision": "ai/artifacts/資料備份與匯出匯入/mockup-decision-備份設定區.md",
     "taskCard": "ai/artifacts/資料備份與匯出匯入/task-cards/TASK-028.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/lib/backup.ts",
+    "src/lib/dream-storage.ts",
+    "src/components/BackupImportButton.tsx",
+    "src/components/BackupSettingsButton.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "parseBackupFile 先驗證後才可能寫入，任何一步不符直接 throw，配合 replaceAll 單次 writeAll，確保全有或全無；驗證失敗有 4 種明確 reason 對應不同錯誤訊息",
+      "先顯示覆蓋確認（列出檔名）、取消不解析不寫入，符合 feature-spec 逐字需求；確認後才解析驗證",
+      "匯入成功用 window.location.reload() 讓全站畫面即時反映新資料，避免另建跨頁同步機制",
+      "grep 確認全站無 dangerouslySetInnerHTML，匯入內容經 React 預設跳脫，無 XSS 風險",
+      "45 個測試檔案、259 個測試全數通過（含匯出→清空→匯入 round-trip 整合測試）；額外用真實瀏覽器對真實資料做了一次安全的端到端 round-trip 驗證（匯入內容=現有資料的備份，逐欄位比對前後一致，reload 確實發生，console 無錯誤）",
+      "順便發現並修好 jsdom 環境缺少 Blob/File.prototype.text() 的問題，補上 polyfill 到 vitest.setup.ts"
+    ],
+    "residual": "人工已於 2026-08-15 審核完成證據並驗收。「資料備份與匯出匯入」Epic 至此全數完成。"
   }
 }

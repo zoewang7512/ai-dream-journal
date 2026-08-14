@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>備份設定區 · 變體 B · 日記頁頁尾區塊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  @font-face {
+    font-family: "Chenyuluoyan";
+    src: url("https://cdn.jsdelivr.net/npm/@fontpkg/chenyuluoyan@1.0.0/ChenYuluoyan-Thin.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+  }
+  :root {
+    --grey-50:#fbf7ef; --grey-100:#f5ecd9; --grey-200:#ecdfc2; --grey-300:#ddcca8; --grey-400:#c2ac84;
+    --grey-500:#a08a63; --grey-600:#7a6849; --grey-700:#5a4c37; --grey-800:#3c2f2f; --grey-900:#241c1c;
+    --primary-100:#f6ded0; --primary-500:#c17a3d; --primary-600:#a1622c; --primary-700:#7c4a20;
+    --radius-md:10px; --radius-lg:16px;
+    --shadow-card: 6px 8px 0 rgba(124,74,32,.12), 0 2px 6px rgba(60,47,47,.14);
+    --shadow-button: 3px 4px 0 rgba(124,74,32,.3);
+    --font-hand: "Corinthia", "Chenyuluoyan", "PingFang TC", "Microsoft JhengHei", cursive;
+    --font-serif: "Playfair Display", "PingFang TC", "Microsoft JhengHei", serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background: var(--grey-100); color: var(--grey-900); font-family: var(--font-serif); line-height:1.6; }
+
+  .app-nav { display:flex; gap:8px; padding:16px 24px; background:var(--grey-100); border-bottom:2px dashed var(--grey-400); }
+  .app-nav a { font-family: var(--font-hand); font-size:20px; color:var(--grey-600); text-decoration:none; padding:8px 16px; border-radius:10px; }
+  .app-nav a.active { background:var(--primary-100); color:var(--primary-700); }
+
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 24px 64px; }
+  .variant-label { font-family: ui-monospace, monospace; font-size:12px; color: var(--grey-500); margin-bottom: 8px; }
+  h1.page-title { font-family: var(--font-hand); font-size:36px; font-weight:400; text-align:center; margin:0 0 24px; }
+
+  .spread-placeholder {
+    background: var(--grey-50); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+    height: 320px; display:flex; align-items:center; justify-content:center;
+    color: var(--grey-400); font-family: var(--font-hand); font-size:20px; margin-bottom: 24px;
+  }
+
+  .backup-footer {
+    border-top: 2px dashed var(--grey-400);
+    padding-top: 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .backup-footer .text h3 { font-family: var(--font-hand); font-size:16px; font-weight:400; margin:0 0 4px; color: var(--grey-700); }
+  .backup-footer .text p { font-size:12px; color: var(--grey-500); margin:0; }
+  .backup-footer .actions { display:flex; gap:10px; }
+
+  .btn { font-family: var(--font-serif); font-size:13px; font-weight:600; padding:8px 16px; border-radius: var(--radius-md); border:none; cursor:pointer; }
+  .btn-primary { background: var(--primary-500); color: var(--grey-50); box-shadow: var(--shadow-button); }
+  .btn-ghost { background:transparent; color: var(--grey-500); border:1.5px solid var(--grey-400); cursor:not-allowed; opacity:.6; }
+</style>
+</head>
+<body>
+<nav class="app-nav">
+  <a href="#" class="active">寫日記/看日記</a>
+  <a href="#">數據統計看板</a>
+</nav>
+
+<main>
+  <p class="variant-label">變體 B · 嵌入頁面一（日記頁）頁尾區塊，不新增路由／Nav 項目</p>
+  <h1 class="page-title">夢境日記</h1>
+
+  <div class="spread-placeholder">（既有的日記對頁跨頁版面，此處省略細節）</div>
+
+  <div class="backup-footer">
+    <div class="text">
+      <h3>資料備份</h3>
+      <p>下載全部夢境紀錄，或匯入先前的備份檔。</p>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary">⬇ 匯出備份</button>
+      <button class="btn btn-ghost">⬆ 匯入備份（TASK-028）</button>
+    </div>
+  </div>
+</main>
+</body>
+</html>

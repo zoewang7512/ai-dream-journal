@@ -25,4 +25,14 @@ describe("Nav", () => {
       "aria-current"
     );
   });
+
+  it("renders trailing content alongside the nav links when provided", () => {
+    render(
+      <MemoryRouter initialEntries={["/dashboard"]}>
+        <Nav items={items} aria-label="主導覽" trailing={<button>備份設定</button>} />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole("button", { name: "備份設定" })).toBeInTheDocument();
+  });
 });
