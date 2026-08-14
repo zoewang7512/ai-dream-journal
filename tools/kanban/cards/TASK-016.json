@@ -2,10 +2,10 @@
   "id": "TASK-016",
   "title": "AI 引擎架構基礎：/api/dream-analysis 路由骨架",
   "content": "建立後端 /api/dream-analysis 路由骨架、Gemini client 初始化、請求驗證與統一錯誤回應格式，供後續各卡片擴充。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-13",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -30,15 +30,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
@@ -48,10 +48,26 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "server/lib/gemini-client.ts",
+    "server/routes/dream-analysis.ts",
+    "server/app.ts",
+    "server/index.ts",
+    "api/index.ts"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npm install @google/genai",
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "選用官方現行 @google/genai SDK（@google/generative-ai 已是舊版），app.ts 改為 createApp(client, analyzeDream?) 工廠函式以支援依賴注入",
+      "analyzeDream 用依賴注入方式預留給 TASK-017，路由/驗證/錯誤處理骨架不需重構即可擴充",
+      "22 個測試檔案、90 個測試全數通過；手動啟動伺服器以 curl 驗證 health/驗證失敗/未實作三種情境皆正確回應"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收（真實呼叫驗證已於 TASK-017 補做）。"
   }
 }

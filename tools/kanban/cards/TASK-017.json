@@ -2,10 +2,10 @@
   "id": "TASK-017",
   "title": "Gemini 結構化分析 API 實作",
   "content": "呼叫 Gemini API 將夢境文字轉換為結構化 JSON（mood、keywords、imagePrompt），並產生隨機 seed 一併回傳。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-13",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -22,15 +22,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
@@ -40,10 +40,23 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "server/lib/analyze-dream.ts",
+    "server/lib/dream-analysis-types.ts",
+    "server/routes/dream-analysis.ts"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "gemini-2.5-flash 已不對新使用者開放，改用官方維護的 gemini-flash-latest 別名解決",
+      "mood 改用繁體中文 8 分類（非任務卡範例的英文），因應既有 UI/mockup 與測試 fixture 慣例，已用 schema enum + 二次驗證雙重防呆",
+      "23 個測試檔案、100 個測試全數通過；已用使用者提供的真實 GEMINI_API_KEY 完成一次真實呼叫驗證，回應結構正確"
+    ],
+    "residual": "timeout/quota_exceeded 分類與防濫用機制留給 TASK-021；人工已於 2026-08-14 審核完成證據並驗收（含真實 Gemini API 呼叫）。"
   }
 }
