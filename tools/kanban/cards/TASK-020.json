@@ -2,10 +2,10 @@
   "id": "TASK-020",
   "title": "API 金鑰安全代理驗證",
   "content": "確保 Gemini API 金鑰全程只存在後端環境變數，前端 bundle 與版本控制皆搜尋不到金鑰字串。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "high",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-13",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -22,14 +22,14 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
-    "security": false,
-    "test": false,
+    "security": true,
+    "test": true,
     "code_review": false
   },
   "links": {
@@ -40,10 +40,27 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "server/config.ts",
+    "server/lib/gemini-client.ts",
+    ".gitignore",
+    ".env.example"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx vite build",
+      "grep -rl \"$GEMINI_API_KEY\" dist/ src/",
+      "grep -rl \"$POLLINATIONS_API_KEY\" dist/ src/",
+      "git log --all -p -- .env",
+      "git rev-list --objects --all（安全性審查 agent 逐一比對 480 個物件）",
+      "git fsck --unreachable",
+      "npm audit"
+    ],
+    "findings": [
+      "金鑰僅透過 server/config.ts 的 process.env 讀取，dist/ 與 src/ 皆搜尋不到金鑰值或金鑰變數名稱，.env 從未進入 git 歷史（含不可達物件）",
+      "獨立安全性審查 agent 覆核結論：Security Gate PASS（本卡驗收範圍）",
+      "審查過程額外發現 2 項相鄰風險（F1 錯誤訊息可能夾帶上游細節、F2 /api/dream-image 無驗證無 rate limit），已記錄於任務卡並建議另開卡處理，不影響本卡 PASS 結論"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。F1、F2 已另開 TASK-029、TASK-030 追蹤。"
   }
 }

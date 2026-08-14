@@ -1,0 +1,54 @@
+{
+  "id": "TASK-030",
+  "title": "/api/dream-image 端點防濫用（驗證、rate limit、逾時）",
+  "content": "為 /api/dream-image 加上 prompt 長度上限、fetch timeout、per-IP rate limit 與來源限制，避免第三方網頁消耗專案的 Pollinations 付費配額。",
+  "stage": "backlog",
+  "risk": "medium",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-14",
+  "epic": "AI 夢境分析與圖像生成引擎",
+  "userStory": "圖片生成端點防濫用",
+  "track": "backend",
+  "dependsOn": [
+    "TASK-018",
+    "TASK-020"
+  ],
+  "order": 30,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/AI 夢境分析與圖像生成引擎/task-cards/TASK-030.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [
+    "server/routes/dream-image.ts"
+  ],
+  "evidence": {
+    "commands": [],
+    "findings": [
+      "來源：TASK-020 Security Gate 審查附帶發現 F2（中風險）——/api/dream-image 無身分驗證、無 rate limit、無 prompt 長度上限，等同無上限開放代理，可被第三方消耗 Pollinations 付費配額"
+    ],
+    "residual": ""
+  }
+}

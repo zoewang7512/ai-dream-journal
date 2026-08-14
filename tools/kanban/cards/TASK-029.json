@@ -1,0 +1,55 @@
+{
+  "id": "TASK-029",
+  "title": "Gemini 上游錯誤訊息脫敏",
+  "content": "/api/dream-analysis 呼叫 Gemini 失敗時，回應前端的訊息改為固定文案，不得原樣夾帶上游 SDK 的錯誤訊息內容。",
+  "stage": "backlog",
+  "risk": "medium",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-14",
+  "epic": "AI 夢境分析與圖像生成引擎",
+  "userStory": "Gemini 結構化分析 API",
+  "track": "backend",
+  "dependsOn": [
+    "TASK-017",
+    "TASK-020"
+  ],
+  "order": 29,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/AI 夢境分析與圖像生成引擎/task-cards/TASK-029.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [
+    "server/lib/analyze-dream.ts",
+    "server/routes/dream-analysis.ts"
+  ],
+  "evidence": {
+    "commands": [],
+    "findings": [
+      "來源：TASK-020 Security Gate 審查附帶發現 F1（中風險）——server/routes/dream-analysis.ts 把 Gemini SDK 原始錯誤訊息原樣回傳前端，可能夾帶上游配額/專案細節"
+    ],
+    "residual": ""
+  }
+}
