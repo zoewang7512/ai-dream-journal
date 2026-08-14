@@ -9,6 +9,7 @@ function loadDotEnvIfPresent(): void {
 
 export interface AppConfig {
   geminiApiKey: string;
+  pollinationsApiKey: string;
   port: number;
 }
 
@@ -22,8 +23,16 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     );
   }
 
+  const pollinationsApiKey = env.POLLINATIONS_API_KEY;
+  if (!pollinationsApiKey) {
+    throw new Error(
+      "Missing required environment variable: POLLINATIONS_API_KEY. Copy .env.example to .env and set a value."
+    );
+  }
+
   return {
     geminiApiKey,
+    pollinationsApiKey,
     port: Number(env.PORT ?? 3001),
   };
 }

@@ -22,6 +22,18 @@ describe("analyzeDream", () => {
     expect(Number.isInteger(result.seed)).toBe(true);
   });
 
+  it("never generates a seed above Pollinations.ai's signed 32-bit limit (2147483647)", async () => {
+    const client = fakeClient(async () => ({
+      text: JSON.stringify({ mood: "平靜", keywords: ["湖泊"], imagePrompt: "a calm lake" }),
+    }));
+
+    for (let i = 0; i < 200; i++) {
+      const result = await analyzeDream(client, "夢到在湖邊散步");
+      expect(result.seed).toBeGreaterThanOrEqual(0);
+      expect(result.seed).toBeLessThanOrEqual(2147483647);
+    }
+  });
+
   it("runs the returned imagePrompt through the sketch-style enforcement (missing modifiers get appended)", async () => {
     const client = fakeClient(async () => ({
       text: JSON.stringify({

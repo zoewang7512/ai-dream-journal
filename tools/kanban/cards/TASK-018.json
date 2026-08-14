@@ -2,9 +2,9 @@
   "id": "TASK-018",
   "title": "手繪風格 Prompt 工程（強制素描修飾詞注入）",
   "content": "在送往 Gemini 的系統提示詞與最終 imagePrompt 中強制注入手繪素描風格修飾詞，確保輸出不含色彩描述。",
-  "stage": "verify",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
+  "owner": "zoewang7512",
   "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
@@ -22,15 +22,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
     "test": true,
-    "code_review": false
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
@@ -56,6 +56,6 @@
       "24 個測試檔案、108 個測試全數通過",
       "真實呼叫驗證：故意送一段充滿鮮豔顏色描述的夢境內容，回傳的 imagePrompt 開頭結尾皆含完整 9 個修飾詞、且完全無色彩詞，Gemini 本身已充分遵守 system instruction"
     ],
-    "residual": "色彩黑名單只涵蓋常見顯性色彩詞，未涵蓋隱喻式顏色描述，屬已知邊界。待人工審核確認可標記為 done。"
+    "residual": "色彩黑名單只涵蓋常見顯性色彩詞，未涵蓋隱喻式顏色描述，屬已知邊界。人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }

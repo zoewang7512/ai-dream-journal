@@ -16,6 +16,7 @@ export interface JournalViewState {
   canGoNext: boolean;
   goToPrevious: () => void;
   goToNext: () => void;
+  refresh: () => void;
 }
 
 /**
@@ -25,6 +26,7 @@ export interface JournalViewState {
 export function useJournalViewState(): JournalViewState {
   const todayDate = getTodayDateString();
   const [viewDate, setViewDate] = useState(todayDate);
+  const [, setRefreshTick] = useState(0);
 
   const record = getByDate(viewDate);
   const isToday = viewDate === todayDate;
@@ -46,6 +48,10 @@ export function useJournalViewState(): JournalViewState {
     if (canGoNext) setViewDate(sequence[currentIndex - 1]);
   }
 
+  function refresh() {
+    setRefreshTick((tick) => tick + 1);
+  }
+
   return {
     todayDate,
     viewDate,
@@ -57,5 +63,6 @@ export function useJournalViewState(): JournalViewState {
     canGoNext,
     goToPrevious,
     goToNext,
+    refresh,
   };
 }

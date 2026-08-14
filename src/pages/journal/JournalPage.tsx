@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { formatDisplayDate } from "./date";
 import { EntryDetailReadonly } from "./EntryDetailReadonly";
 import { HistoryNavigator } from "./HistoryNavigator";
@@ -9,6 +10,7 @@ function JournalPage() {
   const view = useJournalViewState();
   const { mode, record, isToday, viewDate, hasHistory } = view;
   const isEditing = mode === "today-editing";
+  const [isCompleting, setIsCompleting] = useState(false);
 
   const badgeClasses = [styles.badge, isEditing && styles.badgeDraft].filter(Boolean).join(" ");
 
@@ -23,7 +25,12 @@ function JournalPage() {
               <time>{formatDisplayDate(viewDate, isToday)}</time>
             </div>
             {isEditing ? (
-              <TodayEntryEditor date={viewDate} record={record} />
+              <TodayEntryEditor
+                date={viewDate}
+                record={record}
+                onCompleted={view.refresh}
+                onCompletingChange={setIsCompleting}
+              />
             ) : (
               <EntryDetailReadonly key={viewDate} part="text" record={record} />
             )}
@@ -42,8 +49,12 @@ function JournalPage() {
           <div className={styles.panelContent}>
             {isEditing ? (
               <div className={styles.rightBlank}>
-                <p>完成今天的紀錄後，這裡會顯示 AI 分析與插圖。</p>
-                {!hasHistory && (
+                <p>
+                  {isCompleting
+                    ? "AI 正在解析你的夢境……"
+                    : "完成今天的紀錄後，這裡會顯示 AI 分析與插圖。"}
+                </p>
+                {!hasHistory && !isCompleting && (
                   <p className={styles.rightBlankHint}>
                     還沒有翻頁可看的舊日記，完成今天的第一篇吧。
                   </p>

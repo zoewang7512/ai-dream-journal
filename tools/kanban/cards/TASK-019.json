@@ -2,10 +2,10 @@
   "id": "TASK-019",
   "title": "前端串接 Pollinations.ai 圖片生成",
   "content": "前端將後端回傳的 imagePrompt 與 seed 編碼組成 Pollinations.ai 動態圖片 URL 並提供給呼叫方顯示。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -23,15 +23,15 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/AI 夢境分析與圖像生成引擎/feature-spec.md",
@@ -41,10 +41,21 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/lib/pollinations.ts"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "buildDreamImageUrl 為純函式，依既有模式組 URL，同輸入必同輸出",
+      "25 個測試檔案、115 個測試全數通過，涵蓋特殊字元/非 ASCII/長 prompt/大數 seed 邊界",
+      "尚未被任何元件呼叫；實際呼叫點留給 TASK-012（完成日記時計算並存入 imageUrl）"
+    ],
+    "residual": "AI 引擎 Epic 主線（016→017→018→019）全數完成，TASK-012 現已解鎖。人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }

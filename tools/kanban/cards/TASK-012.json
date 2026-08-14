@@ -2,10 +2,10 @@
   "id": "TASK-012",
   "title": "完成當天日記並觸發 AI 分析與圖片生成（含確認 dialog）",
   "content": "使用者標記今日日記完成後，先跳出確認 dialog 提醒即將消耗一次 AI 免費額度，確認後呼叫 AI 引擎並將結果寫回、鎖定該篇不可再次觸發。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-13",
   "epic": "核心夢境日記記錄",
@@ -24,28 +24,46 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
-    "screenSpec": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面一日記頁.md",
     "mockupDecision": "",
     "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-012.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/journal/useCompleteEntry.ts",
+    "src/pages/journal/CompleteEntryDialog.tsx",
+    "src/pages/journal/TodayEntryEditor.tsx",
+    "src/pages/journal/JournalPage.tsx",
+    "server/routes/dream-image.ts",
+    "src/lib/pollinations.ts",
+    "server/lib/analyze-dream.ts"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "完成流程：確認 Modal→loading（頁面本身，非 Modal 內）→成功寫回 completed+analysis+imageUrl，或失敗顯示 Toast 並可重試",
+      "開發過程中發現並修正一個真實 StrictMode bug：isMountedRef 的 cleanup 設 false 但 setup 沒設回 true，導致 dev 模式下完成流程卡死；此 bug 在 jsdom 測試中測不出來，只有真實瀏覽器才會現形",
+      "2026-08-14 後續修正：人工發現生成圖片偏照片感非鉛筆素描，查證 Pollinations 免金鑰端點只剩 sana 模型；真正 flux 需要 gen.pollinations.ai 的 Secret key，新增後端 /api/dream-image 代理端點讓金鑰完全留在後端，前端只組 prompt/seed；同時修正 seed 產生範圍超出 Pollinations 上限（約半數機率）導致圖片載入失敗的真實 bug",
+      "28 個測試檔案、144 個測試全數通過；已用真實金鑰在瀏覽器中驗證完整流程，EXIF 確認圖片模型為 flux（非 sana），風格正確變為鉛筆素描"
+    ],
+    "residual": "「核心夢境日記記錄」Epic 六張任務卡全數完成。/api/dream-image 尚無存取控制/速率限制，建議與 TASK-021 一併規劃。人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }

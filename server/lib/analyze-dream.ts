@@ -46,8 +46,15 @@ function isParsedAnalysis(value: unknown): value is ParsedAnalysis {
   );
 }
 
+/**
+ * Pollinations.ai 的圖片生成 API 要求 seed <= 2147483647（signed 32-bit 上限）；
+ * 用 2 ** 32 取隨機數大約有一半機率超過這個上限，導致圖片載入失敗
+ * （已在人工比較圖片風格時實際重現這個錯誤）。
+ */
+const MAX_POLLINATIONS_SEED = 2147483647;
+
 function generateSeed(): number {
-  return Math.floor(Math.random() * 2 ** 32);
+  return Math.floor(Math.random() * (MAX_POLLINATIONS_SEED + 1));
 }
 
 export const analyzeDream: AnalyzeDream = async (client: GoogleGenAI, content: string) => {

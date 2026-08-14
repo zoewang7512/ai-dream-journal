@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it } from "vitest";
-import { create, update } from "../../lib/dream-storage";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { create, getByDate, update } from "../../lib/dream-storage";
 import { getTodayDateString } from "./date";
 import JournalPage from "./JournalPage";
 
@@ -9,6 +9,10 @@ const today = getTodayDateString();
 
 beforeEach(() => {
   window.localStorage.clear();
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
 });
 
 describe("JournalPage", () => {
@@ -138,5 +142,75 @@ describe("JournalPage", () => {
       screen.getByRole("textbox", { name: "今日夢境日記內容" })
     ).toHaveValue("");
     expect(screen.queryByRole("button", { name: "刪除" })).not.toBeInTheDocument();
+  });
+
+  it("supports the full complete journey: write → confirm → AI loading → readonly with analysis, no re-trigger", async () => {
+    let resolveFetch: (value: { ok: boolean; json: () => Promise<unknown> }) => void = () => {};
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockReturnValue(
+        new Promise((resolve) => {
+          resolveFetch = resolve;
+        })
+      )
+    );
+
+    render(<JournalPage />);
+
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "今日夢境日記內容" }),
+      "夢裡我在飛，越過了整片森林。"
+    );
+    await userEvent.click(screen.getByRole("button", { name: "完成" }));
+    expect(screen.getByRole("dialog", { name: "完成這篇日記？" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "確定完成" }));
+
+    expect(screen.getByText("AI 正在解析你的夢境……")).toBeInTheDocument();
+    expect(screen.getByRole("textbox")).toBeDisabled();
+
+    resolveFetch({
+      ok: true,
+      json: async () => ({
+        mood: "興奮",
+        keywords: ["飛翔", "森林"],
+        imagePrompt: "flying over a forest, monochromatic",
+        seed: 555,
+      }),
+    });
+
+    expect(await screen.findByText("已完成")).toBeInTheDocument();
+    expect(screen.getByText("夢裡我在飛，越過了整片森林。")).toBeInTheDocument();
+    expect(screen.getByText("興奮")).toBeInTheDocument();
+    expect(screen.getByText("飛翔")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "AI 生成的夢境插圖" })).toHaveAttribute(
+      "src",
+      expect.stringContaining("/api/dream-image")
+    );
+    expect(screen.queryByRole("button", { name: "完成" })).not.toBeInTheDocument();
+    expect(getByDate(today)?.status).toBe("completed");
+  });
+
+  it("shows an error toast and stays editable/retriable when AI generation fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        json: async () => ({ errorType: "upstream_error", message: "生成失敗，請稍後再試一次。" }),
+      })
+    );
+
+    render(<JournalPage />);
+
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "今日夢境日記內容" }),
+      "夢到在飛"
+    );
+    await userEvent.click(screen.getByRole("button", { name: "完成" }));
+    await userEvent.click(screen.getByRole("button", { name: "確定完成" }));
+
+    expect(await screen.findByText("生成失敗，請稍後再試一次。")).toBeInTheDocument();
+    expect(screen.getByText("撰寫中")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "完成" })).toBeEnabled();
+    expect(getByDate(today)?.status).toBe("draft");
   });
 });

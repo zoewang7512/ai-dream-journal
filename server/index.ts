@@ -12,7 +12,7 @@ try {
 }
 
 const client = createGeminiClient(config.geminiApiKey);
-const app = createApp(client, analyzeDream);
+const app = createApp(client, config.pollinationsApiKey, analyzeDream);
 
 app.listen(config.port, () => {
   console.log(`API server listening on http://localhost:${config.port}`);

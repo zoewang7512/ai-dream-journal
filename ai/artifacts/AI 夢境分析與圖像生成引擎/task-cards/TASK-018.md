@@ -8,10 +8,10 @@
 - 上層 User Story：手繪風格 Prompt 工程
 - 分軌：後端
 - 前置任務（dependsOn）：TASK-017
-- 狀態：實作完成，待人工驗收
+- 狀態：完成
 - 風險等級：低
 - Agent owner：Claude Code
-- 人工核准者：待指派
+- 人工核准者：zoewang7512（2026-08-14，審核完成證據並驗收，含真實 Gemini API 呼叫驗證）
 
 ## 目標
 

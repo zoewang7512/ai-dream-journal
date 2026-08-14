@@ -6,4 +6,4 @@ import { createGeminiClient } from "../server/lib/gemini-client";
 const config = loadConfig();
 const client = createGeminiClient(config.geminiApiKey);
 
-export default createApp(client, analyzeDream);
+export default createApp(client, config.pollinationsApiKey, analyzeDream);

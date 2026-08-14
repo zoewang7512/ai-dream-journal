@@ -7,6 +7,7 @@ import { DreamAnalysisError } from "../lib/dream-analysis-types";
 import type { AnalyzeDream, DreamAnalysisSuccessBody } from "./dream-analysis";
 
 const fakeClient = {} as GoogleGenAI;
+const fakePollinationsApiKey = "test-pollinations-key";
 
 interface RunningServer {
   url: string;
@@ -14,7 +15,7 @@ interface RunningServer {
 }
 
 function startServer(analyzeDream?: AnalyzeDream): Promise<RunningServer> {
-  const app = createApp(fakeClient, analyzeDream);
+  const app = createApp(fakeClient, fakePollinationsApiKey, analyzeDream);
   const server: Server = createServer(app);
 
   return new Promise((resolve) => {
