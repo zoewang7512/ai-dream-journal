@@ -1,5 +1,5 @@
-import type { GoogleGenAI } from "@google/genai";
-import { describe, expect, it } from "vitest";
+import { ApiError, type GoogleGenAI } from "@google/genai";
+import { describe, expect, it, vi } from "vitest";
 import { analyzeDream } from "./analyze-dream";
 import { DreamAnalysisError } from "./dream-analysis-types";
 import { STYLE_MODIFIERS } from "./prompt-templates";
@@ -120,5 +120,73 @@ describe("analyzeDream", () => {
     const error = await analyzeDream(client, "夢到在飛").catch((caught: unknown) => caught);
     expect(error).toBeInstanceOf(DreamAnalysisError);
     expect((error as DreamAnalysisError).errorType).toBe("upstream_error");
+  });
+
+  it("does not leak the raw upstream error message into the upstream_error DreamAnalysisError", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const sensitiveMessage = "project=secret-internal-project-123, quota key=abc";
+    const client = fakeClient(() => {
+      throw new Error(sensitiveMessage);
+    });
+
+    const error = await analyzeDream(client, "夢到在飛").catch((caught: unknown) => caught);
+
+    expect(error).toBeInstanceOf(DreamAnalysisError);
+    expect((error as DreamAnalysisError).message).not.toContain(sensitiveMessage);
+    expect((error as DreamAnalysisError).message).toBe("Gemini API 呼叫失敗，請稍後再試。");
+    // 原始錯誤仍要保留在伺服器端（cause／log），只是不能出現在要回傳前端的訊息裡。
+    expect((error as DreamAnalysisError).cause).toBeInstanceOf(Error);
+    expect(((error as DreamAnalysisError).cause as Error).message).toBe(sensitiveMessage);
+    expect(consoleErrorSpy).toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
+  });
+
+  it("classifies a 429 ApiError from Gemini as quota_exceeded", async () => {
+    const client = fakeClient(() => {
+      throw new ApiError({ message: "Resource exhausted", status: 429 });
+    });
+
+    const error = await analyzeDream(client, "夢到在飛").catch((caught: unknown) => caught);
+    expect(error).toBeInstanceOf(DreamAnalysisError);
+    expect((error as DreamAnalysisError).errorType).toBe("quota_exceeded");
+  });
+
+  it("does not classify a non-429 ApiError as quota_exceeded", async () => {
+    const client = fakeClient(() => {
+      throw new ApiError({ message: "Internal error", status: 500 });
+    });
+
+    const error = await analyzeDream(client, "夢到在飛").catch((caught: unknown) => caught);
+    expect(error).toBeInstanceOf(DreamAnalysisError);
+    expect((error as DreamAnalysisError).errorType).toBe("upstream_error");
+  });
+
+  it("classifies an AbortError (e.g. from the request timeout signal) as timeout", async () => {
+    const client = fakeClient(() => {
+      const abortError = new Error("The operation was aborted.");
+      abortError.name = "TimeoutError";
+      throw abortError;
+    });
+
+    const error = await analyzeDream(client, "夢到在飛").catch((caught: unknown) => caught);
+    expect(error).toBeInstanceOf(DreamAnalysisError);
+    expect((error as DreamAnalysisError).errorType).toBe("timeout");
+  });
+
+  it("passes an abortSignal to generateContent so the call is aborted after the timeout threshold", async () => {
+    let receivedSignal: AbortSignal | undefined;
+    const client = {
+      models: {
+        generateContent: async (params: { config?: { abortSignal?: AbortSignal } }) => {
+          receivedSignal = params.config?.abortSignal;
+          return { text: JSON.stringify({ mood: "平靜", keywords: ["湖泊"], imagePrompt: "a calm lake" }) };
+        },
+      },
+    } as unknown as GoogleGenAI;
+
+    await analyzeDream(client, "夢到在湖邊散步");
+
+    expect(receivedSignal).toBeInstanceOf(AbortSignal);
   });
 });

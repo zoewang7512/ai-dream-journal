@@ -2,10 +2,10 @@
   "id": "TASK-030",
   "title": "/api/dream-image 端點防濫用（驗證、rate limit、逾時）",
   "content": "為 /api/dream-image 加上 prompt 長度上限、fetch timeout、per-IP rate limit 與來源限制，避免第三方網頁消耗專案的 Pollinations 付費配額。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-14",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -23,14 +23,14 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
@@ -42,13 +42,23 @@
     "pr": ""
   },
   "refs": [
-    "server/routes/dream-image.ts"
+    "server/routes/dream-image.ts",
+    "server/lib/origin-guard.ts",
+    "server/lib/rate-limiter.ts"
   ],
   "evidence": {
-    "commands": [],
-    "findings": [
-      "來源：TASK-020 Security Gate 審查附帶發現 F2（中風險）——/api/dream-image 無身分驗證、無 rate limit、無 prompt 長度上限，等同無上限開放代理，可被第三方消耗 Pollinations 付費配額"
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
     ],
-    "residual": ""
+    "findings": [
+      "來源：TASK-020 Security Gate 審查附帶發現 F2（中風險）——/api/dream-image 無身分驗證、無 rate limit、無 prompt 長度上限，等同無上限開放代理，可被第三方消耗 Pollinations 付費配額",
+      "修法：新增 origin-guard.ts（Referer host 比對，經人工確認選用此方案而非改前端 fetch+blob）＋重用 TASK-021 的 rate-limiter.ts＋prompt 長度上限 1000 字＋上游 fetch 加 AbortSignal.timeout(20s)",
+      "30 個測試檔案、167 個測試全數通過，含本卡新增 13 個測試（來源限制、rate limit、長度上限、逾時）",
+      "驗證過程中意外發現本機 port 3001 有一個對話開始前就已啟動、尚未套用改動的舊 dev server process（PID 9020），手動 curl 探測時誤打到真實 Pollinations API 一次；已停止手動測試改用完全 mock 的自動化測試，該舊 process 是否重啟待人工決定"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。port 3001 的舊 dev server 是否重啟以套用本卡改動，仍待人工決定。"
   }
 }

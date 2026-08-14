@@ -7,6 +7,7 @@ import {
   type DreamAnalysisErrorType,
   type DreamAnalysisSuccessBody,
 } from "../lib/dream-analysis-types";
+import { createRateLimiter, type RateLimiterOptions } from "../lib/rate-limiter";
 
 export type {
   AnalyzeDream,
@@ -22,7 +23,14 @@ const ERROR_STATUS: Record<DreamAnalysisErrorType, number> = {
   quota_exceeded: 429,
   invalid_response: 502,
   upstream_error: 502,
+  rate_limited: 429,
 };
+
+/**
+ * 單人專案、低流量情境下的基本防濫用門檻：每個 IP 每分鐘最多 10 次分析請求。
+ * Gemini 呼叫成本較高，超過此頻率已明顯不是正常單人使用模式。
+ */
+const DEFAULT_RATE_LIMIT: RateLimiterOptions = { windowMs: 60_000, max: 10 };
 
 /**
  * TASK-017 會傳入真正呼叫 Gemini 的實作；本卡（TASK-016）只搭骨架，
@@ -35,11 +43,12 @@ const notImplemented: AnalyzeDream = () => {
 
 export function createDreamAnalysisRouter(
   client: GoogleGenAI,
-  analyzeDream: AnalyzeDream = notImplemented
+  analyzeDream: AnalyzeDream = notImplemented,
+  rateLimitOptions: RateLimiterOptions = DEFAULT_RATE_LIMIT
 ): Router {
   const router = Router();
 
-  router.post("/api/dream-analysis", async (req: Request, res: Response) => {
+  router.post("/api/dream-analysis", createRateLimiter(rateLimitOptions), async (req: Request, res: Response) => {
     const content: unknown = req.body?.content;
 
     if (typeof content !== "string" || content.trim().length === 0) {

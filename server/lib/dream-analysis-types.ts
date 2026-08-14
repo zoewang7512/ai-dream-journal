@@ -5,7 +5,8 @@ export type DreamAnalysisErrorType =
   | "timeout"
   | "quota_exceeded"
   | "invalid_response"
-  | "upstream_error";
+  | "upstream_error"
+  | "rate_limited";
 
 export interface DreamAnalysisErrorBody {
   errorType: DreamAnalysisErrorType;

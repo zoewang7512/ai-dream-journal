@@ -1,4 +1,4 @@
-import { Type, type GoogleGenAI } from "@google/genai";
+import { ApiError, Type, type GoogleGenAI } from "@google/genai";
 import { DreamAnalysisError, type AnalyzeDream } from "./dream-analysis-types";
 import { buildImagePromptInstruction, ensureSketchStyle } from "./prompt-templates";
 
@@ -57,6 +57,16 @@ function generateSeed(): number {
   return Math.floor(Math.random() * (MAX_POLLINATIONS_SEED + 1));
 }
 
+/** Gemini 呼叫逾時門檻：超過此時間主動中止，避免請求無限期掛住。 */
+const REQUEST_TIMEOUT_MS = 15_000;
+
+/** HTTP 429（Resource exhausted）視為額度／配額超限，而非一般上游錯誤。 */
+const QUOTA_EXCEEDED_STATUS = 429;
+
+function isTimeoutError(error: unknown): boolean {
+  return error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError");
+}
+
 export const analyzeDream: AnalyzeDream = async (client: GoogleGenAI, content: string) => {
   let text: string | undefined;
   try {
@@ -67,12 +77,25 @@ export const analyzeDream: AnalyzeDream = async (client: GoogleGenAI, content: s
         systemInstruction: SYSTEM_INSTRUCTION,
         responseMimeType: "application/json",
         responseSchema: RESPONSE_SCHEMA,
+        abortSignal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       },
     });
     text = response.text;
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Gemini API 呼叫失敗。";
-    throw new DreamAnalysisError("upstream_error", message, { cause: error });
+    if (error instanceof ApiError && error.status === QUOTA_EXCEEDED_STATUS) {
+      throw new DreamAnalysisError("quota_exceeded", "Gemini API 額度已用盡，請稍後再試。", {
+        cause: error,
+      });
+    }
+    if (isTimeoutError(error)) {
+      throw new DreamAnalysisError("timeout", "Gemini 呼叫逾時，請稍後再試。", { cause: error });
+    }
+    // 原始錯誤訊息可能夾帶上游專案代號、模型名稱、配額等內部細節，只寫進伺服器端 log
+    // （並保留在 cause 供除錯），絕不放進要回傳給前端的 DreamAnalysisError 訊息裡。
+    console.error("[analyzeDream] Gemini API 呼叫失敗：", error);
+    throw new DreamAnalysisError("upstream_error", "Gemini API 呼叫失敗，請稍後再試。", {
+      cause: error,
+    });
   }
 
   if (!text) {

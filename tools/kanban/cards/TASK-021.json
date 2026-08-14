@@ -2,10 +2,10 @@
   "id": "TASK-021",
   "title": "Gemini/Pollinations 呼叫失敗、逾時、額度超限的錯誤處理",
   "content": "為 Gemini 呼叫加上逾時與錯誤分類處理，回傳結構化錯誤供前端顯示對應提示，並加上基本防濫用機制。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -22,14 +22,14 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
@@ -40,10 +40,25 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "server/lib/analyze-dream.ts",
+    "server/lib/rate-limiter.ts",
+    "server/lib/dream-analysis-types.ts",
+    "server/routes/dream-analysis.ts",
+    "server/app.ts"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "analyzeDream 呼叫 Gemini 時帶 abortSignal: AbortSignal.timeout(15000)；catch 依 ApiError.status===429 分類 quota_exceeded、依 error.name 為 TimeoutError/AbortError 分類 timeout，其餘落回 upstream_error",
+      "新增 server/lib/rate-limiter.ts：單一 process 記憶體內、依 IP 分桶的固定視窗限流器（預設每 IP 每 60 秒 10 次），掛在 /api/dream-analysis，超過回 429 + errorType=rate_limited",
+      "29 個測試檔案、153 個測試全數通過（含本卡新增 10 個測試，涵蓋逾時/額度分類與限流器行為）"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。記憶體內限流僅單一 process 內生效，若未來改為多實例部署需重新評估（例如共享狀態存放）；已記錄於任務卡完成證據的已知限制。"
   }
 }

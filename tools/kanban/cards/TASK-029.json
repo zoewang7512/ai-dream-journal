@@ -2,10 +2,10 @@
   "id": "TASK-029",
   "title": "Gemini 上游錯誤訊息脫敏",
   "content": "/api/dream-analysis 呼叫 Gemini 失敗時，回應前端的訊息改為固定文案，不得原樣夾帶上游 SDK 的錯誤訊息內容。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-14",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -23,14 +23,14 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
@@ -46,10 +46,17 @@
     "server/routes/dream-analysis.ts"
   ],
   "evidence": {
-    "commands": [],
-    "findings": [
-      "來源：TASK-020 Security Gate 審查附帶發現 F1（中風險）——server/routes/dream-analysis.ts 把 Gemini SDK 原始錯誤訊息原樣回傳前端，可能夾帶上游配額/專案細節"
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
     ],
-    "residual": ""
+    "findings": [
+      "來源：TASK-020 Security Gate 審查附帶發現 F1（中風險）——server/routes/dream-analysis.ts 把 Gemini SDK 原始錯誤訊息原樣回傳前端，可能夾帶上游配額/專案細節",
+      "修法：analyze-dream.ts 的 upstream_error 分支改用固定文案，原始錯誤只保留在 cause 與新增的 console.error server 端 log，不再流入 HTTP 回應 body",
+      "29 個測試檔案、155 個測試全數通過，含新增的單元測試（分類邏輯不洩漏原文）與端到端整合測試（真實 HTTP 回應 body 不含敏感字串）"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }
