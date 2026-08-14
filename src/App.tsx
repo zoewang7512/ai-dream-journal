@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Nav } from "./components/ui/Nav/Nav";
 import JournalPage from "./pages/journal/JournalPage";
-import DashboardPage from "./pages/DashboardPage";
+import InsightsPage from "./pages/insights/InsightsPage";
 
 const NAV_ITEMS = [
   { to: "/", label: "寫日記/看日記", end: true },
@@ -15,7 +15,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<JournalPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<InsightsPage />} />
         </Routes>
       </main>
     </div>

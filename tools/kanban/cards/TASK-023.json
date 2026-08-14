@@ -2,10 +2,10 @@
   "id": "TASK-023",
   "title": "情緒趨勢折線圖",
   "content": "依時間軸顯示夢境情緒分類的變化趨勢。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "夢境數據分析看板",
@@ -22,28 +22,41 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
     "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
     "screenSpec": "",
-    "mockupDecision": "",
+    "mockupDecision": "ai/artifacts/專案設置/mockup-decision-頁面二數據看板.md",
     "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-023.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/insights/emotion-trend.ts",
+    "src/pages/insights/EmotionTrendChart.tsx",
+    "src/pages/insights/InsightsPage.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "圖表函式庫選型列 3 個選項（純 SVG／Recharts／Chart.js）與人工確認後選用純 SVG 手刻，比照已核准 S5 mockup 做法、零新依賴",
+      "X 軸日期、Y 軸固定情緒分類（與後端 MOOD_OPTIONS 一致），單點置中不畫線、多點依日期排序畫 polyline+circle，缺 mood/未知 mood 的紀錄會被濾掉，全部濾光時顯示文字降級而非壞圖表",
+      "34 個測試檔案、190 個測試全數通過；另在真實 dev server 上用 DOM 檢查確認單點案例正確渲染（circleCount:1, polylineCount:0），多點案例僅以隔離自動化測試覆蓋（未在使用者真實 LocalStorage 造假資料測試）"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。建議之後找機會在 Browser pane 可顯示的環境補拍像素截圖。"
   }
 }

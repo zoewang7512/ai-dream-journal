@@ -2,10 +2,10 @@
   "id": "TASK-024",
   "title": "關鍵字/主題文字雲",
   "content": "統計夢境中最常出現的關鍵字，以文字雲呈現，字級大小反映出現頻率。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "夢境數據分析看板",
@@ -22,28 +22,42 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
     "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
     "screenSpec": "",
-    "mockupDecision": "",
+    "mockupDecision": "ai/artifacts/專案設置/mockup-decision-頁面二數據看板.md",
     "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-024.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/insights/keyword-cloud.ts",
+    "src/pages/insights/KeywordCloud.tsx",
+    "src/pages/insights/InsightsPage.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "純 HTML/CSS 文字雲（flex-wrap span，無圖表函式庫），字級 14~34px 線性內插反映關鍵字頻率，次數全同時一律最大字級避免除以 0",
+      "少於 20 個關鍵字時全部顯示、超過 20 個時截斷為前 20 名，測試皆有驗證",
+      "41 個測試檔案、225 個測試全數通過；在全新瀏覽器分頁上確認 console 完全乾淨無錯誤，真實資料（5 個關鍵字，各出現 1 次）正確渲染成統一最大字級",
+      "四個圖表卡（TASK-023/024/025/026）至此全數完成，Epic 主線結束"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。建議之後找機會在 Browser pane 可顯示的環境補拍像素截圖。"
   }
 }

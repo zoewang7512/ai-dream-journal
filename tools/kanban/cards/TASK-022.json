@@ -2,10 +2,10 @@
   "id": "TASK-022",
   "title": "分析看板架構基礎（容器、統計工具、空狀態）",
   "content": "建立頁面二的共用容器，套用 S5 已核准版型，提供讀取 completed 日記並計算共用統計的工具函式，並實作完成篇數為 0 時四個圖表區塊一致的空狀態。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "夢境數據分析看板",
@@ -30,28 +30,43 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
     "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
     "screenSpec": "",
-    "mockupDecision": "",
+    "mockupDecision": "ai/artifacts/專案設置/mockup-decision-頁面二數據看板.md",
     "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-022.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/insights/InsightsPage.tsx",
+    "src/pages/insights/useDreamStats.ts",
+    "src/pages/insights/ChartCard.tsx",
+    "src/App.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "套用已核准的 S5 變體 C mockup（頁面二側邊摘要＋主圖表區），新增 useDreamStats 共用統計 hook 與 ChartCard 共用空狀態元件，四個圖表區塊的空狀態文案與 CTA 由同一元件保證一致",
+      "圖表本體（情緒趨勢/月曆/文字雲/圓餅圖）暫以「圖表元件將於後續任務卡加入」佔位文字呈現，留給 TASK-023～026 逐一接手，避免範圍蔓延",
+      "為了讓新頁面實際被路由渲染，順帶把 src/App.tsx 的 /dashboard 路由與已刪除的佔位頁 src/pages/DashboardPage.tsx 一併更新，超出任務卡原定的 src/pages/insights/** 範圍但屬必要最小改動",
+      "32 個測試檔案、178 個測試全數通過；另在真實 dev server（localhost:5173/dashboard）上用瀏覽器 DOM 檢查確認有資料狀態正確渲染（未做像素截圖，因 Browser pane 未顯示無法截圖；也未清空使用者真實 LocalStorage 資料測試空狀態，改以隔離測試涵蓋）"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。建議之後找機會在窄螢幕下截圖確認響應式版面。"
   }
 }

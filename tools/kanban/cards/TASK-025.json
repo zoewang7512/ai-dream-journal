@@ -2,10 +2,10 @@
   "id": "TASK-025",
   "title": "夢境紀錄月曆熱力圖",
   "content": "以月曆熱力圖顯示哪些日期有完成的夢境紀錄，可切換月份。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "夢境數據分析看板",
@@ -22,28 +22,41 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
     "featureSpec": "ai/artifacts/夢境數據分析看板/feature-spec.md",
     "screenSpec": "",
-    "mockupDecision": "",
+    "mockupDecision": "ai/artifacts/專案設置/mockup-decision-頁面二數據看板.md",
     "taskCard": "ai/artifacts/夢境數據分析看板/task-cards/TASK-025.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/insights/calendar-heatmap.ts",
+    "src/pages/insights/CalendarHeatmap.tsx",
+    "src/pages/insights/InsightsPage.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "月份切換狀態放在 CalendarHeatmap 元件內部 local state（不放進共用 hook 或往上提），用元件邊界天生保證切換月份不影響其他圖表區塊",
+      "用 new Date(year, month-1, day) 帶分量建構子計算星期幾/天數，避免 ISO 字串解析的時區偏移問題",
+      "36 個測試檔案、203 個測試全數通過；另在真實 dev server 上確認真實完成紀錄（2026-08-14）正確標示在月曆格子上；月份切換的即時瀏覽器點擊驗證因 Browser pane 未顯示而不可靠，改以自動化互動測試（含跨年份邊界）覆蓋"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。建議之後找機會在 Browser pane 可顯示的環境補做像素截圖與即時點擊驗證。"
   }
 }

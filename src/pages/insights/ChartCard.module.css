@@ -1,0 +1,24 @@
+.card {
+  margin-bottom: var(--space-20);
+}
+
+.title {
+  font-family: var(--font-family-hand);
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-regular);
+  margin: 0 0 var(--space-16);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+.emptyState p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-14);
+  max-width: 42ch;
+}

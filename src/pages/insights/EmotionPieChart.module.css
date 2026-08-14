@@ -1,0 +1,36 @@
+.pie {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin: 0 auto var(--space-12);
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--font-size-12);
+  color: var(--color-text-secondary);
+}
+
+.legendDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.fallback {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-14);
+  margin: 0;
+}

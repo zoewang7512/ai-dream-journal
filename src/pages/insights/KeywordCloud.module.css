@@ -1,0 +1,17 @@
+.cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: baseline;
+}
+
+.keyword {
+  font-family: var(--font-family-hand);
+  color: var(--color-primary-600);
+}
+
+.fallback {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-14);
+  margin: 0;
+}

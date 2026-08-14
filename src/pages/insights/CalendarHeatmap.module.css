@@ -1,0 +1,35 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-12);
+}
+
+.monthLabel {
+  font-family: ui-monospace, monospace;
+  font-size: var(--font-size-13);
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.dow {
+  font-size: var(--font-size-11);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  font-family: ui-monospace, monospace;
+}
+
+.cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: var(--color-grey-200);
+}
+
+.cellRecorded {
+  background: var(--color-primary-500);
+}
