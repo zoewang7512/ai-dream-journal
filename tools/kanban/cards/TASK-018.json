@@ -2,10 +2,10 @@
   "id": "TASK-018",
   "title": "手繪風格 Prompt 工程（強制素描修飾詞注入）",
   "content": "在送往 Gemini 的系統提示詞與最終 imagePrompt 中強制注入手繪素描風格修飾詞，確保輸出不含色彩描述。",
-  "stage": "backlog",
+  "stage": "verify",
   "risk": "low",
   "owner": "",
-  "agent": "",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "AI 夢境分析與圖像生成引擎",
@@ -29,7 +29,7 @@
     "ui": false,
     "architecture": false,
     "security": false,
-    "test": false,
+    "test": true,
     "code_review": false
   },
   "links": {
@@ -40,10 +40,22 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "server/lib/prompt-templates.ts",
+    "server/lib/analyze-dream.ts"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "ensureSketchStyle 補齊缺少的修飾詞＋移除有彩色詞（黑名單刻意排除 black/white/monochromatic 避免自相矛盾）",
+      "24 個測試檔案、108 個測試全數通過",
+      "真實呼叫驗證：故意送一段充滿鮮豔顏色描述的夢境內容，回傳的 imagePrompt 開頭結尾皆含完整 9 個修飾詞、且完全無色彩詞，Gemini 本身已充分遵守 system instruction"
+    ],
+    "residual": "色彩黑名單只涵蓋常見顯性色彩詞，未涵蓋隱喻式顏色描述，屬已知邊界。待人工審核確認可標記為 done。"
   }
 }

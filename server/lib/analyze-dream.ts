@@ -1,5 +1,6 @@
 import { Type, type GoogleGenAI } from "@google/genai";
 import { DreamAnalysisError, type AnalyzeDream } from "./dream-analysis-types";
+import { buildImagePromptInstruction, ensureSketchStyle } from "./prompt-templates";
 
 const MODEL = "gemini-flash-latest";
 
@@ -23,7 +24,7 @@ const RESPONSE_SCHEMA = {
 const SYSTEM_INSTRUCTION = `你是一個夢境日記分析助手。使用者會提供一段夢境描述（繁體中文），請分析並只以 JSON 回傳三個欄位：
 - mood：這個夢境傳達的主要情緒，只能是以下其中一種：${MOOD_OPTIONS.join("、")}。
 - keywords：3 到 6 個代表夢境主題或意象的簡短繁體中文關鍵字。
-- imagePrompt：一段適合送給圖像生成模型的「英文」描述，具體描繪夢境中的場景、主體與氛圍（不需要指定畫風，畫風由後續流程統一注入）。`;
+- imagePrompt：一段適合送給圖像生成模型的「英文」描述，具體描繪夢境中的場景、主體與氛圍。${buildImagePromptInstruction()}`;
 
 interface ParsedAnalysis {
   mood: string;
@@ -87,7 +88,7 @@ export const analyzeDream: AnalyzeDream = async (client: GoogleGenAI, content: s
   return {
     mood: parsed.mood,
     keywords: parsed.keywords,
-    imagePrompt: parsed.imagePrompt,
+    imagePrompt: ensureSketchStyle(parsed.imagePrompt),
     seed: generateSeed(),
   };
 };

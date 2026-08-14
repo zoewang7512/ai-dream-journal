@@ -2,6 +2,7 @@ import type { GoogleGenAI } from "@google/genai";
 import { describe, expect, it } from "vitest";
 import { analyzeDream } from "./analyze-dream";
 import { DreamAnalysisError } from "./dream-analysis-types";
+import { STYLE_MODIFIERS } from "./prompt-templates";
 
 function fakeClient(generateContent: () => Promise<{ text: string | undefined }>): GoogleGenAI {
   return { models: { generateContent } } as unknown as GoogleGenAI;
@@ -17,8 +18,39 @@ describe("analyzeDream", () => {
 
     expect(result.mood).toBe("平靜");
     expect(result.keywords).toEqual(["湖泊", "月光"]);
-    expect(result.imagePrompt).toBe("a calm lake");
+    expect(result.imagePrompt).toContain("a calm lake");
     expect(Number.isInteger(result.seed)).toBe(true);
+  });
+
+  it("runs the returned imagePrompt through the sketch-style enforcement (missing modifiers get appended)", async () => {
+    const client = fakeClient(async () => ({
+      text: JSON.stringify({
+        mood: "平靜",
+        keywords: ["湖泊"],
+        imagePrompt: "a calm lake",
+      }),
+    }));
+
+    const result = await analyzeDream(client, "夢到在湖邊散步");
+
+    for (const modifier of STYLE_MODIFIERS) {
+      expect(result.imagePrompt.toLowerCase()).toContain(modifier.toLowerCase());
+    }
+  });
+
+  it("strips chromatic color words from the returned imagePrompt", async () => {
+    const client = fakeClient(async () => ({
+      text: JSON.stringify({
+        mood: "平靜",
+        keywords: ["湖泊"],
+        imagePrompt: "a calm lake beside a red barn under a golden sunset",
+      }),
+    }));
+
+    const result = await analyzeDream(client, "夢到在湖邊散步");
+
+    expect(result.imagePrompt.toLowerCase()).not.toMatch(/\bred\b/);
+    expect(result.imagePrompt.toLowerCase()).not.toMatch(/\bgolden\b/);
   });
 
   it("generates a fresh random seed on every call rather than a fixed value", async () => {
