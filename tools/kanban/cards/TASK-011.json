@@ -2,10 +2,10 @@
   "id": "TASK-011",
   "title": "新增與暫存當天夢境日記",
   "content": "讓使用者在今日撰寫畫面輸入、暫存、重複編輯當天日記內容，直到標記完成前都可修改。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "核心夢境日記記錄",
@@ -22,28 +22,41 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
-    "screenSpec": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面一日記頁.md",
     "mockupDecision": "",
     "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-011.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/journal/TodayEntryEditor.tsx",
+    "src/pages/journal/TodayEntryEditor.module.css",
+    "src/pages/journal/JournalPage.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "TodayEntryEditor 重用既有 Textarea（maxLength=2000 + showCount）與 Button 元件",
+      "暫存策略僅在使用者點擊「存檔」時才寫入 LocalStorage，不做任何 debounce 或背景自動暫存（人工審核時明確要求移除原本的 debounce 自動暫存）",
+      "18 個測試檔案、67 個測試全數通過；瀏覽器實機驗證：未存檔前 localStorage 為 null，點擊存檔後正確寫入，重新整理後內容仍存在"
+    ],
+    "residual": "「完成」「刪除」按鈕尚未加入（分別為 TASK-012、TASK-015 範圍）。人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }

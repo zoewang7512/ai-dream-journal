@@ -2,10 +2,10 @@
   "id": "TASK-014",
   "title": "檢視單篇夢境詳情（唯讀）",
   "content": "在翻頁瀏覽的容器內，顯示目前選中日期的完整日記內容、AI 分析結果與生成圖片，全程唯讀。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "核心夢境日記記錄",
@@ -23,28 +23,40 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
-    "screenSpec": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面一日記頁.md",
     "mockupDecision": "",
     "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-014.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/journal/EntryDetailReadonly.tsx",
+    "src/pages/journal/JournalPage.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "把 TASK-010 內嵌的唯讀渲染抽成獨立 EntryDetailReadonly 元件，補上圖片載入失敗 fallback（原本缺口）",
+      "JournalPage 對該元件加 key={viewDate}，翻頁時重新掛載避免 imageFailed 狀態跨紀錄殘留",
+      "20 個測試檔案、84 個測試全數通過；瀏覽器實機驗證正常圖片與圖片載入失敗兩種情況皆正確渲染，版面不崩壞"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }

@@ -2,10 +2,10 @@
   "id": "TASK-015",
   "title": "刪除當天未完成的日記",
   "content": "讓使用者可以刪除當天尚未標記完成的暫存日記，過去或已完成日記不提供刪除入口。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "核心夢境日記記錄",
@@ -23,28 +23,40 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
-    "screenSpec": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面一日記頁.md",
     "mockupDecision": "",
     "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-015.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/journal/TodayEntryEditor.tsx",
+    "src/pages/journal/TodayEntryEditor.module.css"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "刪除入口只在已儲存過草稿時出現，重用既有 Modal 做二次確認",
+      "刪除按鈕用既有 Button danger（實色）variant 而非 mockup 的 danger-ghost 外框樣式，因元件庫尚未登記該 variant，已記錄為已知限制",
+      "19 個測試檔案、79 個測試全數通過；瀏覽器實機截圖驗證完整刪除流程含 LocalStorage 確認清空"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }

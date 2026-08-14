@@ -11,6 +11,7 @@ export interface JournalViewState {
   isToday: boolean;
   mode: JournalViewMode;
   record: DreamRecord | undefined;
+  hasHistory: boolean;
   canGoPrevious: boolean;
   canGoNext: boolean;
   goToPrevious: () => void;
@@ -33,6 +34,7 @@ export function useJournalViewState(): JournalViewState {
   const sequence = [todayDate, ...completedDates.filter((date) => date !== todayDate)];
   const currentIndex = sequence.indexOf(viewDate);
 
+  const hasHistory = sequence.length > 1;
   const canGoPrevious = currentIndex !== -1 && currentIndex < sequence.length - 1;
   const canGoNext = currentIndex > 0;
 
@@ -50,6 +52,7 @@ export function useJournalViewState(): JournalViewState {
     isToday,
     mode,
     record,
+    hasHistory,
     canGoPrevious,
     canGoNext,
     goToPrevious,

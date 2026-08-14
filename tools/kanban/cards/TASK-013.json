@@ -2,10 +2,10 @@
   "id": "TASK-013",
   "title": "翻頁瀏覽歷史夢境",
   "content": "提供上一篇/下一篇導覽，讓使用者以翻頁方式依日期順序瀏覽已完成的過去紀錄。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "核心夢境日記記錄",
@@ -22,28 +22,41 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
-    "screenSpec": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面一日記頁.md",
     "mockupDecision": "",
     "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-013.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/journal/HistoryNavigator.tsx",
+    "src/pages/journal/useJournalViewState.ts",
+    "src/pages/journal/JournalPage.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "把 TASK-010 內嵌的上一篇/下一篇按鈕抽成獨立 HistoryNavigator 元件（純呈現，visible=false 時不渲染）",
+      "新增 hasHistory 欄位與空狀態引導文案，補齊「有資料/邊界/無資料」三種情況的螢幕截圖驗證",
+      "19 個測試檔案、72 個測試全數通過"
+    ],
+    "residual": "人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }

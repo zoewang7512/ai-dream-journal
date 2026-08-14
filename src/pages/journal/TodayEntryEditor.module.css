@@ -1,0 +1,17 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-12);
+  margin-top: var(--space-8);
+}
+
+.actionsGroup {
+  display: flex;
+  gap: var(--space-12);
+}

@@ -61,5 +61,43 @@ describe("useJournalViewState", () => {
   it("disables previous navigation when there is no history at all", () => {
     const { result } = renderHook(() => useJournalViewState());
     expect(result.current.canGoPrevious).toBe(false);
+    expect(result.current.hasHistory).toBe(false);
+  });
+
+  it("reports hasHistory as true once at least one completed record exists", () => {
+    create({ date: "2026-08-10", content: "舊夢一" });
+    update("2026-08-10", { status: "completed" });
+
+    const { result } = renderHook(() => useJournalViewState());
+    expect(result.current.hasHistory).toBe(true);
+  });
+
+  it("walks a multi-record history newest-first and re-disables at each boundary", () => {
+    create({ date: "2026-08-08", content: "舊夢一" });
+    update("2026-08-08", { status: "completed" });
+    create({ date: "2026-08-10", content: "舊夢二" });
+    update("2026-08-10", { status: "completed" });
+    create({ date: "2026-08-12", content: "舊夢三" });
+    update("2026-08-12", { status: "completed" });
+
+    const { result } = renderHook(() => useJournalViewState());
+
+    act(() => result.current.goToPrevious());
+    expect(result.current.viewDate).toBe("2026-08-12");
+    expect(result.current.canGoPrevious).toBe(true);
+    expect(result.current.canGoNext).toBe(true);
+
+    act(() => result.current.goToPrevious());
+    expect(result.current.viewDate).toBe("2026-08-10");
+    expect(result.current.canGoPrevious).toBe(true);
+    expect(result.current.canGoNext).toBe(true);
+
+    act(() => result.current.goToPrevious());
+    expect(result.current.viewDate).toBe("2026-08-08");
+    expect(result.current.canGoPrevious).toBe(false);
+    expect(result.current.canGoNext).toBe(true);
+
+    act(() => result.current.goToPrevious());
+    expect(result.current.viewDate).toBe("2026-08-08");
   });
 });

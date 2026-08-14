@@ -2,10 +2,10 @@
   "id": "TASK-010",
   "title": "核心夢境日記記錄：架構基礎（頁面容器與瀏覽狀態）",
   "content": "建立頁面一的共用容器：今日撰寫／翻頁瀏覽歷史兩種模式共用的 layout、路由/狀態切換與目前檢視日期的狀態管理，套用 S5 已核准版型。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-13",
   "epic": "核心夢境日記記錄",
@@ -30,28 +30,42 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
-    "product": false,
-    "ui": false,
-    "architecture": false,
-    "security": false,
-    "test": false,
-    "code_review": false
+    "product": true,
+    "ui": true,
+    "architecture": true,
+    "security": true,
+    "test": true,
+    "code_review": true
   },
   "links": {
     "featureSpec": "ai/artifacts/核心夢境日記記錄/feature-spec.md",
-    "screenSpec": "",
-    "mockupDecision": "",
+    "screenSpec": "ai/artifacts/專案設置/screen-spec-頁面一日記頁.md",
+    "mockupDecision": "ai/artifacts/專案設置/mockup-decision-頁面一日記頁.md",
     "taskCard": "ai/artifacts/核心夢境日記記錄/task-cards/TASK-010.md",
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/pages/journal/JournalPage.tsx",
+    "src/pages/journal/JournalPage.module.css",
+    "src/pages/journal/useJournalViewState.ts",
+    "src/pages/journal/date.ts"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "容器依 useJournalViewState 的 mode 在「今日撰寫」與「歷史唯讀」間切換，版面依 S5 核准的對頁跨頁版型重現",
+      "翻頁序列以 [今天, ...過去 completed 日期] 組成，正確處理今日未完成時不渲染下一篇、最舊一篇時上一篇 disabled 兩個邊界",
+      "17 個測試檔案、61 個測試全數通過；螢幕截圖工具本輪逾時，改以 read_page/get_page_text/computed style 驗證兩種模式與手機版堆疊"
+    ],
+    "residual": "今日撰寫模式當時僅為靜態預覽，實際編輯功能留給 TASK-011（已完成）。人工已於 2026-08-14 審核完成證據並驗收。"
   }
 }
