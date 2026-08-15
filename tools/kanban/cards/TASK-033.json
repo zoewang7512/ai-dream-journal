@@ -2,7 +2,7 @@
   "id": "TASK-033",
   "title": "推上 GitHub 並部署到 Vercel",
   "content": "建立新的 public GitHub repo 並推送程式碼，部署到 Vercel 取得可分享的正式網址；正式環境變數由使用者本人於 Vercel 後台設定。",
-  "stage": "blocked",
+  "stage": "verify",
   "risk": "medium",
   "owner": "zoewang7512",
   "agent": "Claude Code",
@@ -26,8 +26,8 @@
     "product": false,
     "ui": false,
     "architecture": false,
-    "security": false,
-    "test": false,
+    "security": true,
+    "test": true,
     "code_review": false
   },
   "links": {
@@ -38,17 +38,29 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "api/index.ts",
+    "server/app.ts",
+    "server/index.ts",
+    "server/lib/analyze-dream.ts",
+    "server/routes/dream-analysis.ts",
+    "server/routes/dream-image.ts"
+  ],
   "evidence": {
     "commands": [
       "git remote add origin https://github.com/zoewang7512/ai-dream-journal.git",
-      "git push -u origin master"
+      "git push -u origin master",
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run server",
+      "npx vite build"
     ],
     "findings": [
-      "GitHub 部分完成：public repo https://github.com/zoewang7512/ai-dream-journal 建立並推送成功，遠端內容與本機一致",
-      "推送前重新做過金鑰洩漏檢查（即將公開，風險更高），確認乾淨（唯一命中是任務卡裡的假測試值，非真金鑰）",
-      "Vercel 部署待使用者本人操作：匯入 repo＋在後台輸入正式環境變數（GEMINI_API_KEY/POLLINATIONS_API_KEY），Claude Code 不經手金鑰"
+      "GitHub 部分完成：public repo https://github.com/zoewang7512/ai-dream-journal 建立並推送成功",
+      "首次 Vercel 部署後 /api/health 回傳 500 FUNCTION_INVOCATION_FAILED；Redeploy 仍失敗，經 Function Logs 找到根因：ERR_MODULE_NOT_FOUND，server/**與api/**之間相對路徑 import 缺 .js 副檔名，Vercel Node.js Runtime 執行 TS function 時無法解析",
+      "補上全部相對路徑 import 的 .js 副檔名並推送，Vercel 自動重新部署後 /api/health 恢復 200",
+      "端到端驗證：正式網址上實際寫一篇日記並完成，真正觸發 Gemini 分析＋Pollinations 圖片生成皆成功，看板頁正確反映新資料，全新分頁確認 console 無錯誤"
     ],
-    "residual": "卡在等待使用者完成 Vercel 部署（匯入 repo＋設定環境變數），完成後請告知以便協助驗證正式網址。TASK-032（頁尾）已可取得 GitHub 連結網址，可以先動工。"
+    "residual": "待人工最終確認驗收。TASK-032（頁尾）已可取得 GitHub 連結網址，可以接續動工。"
   }
 }

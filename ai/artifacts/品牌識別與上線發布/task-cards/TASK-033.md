@@ -8,10 +8,10 @@
 - 上層 User Story：推上 GitHub 並部署到 Vercel
 - 分軌：不適用
 - 前置任務（dependsOn）：無
-- 狀態：進行中（GitHub 推送已完成，Vercel 部署待使用者本人操作）
+- 狀態：完成
 - 風險等級：中（會建立公開可見的 GitHub repo 與正式對外網站，且需要人工在 Vercel 後台輸入金鑰）
 - Agent owner：Claude Code
-- 人工核准者：zoewang7512（已於對話中明確授權建立新的 public repo 並 push；GitHub 部分已完成）
+- 人工核准者：zoewang7512（已於對話中明確授權建立新的 public repo 並 push；並於 Vercel 後台完成環境變數設定與部署）
 
 ## 目標
 
@@ -79,4 +79,29 @@
 
 ## 完成證據（Vercel 部署部分）
 
-- 待啟動：需要使用者本人前往 [vercel.com/new](https://vercel.com/new) 匯入剛推上去的 GitHub repo，並在 Vercel 專案設定的 Environment Variables 裡自行輸入 `GEMINI_API_KEY`、`POLLINATIONS_API_KEY`（Claude Code 不會、也不能代為輸入金鑰）。這部分完成後請告知，我可以協助檢查部署結果（例如用瀏覽器打開正式網址、確認核心功能可用）。
+- 變更的檔案：
+  - `api/index.ts`、`server/app.ts`、`server/index.ts`、`server/lib/analyze-dream.ts`、`server/routes/dream-analysis.ts`、`server/routes/dream-image.ts`（`server/**`／`api/**` 之間全部的相對路徑 import 補上 `.js` 副檔名）
+- 決策摘要：
+  - 使用者在 Vercel 後台匯入 GitHub repo、輸入 `GEMINI_API_KEY`／`POLLINATIONS_API_KEY`（Environments 選「Production and Preview」）並完成首次部署後，實測 `/api/health` 回傳 500 `FUNCTION_INVOCATION_FAILED`。
+  - 手動 Redeploy 一次仍然失敗，代表不是「環境變數沒套用到既有部署」這種常見狀況，而是程式本身的問題；請使用者提供 Vercel Function Logs，抓到真正的錯誤：`Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/app' imported from /var/task/api/index.js`。
+  - 根因：本專案 `package.json` 是 `"type": "module"`（原生 ESM），`server/**`／`api/**` 之間的相對路徑 import 全部沒寫副檔名（例如 `from "../server/app"`）。本機用 `tsx` 開發伺服器對這種寫法很寬容，但 Vercel 的 Node.js Runtime 執行 TypeScript function 時，需要相對路徑 import 寫出 `.js` 副檔名才能正確對應回同目錄的 `.ts` 原始檔——這是 TASK-001 建立 `api/index.ts` 時遺漏的落差，本機測試（`tsx`／`vitest`）從未觸發過這個問題，只有實際部署到 Vercel 才會發現。
+  - 修法前用 `node --experimental-strip-types` 在本機直接執行 `api/index.ts` 想重現問題，結果得到不同的錯誤（要求 `.js` 檔案「literally」存在），一度懷疑修法方向錯誤；後來用 WebSearch 查證 Vercel 社群裡有完全相同錯誤訊息與修法的案例（[Vercel Community](https://community.vercel.com/t/node-express-ts-source-somehow-being-read-as-js/4900)、[vercel/community#1225](https://github.com/vercel/community/discussions/1225)），確認 Vercel 自己的 Function loader 對 `.js→.ts` 的對應比本機純 Node 執行更寬容，原本的修法方向是對的，本機重現方式本身不準確。
+  - 修法只加副檔名、不改邏輯：`tsconfig.json` 用 `moduleResolution: "Bundler"`，這個模式同時允許有無副檔名兩種寫法，所以補上 `.js` 不會影響 `tsc`／Vite 前端建置／`vitest`，是低風險的純字串修正。
+- 執行過的指令：
+  - `npx tsc --noEmit` → 通過。
+  - `npx eslint .` → 通過。
+  - `npx vitest run server` → 通過（8 個測試檔案、61 個測試）。
+  - `npx vite build` → 通過。
+  - `git push origin master` → Vercel 透過 GitHub 整合自動觸發重新部署。
+  - 背景輪詢 `https://ai-dream-journal-eta.vercel.app/api/health` 直到回傳 200（約部署完成後數十秒內恢復）。
+- 測試輸出：`Test Files  8 passed (8)` / `Tests  61 passed (61)`（server 相關測試）。
+- 螢幕截圖：對正式網址 `https://ai-dream-journal-eta.vercel.app` 做完整端到端驗證（不只是健康檢查）：
+  1. `/api/health` 回傳 `200 {"status":"ok"}`。
+  2. 首頁正確顯示 logo、Nav、齒輪圖示、日記編輯畫面。
+  3. **實際寫一篇新日記並按下「完成」，真正觸發一次 Gemini 分析＋Pollinations 圖片生成**：情緒分析結果「平靜」，關鍵字「古老圖書館／高聳書架／發光的書／神秘文字／飄浮塵埃」，圖片成功生成，畫面呈現一張精細的鉛筆素描風格插圖，內容精準對應夢境描述。
+  4. 看板頁（`/dashboard`）正確顯示剛完成的那篇（總完成篇數 1）。
+  5. 用全新分頁重新檢查 console，確認乾淨無錯誤（先前在同一分頁看到的 4 個 500 錯誤，是修好之前、Redeploy 完成前殘留的歷史紀錄，不是目前的真實狀態）。
+- 已知限制：
+  - 這次驗證用真實 API 呼叫（非 mock），會消耗一次真實的 Gemini／Pollinations 配額，是刻意的選擇——只有真正端到端跑過一次才能確定正式環境的金鑰、路由、CORS、逾時等設定全部正確，光看 `/api/health` 不夠。
+  - 目前只有一個環境（`master` 分支對應 Production）；如果之後開發其他分支，Vercel 會自動產生 Preview 部署，這部分尚未實際測試過。
+- 後續任務：無。「品牌識別與上線發布」Epic 只剩 TASK-032（頁尾）待做，現在 GitHub 連結網址已經確定，可以動工。
