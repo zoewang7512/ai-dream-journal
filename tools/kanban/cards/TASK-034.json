@@ -1,0 +1,59 @@
+{
+  "id": "TASK-034",
+  "title": "修正本機開發 Vite Proxy 導致 origin-guard 失效",
+  "content": "本機 npm run dev 下 /api/dream-image 一律回傳 403，因 Vite proxy 簡寫設定把轉發請求的 Host header 換成後端位址，導致 origin-guard 誤判跨網域。",
+  "stage": "verify",
+  "risk": "low",
+  "owner": "",
+  "agent": "Claude Code",
+  "approvalRequired": false,
+  "createdAt": "2026-08-15",
+  "epic": "品牌識別與上線發布",
+  "userStory": "",
+  "track": "backend",
+  "dependsOn": [
+    "TASK-030"
+  ],
+  "order": 34,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": true,
+    "test": true,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/品牌識別與上線發布/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/品牌識別與上線發布/task-cards/TASK-034.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [
+    "vite.config.ts"
+  ],
+  "evidence": {
+    "commands": [
+      "npx tsc --noEmit",
+      "npx vitest run"
+    ],
+    "findings": [
+      "根因：vite.config.ts 的 /api proxy 用簡寫字串形式，轉發到後端的 Host header 被換成 localhost:3001，跟瀏覽器送出的 Referer（localhost:5173）對不上，origin-guard 一律判定跨網域擋下",
+      "TASK-030 當時測試沒抓到，推測是圖片的 immutable 快取讓測試吃到快取沒真的打到後端；這次用全新 prompt/seed 才第一次真正暴露問題",
+      "修法：proxy 設定改物件形式並明確 changeOrigin: false；curl 驗證 Host header 修正前後對比，403→200；正式環境（Vercel 同源部署）不受影響",
+      "45 個測試檔案、260 個測試全數通過"
+    ],
+    "residual": "待人工審核並記錄核准。"
+  }
+}
