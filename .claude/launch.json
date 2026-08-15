@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev:web"],
       "port": 5173
+    },
+    {
+      "name": "kanban",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "kanban"],
+      "port": 4420
     }
   ]
 }

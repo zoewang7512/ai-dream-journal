@@ -1,0 +1,47 @@
+{
+  "id": "TASK-033",
+  "title": "推上 GitHub 並部署到 Vercel",
+  "content": "建立新的 public GitHub repo 並推送程式碼，部署到 Vercel 取得可分享的正式網址；正式環境變數由使用者本人於 Vercel 後台設定。",
+  "stage": "backlog",
+  "risk": "medium",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": true,
+  "createdAt": "2026-08-15",
+  "epic": "品牌識別與上線發布",
+  "userStory": "推上 GitHub 並部署到 Vercel",
+  "track": "unspecified",
+  "dependsOn": [],
+  "order": 33,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": true
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/品牌識別與上線發布/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/品牌識別與上線發布/task-cards/TASK-033.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": "使用者已於對話中明確授權建立新的 public GitHub repo 並 push；Vercel 帳號操作與金鑰輸入需使用者本人執行。"
+  }
+}

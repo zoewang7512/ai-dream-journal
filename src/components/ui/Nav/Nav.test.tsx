@@ -26,6 +26,18 @@ describe("Nav", () => {
     );
   });
 
+  it("renders the brand logo as a link back to the home page", () => {
+    render(
+      <MemoryRouter initialEntries={["/dashboard"]}>
+        <Nav items={items} aria-label="主導覽" />
+      </MemoryRouter>
+    );
+
+    const logoLink = screen.getByRole("link", { name: "回到首頁" });
+    expect(logoLink).toHaveAttribute("href", "/");
+    expect(logoLink.querySelector("img")).toBeInTheDocument();
+  });
+
   it("renders trailing content alongside the nav links when provided", () => {
     render(
       <MemoryRouter initialEntries={["/dashboard"]}>

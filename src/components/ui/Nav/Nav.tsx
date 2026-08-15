@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import logoSrc from "../../../assets/ai-dream-journal-logo.png";
 import styles from "./Nav.module.css";
 
 export interface NavItem {
@@ -18,6 +19,9 @@ export interface NavProps {
 export function Nav({ items, "aria-label": ariaLabel, trailing }: NavProps) {
   return (
     <nav className={styles.nav} aria-label={ariaLabel}>
+      <Link to="/" className={styles.logoLink} aria-label="回到首頁">
+        <img src={logoSrc} alt="" className={styles.logo} />
+      </Link>
       {items.map((item) => (
         <NavLink
           key={item.to}

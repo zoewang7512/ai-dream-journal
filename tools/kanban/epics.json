@@ -113,6 +113,24 @@
           "definition": "上傳備份 JSON 檔寫回 LocalStorage，整批覆蓋既有資料；含格式驗證與錯誤提示（檔案格式錯誤、版本不相容或損毀時提供清楚的使用者錯誤訊息，且不寫入任何資料）。"
         }
       ]
+    },
+    {
+      "name": "品牌識別與上線發布",
+      "definition": "五個核心功能 Epic 完成後的收尾工作：Nav 品牌識別（logo、齒輪圖示樣式）、頁尾、推上 GitHub、部署到 Vercel 取得可分享網址。",
+      "stories": [
+        {
+          "name": "Nav 品牌識別調整",
+          "definition": "Nav 列左側加上使用者提供的手繪風 logo，備份設定齒輪圖示改為無外圈的簡潔樣式。"
+        },
+        {
+          "name": "極簡頁尾",
+          "definition": "全站頁面底部顯示極簡頁尾：版權字樣與 GitHub repo 連結。"
+        },
+        {
+          "name": "推上 GitHub 並部署到 Vercel",
+          "definition": "建立新的 public GitHub repo 並推送程式碼，接著部署到 Vercel（repo 已有 vercel.json），取得可分享的正式網址；正式環境變數由使用者本人於 Vercel 後台設定。"
+        }
+      ]
     }
   ]
 }

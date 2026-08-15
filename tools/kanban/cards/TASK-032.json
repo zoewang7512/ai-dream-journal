@@ -1,0 +1,49 @@
+{
+  "id": "TASK-032",
+  "title": "極簡頁尾",
+  "content": "全站頁面底部顯示極簡頁尾：版權字樣與 GitHub repo 連結。",
+  "stage": "backlog",
+  "risk": "low",
+  "owner": "",
+  "agent": "",
+  "approvalRequired": false,
+  "createdAt": "2026-08-15",
+  "epic": "品牌識別與上線發布",
+  "userStory": "極簡頁尾",
+  "track": "frontend",
+  "dependsOn": [
+    "TASK-033"
+  ],
+  "order": 32,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": false
+  },
+  "gates": {
+    "product": false,
+    "ui": false,
+    "architecture": false,
+    "security": false,
+    "test": false,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/品牌識別與上線發布/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/品牌識別與上線發布/task-cards/TASK-032.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [],
+  "evidence": {
+    "commands": [],
+    "findings": [],
+    "residual": ""
+  }
+}

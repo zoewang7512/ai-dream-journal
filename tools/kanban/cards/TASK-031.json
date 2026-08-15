@@ -1,0 +1,60 @@
+{
+  "id": "TASK-031",
+  "title": "Nav 品牌識別調整",
+  "content": "Nav 列左側加上使用者提供的手繪風 logo，備份設定齒輪圖示拿掉外圈圓形邊框/背景。",
+  "stage": "done",
+  "risk": "low",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
+  "approvalRequired": false,
+  "createdAt": "2026-08-15",
+  "epic": "品牌識別與上線發布",
+  "userStory": "Nav 品牌識別調整",
+  "track": "frontend",
+  "dependsOn": [],
+  "order": 31,
+  "readiness": {
+    "problem_clear": true,
+    "non_goals_clear": true,
+    "acceptance_testable": true,
+    "files_known": true,
+    "scope_defined": true,
+    "verification_contract": true,
+    "human_approval_recorded": true
+  },
+  "gates": {
+    "product": false,
+    "ui": true,
+    "architecture": false,
+    "security": false,
+    "test": true,
+    "code_review": false
+  },
+  "links": {
+    "featureSpec": "ai/artifacts/品牌識別與上線發布/feature-spec.md",
+    "screenSpec": "",
+    "mockupDecision": "",
+    "taskCard": "ai/artifacts/品牌識別與上線發布/task-cards/TASK-031.md",
+    "verificationReport": "",
+    "pr": ""
+  },
+  "refs": [
+    "src/components/ui/Nav/Nav.tsx",
+    "src/components/BackupSettingsButton.module.css",
+    "src/assets/ai-dream-journal-logo.png"
+  ],
+  "evidence": {
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "Nav 左側新增使用者提供的手繪風 logo（連到首頁），高度 40px 對齊導覽連結；依人工回饋拿掉卡片包裝，改成透明背景直接顯示原圖",
+      "齒輪圖示拿掉外圈圓形邊框/背景，改成純圖示＋顏色變化的 hover/focus；依人工回饋字級由 18px 加大到 28px（+10px）",
+      "45 個測試檔案、260 個測試全數通過；桌面版與行動裝置版（375px）皆截圖確認正常顯示、無擠壓截斷；調整後用 getComputedStyle 精確量測 height/background/box-shadow/font-size 皆符合預期，console 無錯誤"
+    ],
+    "residual": "人工已於 2026-08-15 審核完成證據並驗收。logo 檔案 232KB 未壓縮，已知會讓 bundle 變大，暫不處理。"
+  }
+}
