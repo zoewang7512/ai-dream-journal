@@ -2,7 +2,7 @@
   "id": "TASK-033",
   "title": "推上 GitHub 並部署到 Vercel",
   "content": "建立新的 public GitHub repo 並推送程式碼，部署到 Vercel 取得可分享的正式網址；正式環境變數由使用者本人於 Vercel 後台設定。",
-  "stage": "verify",
+  "stage": "done",
   "risk": "medium",
   "owner": "zoewang7512",
   "agent": "Claude Code",
@@ -61,6 +61,6 @@
       "補上全部相對路徑 import 的 .js 副檔名並推送，Vercel 自動重新部署後 /api/health 恢復 200",
       "端到端驗證：正式網址上實際寫一篇日記並完成，真正觸發 Gemini 分析＋Pollinations 圖片生成皆成功，看板頁正確反映新資料，全新分頁確認 console 無錯誤"
     ],
-    "residual": "待人工最終確認驗收。TASK-032（頁尾）已可取得 GitHub 連結網址，可以接續動工。"
+    "residual": "人工已於 2026-08-15 審核完成證據並核准。TASK-032（頁尾）已可取得 GitHub 連結網址，接續動工。"
   }
 }

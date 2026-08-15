@@ -1,0 +1,26 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-12) var(--space-24);
+  border-top: 2px dashed var(--color-grey-400);
+}
+
+.text {
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-13);
+  color: var(--color-text-tertiary);
+}
+
+.link {
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: var(--color-primary-600);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-info-500);
+  outline-offset: 2px;
+}

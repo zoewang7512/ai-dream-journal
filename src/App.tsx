@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { BackupSettingsButton } from "./components/BackupSettingsButton";
+import { Footer } from "./components/Footer";
 import { Nav } from "./components/ui/Nav/Nav";
 import JournalPage from "./pages/journal/JournalPage";
 import InsightsPage from "./pages/insights/InsightsPage";
@@ -19,6 +20,7 @@ function App() {
           <Route path="/dashboard" element={<InsightsPage />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }

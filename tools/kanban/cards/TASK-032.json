@@ -2,10 +2,10 @@
   "id": "TASK-032",
   "title": "極簡頁尾",
   "content": "全站頁面底部顯示極簡頁尾：版權字樣與 GitHub repo 連結。",
-  "stage": "backlog",
+  "stage": "done",
   "risk": "low",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": false,
   "createdAt": "2026-08-15",
   "epic": "品牌識別與上線發布",
@@ -22,14 +22,14 @@
     "files_known": true,
     "scope_defined": true,
     "verification_contract": true,
-    "human_approval_recorded": false
+    "human_approval_recorded": true
   },
   "gates": {
     "product": false,
     "ui": false,
     "architecture": false,
-    "security": false,
-    "test": false,
+    "security": true,
+    "test": true,
     "code_review": false
   },
   "links": {
@@ -40,10 +40,25 @@
     "verificationReport": "",
     "pr": ""
   },
-  "refs": [],
+  "refs": [
+    "src/components/Footer.tsx",
+    "src/components/Footer.module.css",
+    "src/App.tsx"
+  ],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": ""
+    "commands": [
+      "npx tsc --noEmit",
+      "npx eslint .",
+      "npx vitest run",
+      "npx vite build"
+    ],
+    "findings": [
+      "新增 Footer 元件：版權字樣（動態年份）＋ GitHub repo 連結（TASK-033 建立的 https://github.com/zoewang7512/ai-dream-journal），掛載到 App.tsx，日記頁與看板頁底部皆正確顯示",
+      "連結安全屬性齊全：target=_blank + rel=noopener noreferrer，已用瀏覽器 JS 檢查 DOM 屬性確認",
+      "沿用既有 design token（font-family-serif、color-text-tertiary/secondary、space-24），未新增元件庫項目",
+      "46 個測試檔案、262 個測試全數通過；日記頁/看板頁截圖確認頁尾顯示正常、console 無錯誤",
+      "依人工回饋將上下 padding 從 24px 調整為 12px，頁尾更扁；已用電腦量測 DOM computed style 確認生效"
+    ],
+    "residual": "人工已於 2026-08-15 審核完成證據並核准。「品牌識別與上線發布」Epic 全部任務卡完成。"
   }
 }

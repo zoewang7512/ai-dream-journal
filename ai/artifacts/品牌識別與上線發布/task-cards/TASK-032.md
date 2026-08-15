@@ -8,10 +8,10 @@
 - 上層 User Story：極簡頁尾
 - 分軌：前端
 - 前置任務（dependsOn）：TASK-033（頁尾的 GitHub 連結需要 repo 網址才能填入正確連結）
-- 狀態：草稿
+- 狀態：完成
 - 風險等級：低
-- Agent owner：待指派
-- 人工核准者：待指派
+- Agent owner：Claude Code
+- 人工核准者：zoewang7512（已於對話中核准開始實作，2026-08-15）
 
 ## 目標
 
@@ -64,8 +64,21 @@
 ## 完成證據
 
 - 變更的檔案：
+  - `src/components/Footer.tsx`（新增）
+  - `src/components/Footer.module.css`（新增）
+  - `src/components/Footer.test.tsx`（新增）
+  - `src/App.tsx`（掛載 Footer）
+- 決策摘要：
+  - GitHub 連結網址寫成 `GITHUB_REPO_URL` 常數（`https://github.com/zoewang7512/ai-dream-journal`，即 TASK-033 建立的 repo），方便之後更新。
+  - 版權年份用 `new Date().getFullYear()` 動態取得，不寫死數字。
+  - 樣式沿用既有 token（`--font-family-serif`、`--color-text-tertiary/secondary`、`--space-24`、`--color-grey-400` 虛線邊框，呼應 Nav 的 `border-bottom: 2px dashed`），未新增任何 design token 或元件庫項目（純文字＋連結，不構成可重用元件）。
+  - 依人工回饋，將 `.footer` 上下 padding 從 `var(--space-24)`（24px）調整為 `var(--space-12)`（12px），左右維持 24px，頁尾整體變扁；已用瀏覽器 JS 讀取 computed style 確認 `padding-top`/`padding-bottom` 生效為 12px。
 - 執行過的指令：
-- 測試輸出：
-- 螢幕截圖：
-- 已知限制：
-- 後續任務：
+  - `npx tsc --noEmit` → 通過。
+  - `npx eslint .` → 通過。
+  - `npx vitest run` → 通過（46 個測試檔案、262 個測試）。
+  - `npx vite build` → 通過。
+- 測試輸出：`Test Files  46 passed (46)` / `Tests  262 passed (262)`。
+- 螢幕截圖：日記頁（`/`）與看板頁（`/dashboard`）底部皆截圖確認頁尾正確顯示「© 2026 AI 夢境日記 · GitHub」；用瀏覽器 JS 檢查連結 DOM 屬性 `href="https://github.com/zoewang7512/ai-dream-journal"`、`target="_blank"`、`rel="noopener noreferrer"` 皆正確；console 無錯誤。
+- 已知限制：無。
+- 後續任務：無。人工已於 2026-08-15 審核完成證據並核准；「品牌識別與上線發布」Epic 全部任務卡完成。
