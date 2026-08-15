@@ -1,6 +1,6 @@
 import { ApiError, Type, type GoogleGenAI } from "@google/genai";
-import { DreamAnalysisError, type AnalyzeDream } from "./dream-analysis-types";
-import { buildImagePromptInstruction, ensureSketchStyle } from "./prompt-templates";
+import { DreamAnalysisError, type AnalyzeDream } from "./dream-analysis-types.js";
+import { buildImagePromptInstruction, ensureSketchStyle } from "./prompt-templates.js";
 
 const MODEL = "gemini-flash-latest";
 

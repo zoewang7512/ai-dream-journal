@@ -1,8 +1,8 @@
 import express, { type Express } from "express";
 import type { GoogleGenAI } from "@google/genai";
-import { createDreamAnalysisRouter, type AnalyzeDream } from "./routes/dream-analysis";
-import { createDreamImageRouter } from "./routes/dream-image";
-import type { RateLimiterOptions } from "./lib/rate-limiter";
+import { createDreamAnalysisRouter, type AnalyzeDream } from "./routes/dream-analysis.js";
+import { createDreamImageRouter } from "./routes/dream-image.js";
+import type { RateLimiterOptions } from "./lib/rate-limiter.js";
 
 export function createApp(
   client: GoogleGenAI,

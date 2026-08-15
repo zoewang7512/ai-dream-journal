@@ -1,7 +1,7 @@
-import { createApp } from "./app";
-import { loadConfig, type AppConfig } from "./config";
-import { analyzeDream } from "./lib/analyze-dream";
-import { createGeminiClient } from "./lib/gemini-client";
+import { createApp } from "./app.js";
+import { loadConfig, type AppConfig } from "./config.js";
+import { analyzeDream } from "./lib/analyze-dream.js";
+import { createGeminiClient } from "./lib/gemini-client.js";
 
 let config: AppConfig;
 try {

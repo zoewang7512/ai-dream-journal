@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from "express";
-import { createOriginGuard } from "../lib/origin-guard";
-import { createRateLimiter, type RateLimiterOptions } from "../lib/rate-limiter";
+import { createOriginGuard } from "../lib/origin-guard.js";
+import { createRateLimiter, type RateLimiterOptions } from "../lib/rate-limiter.js";
 
 const POLLINATIONS_IMAGE_BASE = "https://gen.pollinations.ai/image";
 const IMAGE_WIDTH = 800;

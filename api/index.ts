@@ -1,7 +1,7 @@
-import { createApp } from "../server/app";
-import { loadConfig } from "../server/config";
-import { analyzeDream } from "../server/lib/analyze-dream";
-import { createGeminiClient } from "../server/lib/gemini-client";
+import { createApp } from "../server/app.js";
+import { loadConfig } from "../server/config.js";
+import { analyzeDream } from "../server/lib/analyze-dream.js";
+import { createGeminiClient } from "../server/lib/gemini-client.js";
 
 const config = loadConfig();
 const client = createGeminiClient(config.geminiApiKey);

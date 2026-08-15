@@ -6,16 +6,16 @@ import {
   type DreamAnalysisErrorBody,
   type DreamAnalysisErrorType,
   type DreamAnalysisSuccessBody,
-} from "../lib/dream-analysis-types";
-import { createRateLimiter, type RateLimiterOptions } from "../lib/rate-limiter";
+} from "../lib/dream-analysis-types.js";
+import { createRateLimiter, type RateLimiterOptions } from "../lib/rate-limiter.js";
 
 export type {
   AnalyzeDream,
   DreamAnalysisErrorBody,
   DreamAnalysisErrorType,
   DreamAnalysisSuccessBody,
-} from "../lib/dream-analysis-types";
-export { DreamAnalysisError } from "../lib/dream-analysis-types";
+} from "../lib/dream-analysis-types.js";
+export { DreamAnalysisError } from "../lib/dream-analysis-types.js";
 
 const ERROR_STATUS: Record<DreamAnalysisErrorType, number> = {
   invalid_request: 400,
