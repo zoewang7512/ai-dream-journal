@@ -8,10 +8,10 @@
 - 上層 User Story：推上 GitHub 並部署到 Vercel
 - 分軌：不適用
 - 前置任務（dependsOn）：無
-- 狀態：草稿
+- 狀態：進行中（GitHub 推送已完成，Vercel 部署待使用者本人操作）
 - 風險等級：中（會建立公開可見的 GitHub repo 與正式對外網站，且需要人工在 Vercel 後台輸入金鑰）
-- Agent owner：待指派
-- 人工核准者：zoewang7512（已於對話中明確授權建立新的 public repo 並 push）
+- Agent owner：Claude Code
+- 人工核准者：zoewang7512（已於對話中明確授權建立新的 public repo 並 push；GitHub 部分已完成）
 
 ## 目標
 
@@ -61,11 +61,22 @@
 - 螢幕截圖：部署完成後正式網址首頁截圖
 - 安全性檢查：確認 push 上去的內容不含 .env 或任何金鑰字串（比照 TASK-020 已驗證的 .gitignore 規則）
 
-## 完成證據
+## 完成證據（GitHub 推送部分）
 
-- 變更的檔案：
+- 變更的檔案：無程式碼異動；純 git 操作（新增 remote、push）。
+- 決策摘要：
+  - 環境裡沒有安裝 `gh` CLI（`gh auth status` 回報 command not found），無法用 `gh repo create` 自動建立 repo；改為請使用者本人在 github.com 網站手動建立空的 public repo（不勾選 README/gitignore/license 初始化選項，避免與本機既有 commit 歷史衝突），再由我加 remote＋push。
+  - push 用 HTTPS（`https://github.com/zoewang7512/ai-dream-journal.git`），實際帳號驗證交給使用者電腦上已設定好的 Git Credential Manager（`credential.helper=manager`）處理，過程中沒有經手任何密碼或 token。
+  - push 前重新做了一次金鑰洩漏檢查（即將公開，risk 更高）：確認 `.env` 從未進入任何 commit（`git log --all -- .env` 無結果）、`.gitignore` 涵蓋 `.env`／`.env.*`、對所有目前被追蹤的檔案搜尋常見金鑰字串樣式（`AIzaSy`、`sk_...`、`GEMINI_API_KEY=值`、`POLLINATIONS_API_KEY=值`），唯一命中是 `tools/kanban/cards/TASK-002.json` 裡記錄的一段測試指令文字（用的是假值 `fake-test-key`，不是真金鑰），確認乾淨。
 - 執行過的指令：
-- 測試輸出：
-- 螢幕截圖：
+  - `git remote add origin https://github.com/zoewang7512/ai-dream-journal.git`
+  - `git push -u origin master`
+- 測試輸出：不適用（純 git 操作）。
+- 螢幕截圖：對 `https://github.com/zoewang7512/ai-dream-journal` 做結構驗證：repo 為 Public，最新 commit（`be55f22`）與本機 `git log` 一致，所有目錄（`.claude`、`ai`、`api`、`server`、`src`、`tools/kanban` 等）都正確出現在遠端，`.env.example` 存在但 `.env` 不存在（確認沒有被誤推）。
 - 已知限制：
-- 後續任務：
+  - 這次只推了 `master` 這一條分支（本機唯一有內容的分支，其餘 `feat/*` 分支是先前工作階段留下的舊分支，沒有一併推送，如果之後需要保留可以另外處理）。
+- 後續任務：Vercel 部署部分待啟動（見下方「部署到 Vercel」小節）；TASK-032（頁尾）現在可以填入正確的 GitHub 連結網址了。
+
+## 完成證據（Vercel 部署部分）
+
+- 待啟動：需要使用者本人前往 [vercel.com/new](https://vercel.com/new) 匯入剛推上去的 GitHub repo，並在 Vercel 專案設定的 Environment Variables 裡自行輸入 `GEMINI_API_KEY`、`POLLINATIONS_API_KEY`（Claude Code 不會、也不能代為輸入金鑰）。這部分完成後請告知，我可以協助檢查部署結果（例如用瀏覽器打開正式網址、確認核心功能可用）。

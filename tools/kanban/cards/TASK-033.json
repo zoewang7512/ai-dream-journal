@@ -2,10 +2,10 @@
   "id": "TASK-033",
   "title": "推上 GitHub 並部署到 Vercel",
   "content": "建立新的 public GitHub repo 並推送程式碼，部署到 Vercel 取得可分享的正式網址；正式環境變數由使用者本人於 Vercel 後台設定。",
-  "stage": "backlog",
+  "stage": "blocked",
   "risk": "medium",
-  "owner": "",
-  "agent": "",
+  "owner": "zoewang7512",
+  "agent": "Claude Code",
   "approvalRequired": true,
   "createdAt": "2026-08-15",
   "epic": "品牌識別與上線發布",
@@ -40,8 +40,15 @@
   },
   "refs": [],
   "evidence": {
-    "commands": [],
-    "findings": [],
-    "residual": "使用者已於對話中明確授權建立新的 public GitHub repo 並 push；Vercel 帳號操作與金鑰輸入需使用者本人執行。"
+    "commands": [
+      "git remote add origin https://github.com/zoewang7512/ai-dream-journal.git",
+      "git push -u origin master"
+    ],
+    "findings": [
+      "GitHub 部分完成：public repo https://github.com/zoewang7512/ai-dream-journal 建立並推送成功，遠端內容與本機一致",
+      "推送前重新做過金鑰洩漏檢查（即將公開，風險更高），確認乾淨（唯一命中是任務卡裡的假測試值，非真金鑰）",
+      "Vercel 部署待使用者本人操作：匯入 repo＋在後台輸入正式環境變數（GEMINI_API_KEY/POLLINATIONS_API_KEY），Claude Code 不經手金鑰"
+    ],
+    "residual": "卡在等待使用者完成 Vercel 部署（匯入 repo＋設定環境變數），完成後請告知以便協助驗證正式網址。TASK-032（頁尾）已可取得 GitHub 連結網址，可以先動工。"
   }
 }
