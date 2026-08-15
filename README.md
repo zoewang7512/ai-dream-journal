@@ -27,12 +27,6 @@
 
 ## 畫面展示
 
-<!--
-  請把兩張實際畫面截圖存到以下路徑，取代這個提示區塊：
-  - docs/screenshots/journal-page.png（頁面一：日記詳情，含 AI 分析與生成插圖）
-  - docs/screenshots/dashboard.png（頁面二：數據看板，四張圖表）
--->
-
 | 日記與 AI 分析 | 數據看板 |
 |---|---|
 | ![頁面一：日記與 AI 分析](docs/screenshots/journal-page.png) | ![頁面二：數據看板](docs/screenshots/dashboard.png) |
@@ -127,6 +121,11 @@ tools/kanban/   本機任務看板（視覺化 ai/ 底下的任務卡）
 ## 開發方法論
 
 這個專案完整走過一套「AI 輔助、人工把關」的開發流程（[Monstrare](ai/process/workflow.md)）：每個功能先寫規格書、UI 變更先產出多個 mockup 變體交由人工選擇，再拆成範圍受限、附驗證契約的任務卡逐一實作；高風險或安全性相關的變更（例如金鑰代理、匯入資料驗證）額外通過獨立的安全性審查關卡；每張任務卡完成後都附上測試指令、輸出與螢幕截圖等驗證證據，最終才由人工核准。完整的規格書與任務卡歷史保留在 [`ai/artifacts/`](ai/artifacts/)。
+
+<p align="center">
+  <img src="docs/screenshots/kanban-1.png" alt="Aai/process/kanban.md 的視覺化 — Variant A · 控制塔" width="45%" />
+  <img src="docs/screenshots/kanban-2.png" alt="ai/process/kanban.md 的視覺化 — Variant A · 藍圖" width="45%" />
+</p>
 
 ## 授權
 
