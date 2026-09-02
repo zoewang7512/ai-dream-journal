@@ -2,7 +2,13 @@ import { ApiError, Type, type GoogleGenAI } from "@google/genai";
 import { DreamAnalysisError, type AnalyzeDream } from "./dream-analysis-types.js";
 import { buildImagePromptInstruction, ensureSketchStyle } from "./prompt-templates.js";
 
-const MODEL = "gemini-flash-latest";
+/**
+ * 版本固定（非 "-latest" 別名）：實測發現 gemini-flash-latest 目前指向的模型
+ * 處於高負載狀態，單次呼叫可能耗時數十秒到數分鐘甚至回傳 503 UNAVAILABLE
+ * （2026-09-02 以正式環境 API 金鑰實測，詳見對應 PR）。改用固定版本可避免
+ * Google 未來把 "-latest" 別名切到剛發布、需求暴增的新模型時無預警地再次變慢。
+ */
+const MODEL = "gemini-3.5-flash";
 
 /**
  * 固定情緒分類（繁中）：與專案其餘 UI 文案／既有測試資料（見「核心夢境日記記錄」
