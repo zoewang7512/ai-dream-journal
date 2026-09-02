@@ -162,16 +162,63 @@ describe("analyzeDream", () => {
     expect((error as DreamAnalysisError).errorType).toBe("upstream_error");
   });
 
-  it("classifies an AbortError (e.g. from the request timeout signal) as timeout", async () => {
+  it("classifies an AbortError (e.g. from the request timeout signal) as timeout after exhausting retries", async () => {
+    vi.useFakeTimers();
+    try {
+      const client = fakeClient(() => {
+        const abortError = new Error("The operation was aborted.");
+        abortError.name = "TimeoutError";
+        throw abortError;
+      });
+
+      const pending = analyzeDream(client, "夢到在飛").catch((caught: unknown) => caught);
+      await vi.runAllTimersAsync();
+      const error = await pending;
+
+      expect(error).toBeInstanceOf(DreamAnalysisError);
+      expect((error as DreamAnalysisError).errorType).toBe("timeout");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("retries once after a timeout and returns the result from the successful second attempt", async () => {
+    vi.useFakeTimers();
+    try {
+      let callCount = 0;
+      const client = fakeClient(() => {
+        callCount++;
+        if (callCount === 1) {
+          const abortError = new Error("The operation was aborted.");
+          abortError.name = "TimeoutError";
+          throw abortError;
+        }
+        return Promise.resolve({
+          text: JSON.stringify({ mood: "平靜", keywords: ["湖泊"], imagePrompt: "a calm lake" }),
+        });
+      });
+
+      const pending = analyzeDream(client, "夢到在湖邊散步");
+      await vi.runAllTimersAsync();
+      const result = await pending;
+
+      expect(callCount).toBe(2);
+      expect(result.mood).toBe("平靜");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("does not retry non-timeout errors", async () => {
+    let callCount = 0;
     const client = fakeClient(() => {
-      const abortError = new Error("The operation was aborted.");
-      abortError.name = "TimeoutError";
-      throw abortError;
+      callCount++;
+      throw new Error("network down");
     });
 
     const error = await analyzeDream(client, "夢到在飛").catch((caught: unknown) => caught);
-    expect(error).toBeInstanceOf(DreamAnalysisError);
-    expect((error as DreamAnalysisError).errorType).toBe("timeout");
+    expect(callCount).toBe(1);
+    expect((error as DreamAnalysisError).errorType).toBe("upstream_error");
   });
 
   it("passes an abortSignal to generateContent so the call is aborted after the timeout threshold", async () => {
