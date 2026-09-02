@@ -57,8 +57,19 @@ function generateSeed(): number {
   return Math.floor(Math.random() * (MAX_POLLINATIONS_SEED + 1));
 }
 
-/** Gemini 呼叫逾時門檻：超過此時間主動中止，避免請求無限期掛住。 */
-const REQUEST_TIMEOUT_MS = 15_000;
+/** Gemini 呼叫逾時門檻（每次嘗試）：超過此時間主動中止，避免請求無限期掛住。 */
+const REQUEST_TIMEOUT_MS = 20_000;
+
+/**
+ * 逾時後的重試次數上限（不含首次嘗試）。flash 模型偶發的網路抖動／延遲多半在
+ * 重試一次後就能成功，比起要求使用者手動重新整個「完成日記」流程更划算。
+ * Vercel function 的 maxDuration（見 vercel.json）需大於「單次逾時時間 ×
+ * (重試次數 + 1) + 重試等待時間」，避免重試還沒跑完就被平台砍斷。
+ */
+const MAX_TIMEOUT_RETRIES = 1;
+
+/** 逾時重試前的等待時間，讓短暫的網路壅塞有機會消退。 */
+const RETRY_BACKOFF_MS = 500;
 
 /** HTTP 429（Resource exhausted）視為額度／配額超限，而非一般上游錯誤。 */
 const QUOTA_EXCEEDED_STATUS = 429;
@@ -67,20 +78,41 @@ function isTimeoutError(error: unknown): boolean {
   return error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError");
 }
 
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function generateContentWithRetry(
+  client: GoogleGenAI,
+  content: string
+): Promise<string | undefined> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const response = await client.models.generateContent({
+        model: MODEL,
+        contents: content,
+        config: {
+          systemInstruction: SYSTEM_INSTRUCTION,
+          responseMimeType: "application/json",
+          responseSchema: RESPONSE_SCHEMA,
+          abortSignal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+        },
+      });
+      return response.text;
+    } catch (error) {
+      if (isTimeoutError(error) && attempt < MAX_TIMEOUT_RETRIES) {
+        await delay(RETRY_BACKOFF_MS);
+        continue;
+      }
+      throw error;
+    }
+  }
+}
+
 export const analyzeDream: AnalyzeDream = async (client: GoogleGenAI, content: string) => {
   let text: string | undefined;
   try {
-    const response = await client.models.generateContent({
-      model: MODEL,
-      contents: content,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        responseMimeType: "application/json",
-        responseSchema: RESPONSE_SCHEMA,
-        abortSignal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      },
-    });
-    text = response.text;
+    text = await generateContentWithRetry(client, content);
   } catch (error) {
     if (error instanceof ApiError && error.status === QUOTA_EXCEEDED_STATUS) {
       throw new DreamAnalysisError("quota_exceeded", "Gemini API 額度已用盡，請稍後再試。", {
